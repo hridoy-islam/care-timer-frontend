@@ -12,7 +12,7 @@ import { toast } from 'react-toastify';
 const Page = () => {
   const [serviceUser, setServiceUser] = useState();
   const fetchData = () => {
-    axios.get(`https://clockinserver.vercel.app/customer/fake/data`)
+    axios.get(`https://clockin-backend.vercel.app/customer`)
       .then(function (response) {
         // handle success
         setServiceUser(response.data.data)

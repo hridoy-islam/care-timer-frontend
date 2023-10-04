@@ -1,8 +1,25 @@
-
-import BreadCumb from '../../../../components/breadCumb/BreadCumb'
+'use client';
+import axios from 'axios';
+import BreadCumb from '../../../../../../components/breadCumb/BreadCumb'
 import React from 'react';
+import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation'
 
-const page = () => {
+const page = ({params: {_id}}) => {
+  const [company, setCompany] = useState();
+  const fetchData = () => {
+    axios.get(`https://clockin-backend.vercel.app/company/${_id}
+    `)
+      .then(function (response) {
+        // handle success
+        setCompany(response.data.data)
+      })
+  }
+  useEffect(() => {
+    fetchData()
+  }, [])
+  console.log(company)
+  
     return (
         <div className='bg-white border border-gray-200 rounded-xl shadow-sm p-6 mx-4'>
             <BreadCumb title="Company Details" />
@@ -21,17 +38,17 @@ const page = () => {
                   </thead> */}
 
                   <tbody class="divide-y divide-gray-200 ">
-                    <tr>                      
-                    <th scope="col" class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3 text-left">
-                        <div class="flex items-center gap-x-2 pl-6">
+                    <tr>
+                    <th scope="col" class="px-6 py-3 text-left">
+                        <div class="flex items-center gap-x-2">
                           <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
-                            Company Name
+                          Company Name
                           </span>
                         </div>
-                      </th>
-                      <td class="h-px pl-6 w-px whitespace-nowrap">
-                        <div class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
-                          <span class="block text-md text-secondary">Care Timer</span>
+                      </th>                      
+                    <td class="h-px w-72 whitespace-nowrap">
+                        <div class="px-6 py-3">
+                          <span class="block text-md text-secondary">{company?.name}</span>
                         </div>
                       </td>
                     </tr>
@@ -45,7 +62,7 @@ const page = () => {
                       </th>                      
                     <td class="h-px w-72 whitespace-nowrap">
                         <div class="px-6 py-3">
-                          <span class="block text-md text-secondary">caretimer@gmail.com</span>
+                          <span class="block text-md text-secondary">{company?.email}</span>
                         </div>
                       </td>
                     </tr>
@@ -53,13 +70,13 @@ const page = () => {
                     <th scope="col" class="px-6 py-3 text-left">
                         <div class="flex items-center gap-x-2">
                           <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
-                          Company's Team Mate
+                          Company Contact Name
                           </span>
                         </div>
                       </th>                
                     <td class="h-px w-72 whitespace-nowrap">
                         <div class="px-6 py-3">
-                          <span class="block text-md text-secondary">18</span>
+                          <span class="block text-md text-secondary">{company?.contactName}</span>
                         </div>
                       </td>
                     </tr>
@@ -67,17 +84,17 @@ const page = () => {
                     <th scope="col" class="px-6 py-3 text-left">
                         <div class="flex items-center gap-x-2">
                           <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
-                          Service User Lists
+                          Company Contact Number
                           </span>
                         </div>
                       </th>          
                     <td class="h-px w-72 whitespace-nowrap">
                         <div class="px-6 py-3">
-                          <span class="block text-md text-secondary">13</span>
+                          <span class="block text-md text-secondary">{company?.phone}</span>
                         </div>
                       </td>
                     </tr>
-                    <tr>  
+                    {/* <tr>  
                     <th scope="col" class="px-6 py-3 text-left">
                         <div class="flex items-center gap-x-2">
                           <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
@@ -91,7 +108,7 @@ const page = () => {
                         </div>
                       </td>                     
 
-                    </tr>
+                    </tr> */}
                   <tr >
                       
                       

@@ -10,7 +10,7 @@ import Link from 'next/link';
 const Page = () => {
   const [teamMember, setTeamMember] = useState();
   const fetchData = () => {
-      axios.get(`https://clockinserver.vercel.app/worker/fake/data`)
+      axios.get(`https://clockin-backend.vercel.app/worker`)
           .then(function (response) {
               // handle success
               setTeamMember(response.data.data)
@@ -20,7 +20,23 @@ const Page = () => {
     fetchData()
   }, [])
   const handleDelete = async (_id) => {
+    console.log(_id)
     const proceed = window.confirm("Are you sure to delete this?");
+    try {
+      if (proceed) {
+          const config = {
+              headers: {
+                  "content-type": "application/json",
+              },
+          };
+          const { data } = await axios.delete(
+              `http://localhost:5000/worker/${_id}`,
+              config
+          );
+      }
+  } catch (error) {
+      alert(error);
+  }
     
 };
   return (
@@ -95,7 +111,7 @@ const Page = () => {
                       <td class="h-px w-24 whitespace-nowrap">
                         <div className="flex justify-evenly ">
                           <div class="hs-tooltip inline-block">
-                            <Link href='/company/teamMember/viewTeamMember'>
+                            <Link href={`/company/teamMember/allTeamMember/viewTeamMember/${item._id}`}>
                             <button type="button" class="hs-tooltip-toggle text-2xl">
                               <AiOutlineEye fill="#979797" />
                               <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
@@ -105,7 +121,7 @@ const Page = () => {
                             </Link>
                           </div>
                           <div class="hs-tooltip inline-block">
-                            <Link href='/company/teamMember/editTeamMember'>
+                            <Link href={`/company/teamMember/allTeamMember/editTeamMember/${item._id}`}>
                             <button type="button" class="hs-tooltip-toggle text-2xl">
                               <BiEditAlt fill="#979797" />
                               <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">

@@ -10,7 +10,7 @@ import Link from 'next/link';
 const Page = () => {
   const [tasklist, setTasklist] = useState();
   const fetchData = () => {
-    axios.get(`https://clockinserver.vercel.app/tasklist/fake/data`)
+    axios.get(`https://clockin-backend.vercel.app/tasklist`)
       .then(function (response) {
         // handle success
         setTasklist(response.data.data)

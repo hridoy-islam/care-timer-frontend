@@ -7,11 +7,12 @@ import { BsTrash3 } from "react-icons/bs";
 import React from 'react';
 import axios from 'axios';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
 
-const Page = () => {
+const  Page = () => {
   const [company, setCompany] = useState();
   const fetchData = () => {
-    axios.get(`https://clockinserver.vercel.app/company/fake/data`)
+    axios.get(`https://clockin-backend.vercel.app/company`)
       .then(function (response) {
         // handle success
         setCompany(response.data.data)
@@ -21,7 +22,23 @@ const Page = () => {
     fetchData()
   }, [])
   const handleDelete = async (_id) => {
+    console.log(_id)
     const proceed = window.confirm("Are you sure to delete this?");
+    try {
+      if (proceed) {
+          const config = {
+              headers: {
+                  "content-type": "application/json",
+              },
+          };
+          const { data } = await axios.delete(
+              `https://clockin-backend.vercel.app/company/${_id}`,
+              config
+          );
+      }
+  } catch (error) {
+      alert(error);
+  }
     
 };
   return (
@@ -87,10 +104,10 @@ const Page = () => {
                   </thead>
 
                   <tbody class="divide-y divide-gray-200 ">
-                    {company?.length > 0 && company?.map((item, index) => <tr key={index}>
+                    {company?.data?.length > 0 && company?.data?.map((item, index) => <tr key={index}>
                       <td class="h-px pl-6 w-px whitespace-nowrap">
                         <div class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
-                          <span class="block text-md text-secondary">{item.contactName
+                          <span class="block text-md text-secondary">{item.name
                           }</span>
                         </div>
                       </td>
@@ -108,7 +125,7 @@ const Page = () => {
                       <td class="h-px w-36 whitespace-nowrap">
                         <div className="flex justify-evenly ">
                           <div class="hs-tooltip inline-block">
-                            <Link href='/admin/company/viewCompany'>
+                            <Link href={`/admin/company/allCompany/viewCompany/${item._id}`}  >
                             <button type="button" class="hs-tooltip-toggle text-2xl">
                               <AiOutlineEye fill="#979797" />
                               <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
@@ -118,7 +135,7 @@ const Page = () => {
                             </Link>
                           </div>
                           <div class="hs-tooltip inline-block">
-                            <Link href='/admin/company/editCompany'>
+                            <Link href={`/admin/company/allCompany/editCompany/${item._id}`}>
                             <button type="button" class="hs-tooltip-toggle text-2xl">
                               <BiEditAlt fill="#979797" />
                               <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
@@ -143,7 +160,7 @@ const Page = () => {
                 <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200 ">
                   <div>
                     <p class="text-sm text-gray-600 ">
-                      <span class="font-semibold text-gray-800 ">{company?.length}</span> results
+                      <span class="font-semibold text-gray-800 ">{company?.data?.length}</span> results
                     </p>
                   </div>
 
