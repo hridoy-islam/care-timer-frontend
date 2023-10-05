@@ -11,7 +11,7 @@ import Link from 'next/link';
 const Page = () => {
   const [company, setCompany] = useState();
   const fetchData = () => {
-    axios.get(`https://clockinserver.vercel.app/company/fake/data`)
+    axios.get(`https://clockin-backend.vercel.app/company/archives`)
       .then(function (response) {
         // handle success
         setCompany(response.data.data)
@@ -20,6 +20,7 @@ const Page = () => {
   useEffect(() => {
     fetchData()
   }, [])
+  console.log(company)
   const handleDelete = async (_id) => {
     const proceed = window.confirm("Are you sure to delete this?");
     
@@ -90,7 +91,7 @@ const Page = () => {
                     {company?.length > 0 && company?.map((item, index) => <tr key={index}>
                       <td class="h-px pl-6 w-px whitespace-nowrap">
                         <div class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
-                          <span class="block text-md text-secondary">{item.contactName
+                          <span class="block text-md text-secondary">{item.name
                           }</span>
                         </div>
                       </td>
@@ -108,7 +109,7 @@ const Page = () => {
                       <td class="h-px w-36 whitespace-nowrap">
                         <div className="flex justify-evenly ">
                           <div class="hs-tooltip inline-block">
-                            <Link href='/admin/company/viewCompany'>
+                            <Link href={`/admin/company/archiveCompany/archiveViewCompany/${item._id}`}>
                             <button type="button" class="hs-tooltip-toggle text-2xl">
                               <AiOutlineEye fill="#979797" />
                               <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">

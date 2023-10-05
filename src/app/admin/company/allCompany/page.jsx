@@ -8,9 +8,12 @@ import React from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation'
 
-const  Page = () => {
+const Page = () => {
+  const router = useRouter()
   const [company, setCompany] = useState();
+  // All Company View
   const fetchData = () => {
     axios.get(`https://clockin-backend.vercel.app/company`)
       .then(function (response) {
@@ -21,26 +24,29 @@ const  Page = () => {
   useEffect(() => {
     fetchData()
   }, [])
+  // Single Company Delete
   const handleDelete = async (_id) => {
-    console.log(_id)
-    const proceed = window.confirm("Are you sure to delete this?");
-    try {
-      if (proceed) {
-          const config = {
-              headers: {
-                  "content-type": "application/json",
-              },
-          };
-          const { data } = await axios.delete(
-              `https://clockin-backend.vercel.app/company/${_id}`,
-              config
-          );
-      }
-  } catch (error) {
-      alert(error);
-  }
-    
-};
+    axios.delete(`https://clockin-backend.vercel.app/company/${_id}`,)
+      .then(({ data }) => {
+        if (!data.success) {
+          toast.success('Company Archive Successfully', {
+            position: toast.POSITION.TOP_CENTER
+          });
+          return router.push('/admin/company/archiveCompany')
+        }
+        else {
+          toast.error("Something Error", {
+            position: toast.POSITION.TOP_CENTER
+          });
+          return router.push('/admin/company/allCompany')
+        }
+      })
+      .catch(error => {
+        const res = error.response;
+        toast.error(res);
+      });
+
+  };
   return (
     <div>
       <div class="w-full px-4 py-10 sm:px-6 lg:px-4 lg:py-4 mx-auto">
@@ -126,22 +132,22 @@ const  Page = () => {
                         <div className="flex justify-evenly ">
                           <div class="hs-tooltip inline-block">
                             <Link href={`/admin/company/allCompany/viewCompany/${item._id}`}  >
-                            <button type="button" class="hs-tooltip-toggle text-2xl">
-                              <AiOutlineEye fill="#979797" />
-                              <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
-                                View
-                              </span>
-                            </button>
+                              <button type="button" class="hs-tooltip-toggle text-2xl">
+                                <AiOutlineEye fill="#979797" />
+                                <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
+                                  View
+                                </span>
+                              </button>
                             </Link>
                           </div>
                           <div class="hs-tooltip inline-block">
                             <Link href={`/admin/company/allCompany/editCompany/${item._id}`}>
-                            <button type="button" class="hs-tooltip-toggle text-2xl">
-                              <BiEditAlt fill="#979797" />
-                              <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
-                                Edit
-                              </span>
-                            </button>
+                              <button type="button" class="hs-tooltip-toggle text-2xl">
+                                <BiEditAlt fill="#979797" />
+                                <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
+                                  Edit
+                                </span>
+                              </button>
                             </Link>
                           </div>
                           <div class="hs-tooltip inline-block pr-2">

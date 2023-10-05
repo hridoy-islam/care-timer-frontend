@@ -8,8 +8,7 @@ import { useParams } from 'next/navigation'
 const page = ({params: {_id}}) => {
   const [company, setCompany] = useState();
   const fetchData = () => {
-    axios.get(`https://clockin-backend.vercel.app/company/${_id}
-    `)
+    axios.get(`https://clockin-backend.vercel.app/company/${_id}`)
       .then(function (response) {
         // handle success
         setCompany(response.data.data)
@@ -19,11 +18,10 @@ const page = ({params: {_id}}) => {
     fetchData()
   }, [])
   console.log(company)
-  
     return (
-        <div className='bg-white border lg:w-3/4 mx-auto border-gray-200 rounded-xl shadow-sm p-6 mx-4'>
+        <div className='bg-white border lg:w-3/4 mx-auto border-gray-200 rounded-xl shadow-sm p-6 '>
             <BreadCumb title="Company Details" />
-            <table class="min-w-full mt-6 divide-y divide-gray-200 ">
+            <table class="w-full mt-6 divide-y divide-gray-200 ">
                   {/* <thead class="bg-gray-50 ">
                     
 
@@ -42,7 +40,7 @@ const page = ({params: {_id}}) => {
                     <th scope="col" class="px-6 py-3 text-left">
                         <div class="flex items-center gap-x-2">
                           <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
-                          Name
+                           Name
                           </span>
                         </div>
                       </th>                      
@@ -56,7 +54,7 @@ const page = ({params: {_id}}) => {
                     <th scope="col" class="px-6 py-3 text-left">
                         <div class="flex items-center gap-x-2">
                           <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
-                            Email
+                             Email
                           </span>
                         </div>
                       </th>                      
@@ -70,7 +68,7 @@ const page = ({params: {_id}}) => {
                     <th scope="col" class="px-6 py-3 text-left">
                         <div class="flex items-center gap-x-2">
                           <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
-                          Phone
+                             Phone
                           </span>
                         </div>
                       </th>                      
@@ -84,7 +82,7 @@ const page = ({params: {_id}}) => {
                     <th scope="col" class="px-6 py-3 text-left">
                         <div class="flex items-center gap-x-2">
                           <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
-                          Address
+                             Address
                           </span>
                         </div>
                       </th>                      
@@ -98,7 +96,7 @@ const page = ({params: {_id}}) => {
                     <th scope="col" class="px-6 py-3 text-left">
                         <div class="flex items-center gap-x-2">
                           <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
-                          Contact Name
+                           Contact Name
                           </span>
                         </div>
                       </th>                
@@ -112,7 +110,7 @@ const page = ({params: {_id}}) => {
                     <th scope="col" class="px-6 py-3 text-left">
                         <div class="flex items-center gap-x-2">
                           <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
-                          Contact Number
+                           Contact Number
                           </span>
                         </div>
                       </th>          

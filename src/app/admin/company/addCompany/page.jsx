@@ -1,10 +1,23 @@
 "use client"
-import React from 'react';
+import React, { useState } from 'react';
 import BreadCumb from '../../../../components/breadCumb/BreadCumb'
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation'
+import { BiSolidHide, BiShow } from "react-icons/bi";
+
+
 const page = () => {
+    const router = useRouter()
+    const [passwordType, setPasswordType] = useState("password");
+    const togglePassword = () => {
+        if (passwordType === "password") {
+            setPasswordType("text")
+            return;
+        }
+        setPasswordType("password")
+    }
     const {
         register,
         handleSubmit,
@@ -14,14 +27,18 @@ const page = () => {
        console.log(data);
        axios.post(`https://clockin-backend.vercel.app/company`, data)
             .then(({ data }) => {
-                // if (data.success) {
-                //     toast.success("Create Company");
-                //     // navigate('/');
-                // }
-                // else {
-                //     toast.success("Create Company");
-                //     // navigate('/');
-                // }
+                if (!data.success) {
+                    toast.success('Create Company', {
+                        position: toast.POSITION.TOP_CENTER
+                      });
+                    return router.push('/admin/company/allCompany')
+                }
+                else {
+                    toast.error("Something Error", {
+                    position: toast.POSITION.TOP_CENTER
+                  });
+                  return router.push('/admin/company/addCompany')
+                }
                 reset()
 
             })
@@ -82,7 +99,7 @@ const page = () => {
                                     <label htmlFor="region" className="block text-md font-medium leading-6 text-gray-900">
                                         Password
                                     </label>
-                                    <div className="mt-2">
+                                    {/* <div className="mt-2">
                                         <input
                                             type="password"
                                             name="password"
@@ -92,7 +109,15 @@ const page = () => {
                                             className="block pl-4 w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
                                             {...register('password')}
                                         />
-                                    </div>
+                                    </div> */}
+                                    <div className="input-group mt-4 relative">
+                                <input type={passwordType} {...register('password')}  name="password" class="form-control pl-4 w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6" />
+                                <div className="input-group-btn absolute right-4 top-3">
+                                    <button type='button' className="btn btn-outline-primary text-xl" onClick={togglePassword}>
+                                        {passwordType === "password" ? <BiSolidHide/> : <BiShow/>}
+                                    </button>
+                                </div>
+                            </div>
                                 </div>
                                 <div className="col-span-3">
                                     <label htmlFor="city" className="block text-md font-medium leading-6 text-gray-900">

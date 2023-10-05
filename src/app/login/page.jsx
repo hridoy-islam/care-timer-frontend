@@ -1,59 +1,69 @@
 "use client"
 import axios from 'axios';
 import Link from 'next/link';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { MenuContext } from '../../context/MenuContext';
 import { useRouter } from 'next/navigation'
+import { BiSolidHide, BiShow } from "react-icons/bi";
+
+
 const page = () => {
     const router = useRouter()
-    const { tokenDetails, token , setToken, setTokenDetails} = useContext(MenuContext);
+    const { tokenDetails, token, setToken, setTokenDetails } = useContext(MenuContext);
     console.log(tokenDetails, token)
     if (tokenDetails?.role == 'admin') {
+        toast.success('Admin LogIn Successfully', {
+        position: toast.POSITION.TOP_CENTER
+      });
         return router.push('/admin')
+        
     }
-    else if(tokenDetails?.role == 'company'){
+    else if (tokenDetails?.role == 'company') {
+        toast.success('Company LogIn Successfully', {
+            position: toast.POSITION.TOP_CENTER
+          });
         return router.push('/company')
     }
+    // else if (tokenDetails?.role == '') {
+    //     toast.error('Company LogIn Successfully', {
+    //         position: toast.POSITION.TOP_CENTER
+    //       });
+    //     return router.push('/')
+    // }
+
     const {
         register,
         handleSubmit,
         reset,
     } = useForm();
-    // const onsubmit = async () => {
-    //     const data = await signIn("credentials", data, {
-    //       email: email,
-    //       password: pass,
-    //       redirect: true,
-    //       callbackUrl: '/'
-    //     });
-    //     console.log(result)
-    //     console.log(email, pass)
-    //   };
-    const onsubmit = data =>{
+    const [passwordType, setPasswordType] = useState("password");
+    const togglePassword = () => {
+        if (passwordType === "password") {
+            setPasswordType("text")
+            return;
+        }
+        setPasswordType("password")
+    }
+    const onsubmit = data => {
         axios.post(`https://clockin-backend.vercel.app/auth/login`, data)
-        .then(({ data }) => {
-            // console.log(data)
-            // localStorage.setItem('details', JSON.stringify(data));
-            if (!data.success) {
-                toast.success(data.message);
-                // localStorage.setItem('timertoken', data?.data?.token);
-                localStorage.setItem('details', JSON.stringify(data?.data));
-                setTokenDetails(data.data);
-                setToken(data.data.token);
+            .then(({ data }) => {
+                if (!data.success) {
+                    // toast.success('LogIn SuccessFully');
+                    // localStorage.setItem('timertoken', data?.data?.token);
+                    localStorage.setItem('details', JSON.stringify(data?.data));
+                    setTokenDetails(data.data);
+                    setToken(data.data.token);
+
+                }
                 
-                
-            }
-            else {
-                toast.error(data.message);
-            }
-            
-            
-        })
-        .catch(error => {
-            // toast.error(error.message);
-        });
+
+
+            })
+            .catch(error => {
+                // toast.error(error.message);
+            });
     }
     return (
         <div>
@@ -83,8 +93,8 @@ const page = () => {
                                     type="email"
                                     autoComplete="email"
                                     required
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 px-4 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+
                                     {...register('email')}
                                 />
                             </div>
@@ -97,16 +107,25 @@ const page = () => {
                                 </label>
 
                             </div>
-                            <div className="mt-2">
+                            {/* <div className="mt-2">
                                 <input
+                                type={passwordType} onChange={handlePasswordChange} value={passwordInput}
                                     id="password"
                                     name="password"
-                                    type="password"
+                                    
                                     autoComplete="current-password"
                                     required
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  sm:text-sm sm:leading-6"
                                     {...register('password')}
                                 />
+                            </div> */}
+                            <div className="input-group my-4 relative">
+                                <input type={passwordType} {...register('password')}  name="password" class="form-control block w-full rounded-md border-0 py-1.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6" />
+                                <div className="input-group-btn absolute right-4 top-2">
+                                    <button type='button' className="btn btn-outline-primary" onClick={togglePassword}>
+                                        {passwordType === "password" ? <BiSolidHide/> : <BiShow/>}
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
@@ -119,13 +138,13 @@ const page = () => {
                                     Admin Login Demo
                                 </button>
                             </Link> */}
-                            
-                                <button
-                                    type='submit'
-                                    className="flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 "
-                                >
-                                    Log In
-                                </button>
+
+                            <button
+                                type='submit'
+                                className="flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 "
+                            >
+                                Log In
+                            </button>
                         </div>
                     </form>
                 </div>

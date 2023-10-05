@@ -4,16 +4,79 @@ import BreadCumb from '../../../../../../components/breadCumb/BreadCumb'
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation'
 
 const page = ({params: {_id}}) => {
+    const router = useRouter()
     const {
         register,
         handleSubmit,
         reset,
     } = useForm();
-    const onsubmit = data => {
-        console.log(data)
-    }
+    // axios.put(`http://localhost:5000/company/${_id}`,)
+    // .then(({ data }) => {
+    //     if (!data.success) {
+    //         toast.success('Edit Company Successfully', {
+    //             position: toast.POSITION.TOP_CENTER
+    //           });
+    //         return router.push('/admin/company/allCompany')
+    //     }
+    //     else {
+    //         toast.error("Something Error", {
+    //         position: toast.POSITION.TOP_CENTER
+    //       });
+    //       return router.push('/admin/company/addCompany')
+    //     }
+    //     reset()
+
+    // })
+    // .catch(error => {
+    //     const res = error.response;
+    //     toast.error(res);
+    // });
+    const onsubmit = data =>
+        axios.put(`http://localhost:5000/company/${_id}`, data)
+        .then(({ data }) => {
+                    if (!data.success) {
+                      toast.success('Company Edit Successfully', {
+                        position: toast.POSITION.TOP_CENTER
+                      });
+                      return router.push('/admin/company/allCompany')
+                    }
+                    else {
+                      toast.error("Something Error", {
+                        position: toast.POSITION.TOP_CENTER
+                      });
+                      return router.push('/admin/company/allCompany')
+                    }
+                  })
+            .catch(error => {
+                const res = error.response;
+                toast.error(res);
+            });
+    // const onsubmit = data => {
+    //     axios.put(`http://localhost:5000/company/${_id}`, data)
+    //       .then(({ data }) => {
+    //         if (!data.success) {
+    //           toast.success('Company Archive Successfully', {
+    //             position: toast.POSITION.TOP_CENTER
+    //           });
+    //           return router.push('/admin/company/archiveCompany')
+    //         }
+    //         else {
+    //           toast.error("Something Error", {
+    //             position: toast.POSITION.TOP_CENTER
+    //           });
+    //           return router.push('/admin/company/allCompany')
+    //         }
+    //       })
+    //       .catch(error => {
+    //         const res = error.response;
+    //         toast.error(res);
+    //       });
+    
+    //   };
     const [company, setCompany] = useState();
     const fetchData = () => {
       axios.get(`https://clockin-backend.vercel.app/company/${_id}
