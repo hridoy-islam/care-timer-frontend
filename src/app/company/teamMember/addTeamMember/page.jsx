@@ -3,27 +3,30 @@ import axios from 'axios';
 import BreadCumb from '../../../../components/breadCumb/BreadCumb';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify';
 
 const page = () => {
+    const router = useRouter()
     const {
         register,
-        handleSubmit,
-        reset,
+        handleSubmit
     } = useForm();
     const onsubmit = data => {
        axios.post(`https://clockin-backend.vercel.app/worker`, data)
-       .then(({ data }) => {
-        //    if (data.success) {
-        //        toast.success("Create Company");
-        //        // navigate('/');
-        //    }
-        //    else {
-        //        toast.success("Create Company");
-        //        // navigate('/');
-        //    }
-           reset()
-
+        .then(({ data }) => {
+            if (!data.success) {
+                toast.success('Team Member Added', {
+                    position: toast.POSITION.TOP_CENTER
+                  });
+                return router.push('/company/teamMember/allTeamMember')
+            }
+            else {
+                toast.error("Something Error", {
+                position: toast.POSITION.TOP_CENTER
+              });
+              return router.push('/company/teamMember/addTeamMember')
+            };
        })
        .catch(error => {
            const res = error.response;

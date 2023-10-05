@@ -6,8 +6,11 @@ import { BsTrash3 } from "react-icons/bs";
 import React from 'react';
 import axios from 'axios';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 const Page = () => {
+  const router = useRouter()
   const [teamMember, setTeamMember] = useState();
   const fetchData = () => {
       axios.get(`https://clockin-backend.vercel.app/worker`)
@@ -19,26 +22,29 @@ const Page = () => {
   useEffect(() => {
     fetchData()
   }, [])
+  // Single Worker Delete
   const handleDelete = async (_id) => {
-    console.log(_id)
-    const proceed = window.confirm("Are you sure to delete this?");
-    try {
-      if (proceed) {
-          const config = {
-              headers: {
-                  "content-type": "application/json",
-              },
-          };
-          const { data } = await axios.delete(
-              `http://localhost:5000/worker/${_id}`,
-              config
-          );
-      }
-  } catch (error) {
-      alert(error);
-  }
-    
-};
+    axios.delete(`https://clockin-backend.vercel.app/worker/${_id}`,)
+      .then(({ data }) => {
+        if (!data.success) {
+          toast.success('Team Member Archived', {
+            position: toast.POSITION.TOP_CENTER
+          });
+          return router.push('/company/teamMember/archiveTeamMember')
+        }
+        else {
+          toast.error("Something Error", {
+            position: toast.POSITION.TOP_CENTER
+          });
+          return router.push('/company/teamMember/allTeamMember')
+        }
+      })
+      .catch(error => {
+        const res = error.response;
+        toast.error(res);
+      });
+
+  };
   return (
     <div>
       <div class="w-full px-4 py-10 sm:px-3 lg:px-4 lg:py-4 mx-auto">

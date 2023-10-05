@@ -69,8 +69,8 @@ const AdminSidebar = forwardRef(({ showNav }, ref) => {
                 </Link>
               </li>
               <li>
-                <Link href="/company/serviceUser/addServiceUser" className={`block text-lg pl-4 font-base py-2 ml-3 rounded-lg my-2 text-secondary ${
-              pathname == "/company/serviceUser/addServiceUser"
+                <Link href="/company/teamMember/archiveTeamMember" className={`block text-lg pl-4 font-base py-2 ml-3 rounded-lg my-2 text-secondary ${
+              pathname == "/company/teamMember/archiveTeamMember"
                 ? "bg-orange-100 text-orange-500"
                 : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
             }`}>

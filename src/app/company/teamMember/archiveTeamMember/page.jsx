@@ -10,7 +10,7 @@ import Link from 'next/link';
 const Page = () => {
   const [teamMember, setTeamMember] = useState();
   const fetchData = () => {
-      axios.get(`https://clockinserver.vercel.app/worker/fake/data`)
+      axios.get(`https://clockin-backend.vercel.app/worker/archives`)
           .then(function (response) {
               // handle success
               setTeamMember(response.data.data)
@@ -19,13 +19,9 @@ const Page = () => {
   useEffect(() => {
     fetchData()
   }, [])
-  const handleDelete = async (_id) => {
-    const proceed = window.confirm("Are you sure to delete this?");
-    
-};
   return (
     <div>
-      <div class="w-full px-4 py-10 sm:px-6 lg:px-4 lg:py-4 mx-auto">
+      <div class="lg:w-3/4 px-4 py-10 sm:px-3 lg:px-4 lg:py-4 mx-auto">
         <div class="flex flex-col">
           <div class="-m-1.5 overflow-x-auto">
             <div class="p-1.5 min-w-full inline-block align-middle">
@@ -33,20 +29,12 @@ const Page = () => {
                 <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200 ">
                   <div>
                     <h2 class="text-2xl font-semibold text-gray-800 ">
-                    Archive Team Member
+                      Archive Team Member
                     </h2>
                   </div>
 
                   <div>
-                    <div class="inline-flex gap-x-2">
-
-                      {/* <Link class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-white hover:bg-primary focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm " href="/company/teamMember/addTeamMember">
-                        <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                          <path d="M2.63452 7.50001L13.6345 7.5M8.13452 13V2" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                        </svg>
-                        Add Team Member
-                      </Link> */}
-                    </div>
+                  
                   </div>
                 </div>
                 <table class="min-w-full divide-y divide-gray-200 ">
@@ -94,33 +82,15 @@ const Page = () => {
                       <td class="h-px w-24 whitespace-nowrap">
                         <div className="flex justify-evenly ">
                           <div class="hs-tooltip inline-block">
-                            <Link href='/company/teamMember/viewTeamMember'>
+                            <Link href={`/company/teamMember/archiveTeamMember/archiveViewTeamMember/${item._id}`}>
                             <button type="button" class="hs-tooltip-toggle text-2xl">
                               <AiOutlineEye fill="#979797" />
-                              <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
+                              <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
                                 View
                               </span>
                             </button>
                             </Link>
                           </div>
-                          {/* <div class="hs-tooltip inline-block">
-                            <Link href='/company/teamMember/editTeamMember'>
-                            <button type="button" class="hs-tooltip-toggle text-2xl">
-                              <BiEditAlt fill="#979797" />
-                              <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
-                                Edit
-                              </span>
-                            </button>
-                            </Link>
-                          </div>
-                          <div class="hs-tooltip inline-block pr-2">
-                            <button onClick={() => handleDelete(item._id)} type="button" class="hs-tooltip-toggle text-xl">
-                              <BsTrash3 fill="red" />
-                              <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-red-800 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
-                                Delete
-                              </span>
-                            </button>
-                          </div> */}
                         </div>
                       </td>
                     </tr>)}
