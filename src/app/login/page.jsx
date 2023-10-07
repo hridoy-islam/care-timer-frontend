@@ -7,24 +7,25 @@ import { toast } from 'react-toastify';
 import { MenuContext } from '../../context/MenuContext';
 import { useRouter } from 'next/navigation'
 import { BiSolidHide, BiShow } from "react-icons/bi";
-
+const jwt = require("jsonwebtoken");
 
 const page = () => {
     const router = useRouter()
-    const { tokenDetails, token, setToken, setTokenDetails } = useContext(MenuContext);
-    console.log(tokenDetails, token)
-    if (tokenDetails?.role == 'admin') {
+    const { tokenDetails,  setTokenDetails } = useContext(MenuContext);
+    console.log(tokenDetails)
+    const role = tokenDetails?.data?.role;
+    if (role == 'admin') {
         toast.success('Admin LogIn Successfully', {
         position: toast.POSITION.TOP_CENTER
       });
         return router.push('/admin')
         
     }
-    else if (tokenDetails?.role == 'company') {
+    else if (role == 'company') {
         toast.success('Company LogIn Successfully', {
             position: toast.POSITION.TOP_CENTER
           });
-        return router.push('/company')
+        return router.push('/company') && setTokenDetails
     }
     // else if (tokenDetails?.role == '') {
     //     toast.error('Company LogIn Successfully', {
@@ -47,14 +48,20 @@ const page = () => {
         setPasswordType("password")
     }
     const onsubmit = data => {
-        axios.post(`https://clockin-backend.vercel.app/auth/login`, data)
+        console.log(data)
+        axios.post(`http://localhost:5000/auth/login`, data)
+
             .then(({ data }) => {
-                if (!data.success) {
+                console.log(data)
+                if (data.success) {
+                    console.log(data)
+                    var decoded = jwt.decode(data?.data?.token);
+                    // console.log(decoded)
                     // toast.success('LogIn SuccessFully');
                     // localStorage.setItem('timertoken', data?.data?.token);
-                    localStorage.setItem('details', JSON.stringify(data?.data));
-                    setTokenDetails(data.data);
-                    setToken(data.data.token);
+                    localStorage.setItem('details', JSON.stringify(decoded));
+                    setTokenDetails(decoded);
+                    // setToken(data.data.token);
 
                 }
                 
