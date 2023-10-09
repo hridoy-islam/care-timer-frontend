@@ -1,11 +1,10 @@
 'use client';
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { MdOutlinePending , MdOutlineFileDownloadDone } from "react-icons/md";
-import { MenuContext } from "../../context/MenuContext";
-
+// import axios from 'axios';
+// const token = useState(localStorage.getItem('timertoken'));
+// axios.defaults.headers.common = {'Authorization': `bearer ${token}`}
 const page = () => {
-   const { tokenDetails,  setTokenDetails } = useContext(MenuContext);
-   console.log(tokenDetails)
    return (
        <div>
          <section className="lg:grid-cols-4 grid gap-6 mx-12 my-12">

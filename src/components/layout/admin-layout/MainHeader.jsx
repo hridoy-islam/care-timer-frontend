@@ -13,18 +13,19 @@ import { Menu, Transition, Popover } from "@headlessui/react";
 import Link from "next/link";
 import UserAreaSelectBox from "./UserAreaSelectBox";
 import { BiLogInCircle } from "react-icons/bi";
-import { MenuContext } from '../../../context/MenuContext';
+import { userContext } from '../../../context/MainContext';
 
 export default function MainHeader({ showNav, setShowNav }) {
-  const { tokenDetails, setTokenDetails} = useContext(MenuContext);
+  const { tokenDetails, setTokenDetails, setToken} = useContext(userContext);
   const logOut = () => {
         
     localStorage.removeItem('details');
+    localStorage.removeItem('timertoken');
     setTokenDetails('')
+    setToken('')
     
     
 }
-
   return (
     <div
       className={`fixed w-full h-16 flex bg-gray-50 shadow-lg mb-6 justify-between items-center transition-all duration-[400ms] ${showNav ? "pl-56" : ""

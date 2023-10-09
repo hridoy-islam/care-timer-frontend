@@ -4,16 +4,18 @@ import Link from 'next/link';
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { MenuContext } from '../../context/MenuContext';
+import {  userContext } from '../../context/MainContext';
 import { useRouter } from 'next/navigation'
 import { BiSolidHide, BiShow } from "react-icons/bi";
 const jwt = require("jsonwebtoken");
 
 const page = () => {
     const router = useRouter()
-    const { tokenDetails,  setTokenDetails } = useContext(MenuContext);
-    console.log(tokenDetails)
-    const role = tokenDetails?.data?.role;
+    const { tokenDetails, token, setToken,  setTokenDetails } = useContext(userContext);
+    console.log(tokenDetails, token)
+    var tokenDecoded = jwt.decode(token);
+    console.log(tokenDecoded?.data?.role)
+    const role = tokenDecoded?.data?.role
     if (role == 'admin') {
         toast.success('Admin LogIn Successfully', {
         position: toast.POSITION.TOP_CENTER
@@ -53,15 +55,15 @@ const page = () => {
 
             .then(({ data }) => {
                 console.log(data)
-                if (data.success) {
-                    console.log(data)
+                if (!data.success) {
+                    // console.log(data?.data?.token)
                     var decoded = jwt.decode(data?.data?.token);
                     // console.log(decoded)
                     // toast.success('LogIn SuccessFully');
-                    // localStorage.setItem('timertoken', data?.data?.token);
+                    localStorage.setItem('timertoken', data?.data?.token);
                     localStorage.setItem('details', JSON.stringify(decoded));
                     setTokenDetails(decoded);
-                    // setToken(data.data.token);
+                    setToken(data?.data?.token);
 
                 }
                 
@@ -69,7 +71,7 @@ const page = () => {
 
             })
             .catch(error => {
-                // toast.error(error.message);
+                toast.error(error.message);
             });
     }
     return (

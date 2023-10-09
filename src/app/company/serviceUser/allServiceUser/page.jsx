@@ -12,7 +12,7 @@ import { MenuContext } from "../../../../context/MenuContext";
 
 const Page = () => {
   const { tokenDetails,  setTokenDetails } = useContext(MenuContext);
-  console.log(tokenDetails)
+  console.log(tokenDetails?.data)
   const [serviceUser, setServiceUser] = useState();
   const fetchData = () => {
     axios.get(`https://clockin-backend.vercel.app/customer`)

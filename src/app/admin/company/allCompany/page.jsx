@@ -9,45 +9,71 @@ import axios from 'axios';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation'
-import { MenuContext } from '../../../../context/MenuContext';
 
-const Page = () => {
+const Page = () => { 
+
   const router = useRouter()
   const [company, setCompany] = useState();
-  const { tokenDetails,  setTokenDetails } = useContext(MenuContext);
-  console.log(tokenDetails)
+
   // All Company View
+  // const fetchData = async () => {
+  //   try {
+  //     const res = await axios.get('/api/company?softDelete=false&role=company');
+  //     company(res['data']['data'])
+  //   } catch (error) {
+  //     // alert('something wrong')
+  //   }
+  // }
+  //   useEffect(() => {
+  //   fetchData()
+  // }, [])
+  // // useEffect(fetchData(),[])
+  // console.log(company)
+
   const fetchData = () => {
-    axios.get(`https://clockin-backend.vercel.app/company`)
+    axios.get(`http://localhost:5000/company`)
       .then(function (response) {
         // handle success
-        setCompany(response.data.data)
+        setCompany(response?.data?.data)
       })
   }
   useEffect(() => {
     fetchData()
   }, [])
+  console.log(company)
+  // const [blogs, setBlogs] = useState();
+  // const fetchData = () => {
+  //     axios.get(`http://localhost:5000/company?softDelete=false&role=company`)
+  //         .then(function (response) {
+  //             // handle success
+  //             setBlogs(response?.data)
+  //         })
+  // }
+  // useEffect(() => {
+  //     fetchData()
+  // }, [])
+  // console.log(blogs)
   // Single Company Delete
   const handleDelete = async (_id) => {
-    axios.delete(`https://clockin-backend.vercel.app/company/${_id}`,)
-      .then(({ data }) => {
-        if (!data.success) {
-          toast.success('Company Archive Successfully', {
-            position: toast.POSITION.TOP_CENTER
-          });
-          return router.push('/admin/company/archiveCompany')
-        }
-        else {
-          toast.error("Something Error", {
-            position: toast.POSITION.TOP_CENTER
-          });
-          return router.push('/admin/company/allCompany')
-        }
-      })
-      .catch(error => {
-        const res = error.response;
-        toast.error(res);
-      });
+    // axios.delete(`https://clockin-backend.vercel.app/company/${_id}`,)
+    //   .then(({ data }) => {
+    //     if (!data.success) {
+    //       toast.success('Company Archive Successfully', {
+    //         position: toast.POSITION.TOP_CENTER
+    //       });
+    //       return router.push('/admin/company/archiveCompany')
+    //     }
+    //     else {
+    //       toast.error("Something Error", {
+    //         position: toast.POSITION.TOP_CENTER
+    //       });
+    //       return router.push('/admin/company/allCompany')
+    //     }
+    //   })
+    //   .catch(error => {
+    //     const res = error.response;
+    //     toast.error(res);
+    //   });
 
   };
   return (

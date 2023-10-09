@@ -10,10 +10,12 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 
 const Page = () => {
+  // const  userDetails   = JSON.parse(localStorage?.getItem('details'));
+  // console.log(userDetails)
   const router = useRouter()
   const [teamMember, setTeamMember] = useState();
   const fetchData = () => {
-      axios.get(`https://clockin-backend.vercel.app/worker`)
+      axios.get(`http://localhost:5000/worker?softDelete=false`)
           .then(function (response) {
               // handle success
               setTeamMember(response.data.data)
@@ -22,9 +24,10 @@ const Page = () => {
   useEffect(() => {
     fetchData()
   }, [])
+  console.log(teamMember)
   // Single Worker Delete
   const handleDelete = async (_id) => {
-    axios.delete(`https://clockin-backend.vercel.app/worker/${_id}`,)
+    axios.delete(`http://localhost:5000/worker/${_id}`,)
       .then(({ data }) => {
         if (!data.success) {
           toast.success('Team Member Archived', {

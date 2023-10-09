@@ -1,20 +1,28 @@
 "use client"
 import axios from 'axios';
 import BreadCumb from '../../../../components/breadCumb/BreadCumb';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify';
+import {  userContext } from '../../../../context/MainContext';
 
-const page = () => {
+const page = () => {  
+//     const  userDetails   = JSON.parse(localStorage?.getItem('details'));
+// console.log(userDetails?.data?._id)
+// const tokenDetails = JSON.parse.localStorage?.getItem('details');
+const {tokenDetails} = useContext(userContext)
+console.log(tokenDetails)
     const router = useRouter()
     const {
         register,
-        handleSubmit
+        handleSubmit,
+        reset
     } = useForm();
     const onsubmit = data => {
-       axios.post(`https://clockin-backend.vercel.app/worker`, data)
-        .then(({ data }) => {
+       axios.post(`http://localhost:5000/worker`, data)
+        .then(( {data} ) => {
+            console.log(data)
             if (!data.success) {
                 toast.success('Team Member Added', {
                     position: toast.POSITION.TOP_CENTER
@@ -27,6 +35,7 @@ const page = () => {
               });
               return router.push('/company/teamMember/addTeamMember')
             };
+            reset()
        })
        .catch(error => {
            const res = error.response;
@@ -112,6 +121,24 @@ const page = () => {
                                             required
                                             className="block pl-4 w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
                                             {...register('holidays')}
+
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-span-3">
+                                    <label htmlFor="city" className="block text-md font-medium leading-6 text-gray-900">
+                                        Company
+                                    </label>
+                                    <div className="mt-2">
+                                        <input
+                                            type="text"
+                                            name="company"
+                                            id="company"
+                                            placeholder='company'
+                                            required
+                                            defaultValue={tokenDetails?.data?._id}
+                                            className="block pl-4 w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
+                                            {...register('company')}
 
                                         />
                                     </div>

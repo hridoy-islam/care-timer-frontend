@@ -2,10 +2,12 @@
 
 import axios from 'axios';
 import BreadCumb from '../../../../components/breadCumb/BreadCumb';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import { userContext } from '../../../../context/MainContext';
 const page = () => {
+    const {tokenDetails} = useContext(userContext)
     const {
         register,
         handleSubmit,
@@ -15,15 +17,15 @@ const page = () => {
         console.log(data)
         axios.post(`http://localhost:5000/customer`, data)
         .then(({ data }) => {
-            // console.log(data)
-            // if (data.success) {
-            //     toast.success("Create Company");
-            //     // navigate('/');
-            // }
-            // else {
-            //     toast.success("Create Company");
-            //     // navigate('/');
-            // }
+            console.log(data)
+            if (data.success) {
+                toast.success("Create Service User");
+                // navigate('/');
+            }
+            else {
+                toast.success("Something Wrong");
+                // navigate('/');
+            }
             reset()
  
         })
@@ -78,7 +80,7 @@ const page = () => {
                                     </label>
                                     <div className="mt-2">
                                     <input
-                                            type="text"
+                                            type="number"
                                             name="latitude"
                                             id="latitude"
                                             placeholder='latitude'
@@ -94,7 +96,7 @@ const page = () => {
                                     </label>
                                     <div className="mt-2">
                                         <input
-                                            type="text"
+                                            type="number"
                                             name="longitude"
                                             id="longitude"
                                             placeholder='longitude'
@@ -120,7 +122,7 @@ const page = () => {
                                         />
                                     </div>
                                 </div>
-                                {/* <div className="col-span-3">
+                                <div className="col-span-3">
                                     <label htmlFor="city" className="block text-md font-medium leading-6 text-gray-900">
                                     Company
                                     </label>
@@ -128,14 +130,15 @@ const page = () => {
                                         <input
                                             type="text"
                                             name="company"
-                                            id="location"
-                                            placeholder='location'
+                                            id="company"
+                                            placeholder='company'
                                             required
+                                            defaultValue={tokenDetails?.data?._id}
                                             className="block pl-4 w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
                                             {...register('company')}
                                         />
                                     </div>
-                                </div> */}
+                                </div>
 
                             </div>
                         </div>

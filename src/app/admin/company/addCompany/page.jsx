@@ -25,9 +25,9 @@ const page = () => {
     } = useForm();
     const onsubmit = data => {
        console.log(data);
-       axios.post(`https://clockin-backend.vercel.app/company`, data)
+       axios.post(`/api/company`, data)
             .then(({ data }) => {
-                if (!data.success) {
+                if (!data.success) {''
                     toast.success('Create Company', {
                         position: toast.POSITION.TOP_CENTER
                       });
@@ -136,6 +136,22 @@ const page = () => {
                                     </div>
                                 </div>
                                 <div className="col-span-3">
+                                    <label htmlFor="street-address" className="block text-md font-medium leading-6 text-gray-900">
+                                        Address
+                                    </label>
+                                    <div className="mt-2">
+                                        <input
+                                            type="text"
+                                            name="address"
+                                            id="address"
+                                            placeholder='address'
+                                            required
+                                            className="block pl-4 w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
+                                            {...register('address')}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-span-3">
                                     <label htmlFor="region" className="block text-md font-medium leading-6 text-gray-900">
                                         Contact Person Name
                                     </label>
@@ -168,22 +184,7 @@ const page = () => {
                                     </div>
                                 </div>
 
-                                <div className="col-span-3">
-                                    <label htmlFor="street-address" className="block text-md font-medium leading-6 text-gray-900">
-                                        Address
-                                    </label>
-                                    <div className="mt-2">
-                                        <input
-                                            type="text"
-                                            name="address"
-                                            id="address"
-                                            placeholder='address'
-                                            required
-                                            className="block pl-4 w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
-                                            {...register('address')}
-                                        />
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>

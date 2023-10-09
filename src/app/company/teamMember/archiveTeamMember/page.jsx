@@ -10,7 +10,7 @@ import Link from 'next/link';
 const Page = () => {
   const [teamMember, setTeamMember] = useState();
   const fetchData = () => {
-      axios.get(`https://clockin-backend.vercel.app/worker/archives`)
+      axios.get(`http://localhost:5000/worker?softDelete=true`)
           .then(function (response) {
               // handle success
               setTeamMember(response.data.data)
@@ -19,6 +19,7 @@ const Page = () => {
   useEffect(() => {
     fetchData()
   }, [])
+  console.log(teamMember)
   return (
     <div>
       <div class="lg:w-3/4 px-4 py-10 sm:px-3 lg:px-4 lg:py-4 mx-auto">
