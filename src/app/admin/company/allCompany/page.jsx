@@ -16,6 +16,31 @@ const Page = () => {
   const [company, setCompany] = useState();
 
   // All Company View
+
+
+  const fetchData = () => {
+    axios.get(`http://localhost:5000/company?softDelete=false&role=company`)
+      .then(function (response) {
+        console.log(response?.data)
+        // handle success
+        setCompany(response?.data?.data)
+      })
+  }
+  useEffect(() => {
+    fetchData()
+  }, [])
+  console.log(company)
+
+
+
+  // useEffect(() => {
+  //   fetch(`http://localhost:5000/company?softDelete=false&role=company/`)
+  //     .then((res) => res.json())
+  //     .then((data) => setCompany(data));
+  // }, []);
+  // console.log(company)
+  // Single Company Delete
+
   // const fetchData = async () => {
   //   try {
   //     const res = await axios.get('/api/company?softDelete=false&role=company');
@@ -30,30 +55,7 @@ const Page = () => {
   // // useEffect(fetchData(),[])
   // console.log(company)
 
-  const fetchData = () => {
-    axios.get(`http://localhost:5000/company`)
-      .then(function (response) {
-        // handle success
-        setCompany(response?.data?.data)
-      })
-  }
-  useEffect(() => {
-    fetchData()
-  }, [])
-  console.log(company)
-  // const [blogs, setBlogs] = useState();
-  // const fetchData = () => {
-  //     axios.get(`http://localhost:5000/company?softDelete=false&role=company`)
-  //         .then(function (response) {
-  //             // handle success
-  //             setBlogs(response?.data)
-  //         })
-  // }
-  // useEffect(() => {
-  //     fetchData()
-  // }, [])
-  // console.log(blogs)
-  // Single Company Delete
+
   const handleDelete = async (_id) => {
     // axios.delete(`https://clockin-backend.vercel.app/company/${_id}`,)
     //   .then(({ data }) => {

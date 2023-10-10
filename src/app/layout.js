@@ -5,7 +5,9 @@ import React, { lazy} from 'react';
 // import Loading from '../components/loading/Loading';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+// import axios from 'axios';
+// const token = useContext
+// axios.defaults.headers.common = {'Authorization': `bearer ${token}`}
 import { Roboto } from 'next/font/google'
 import MainContext from '../context/MainContext';
 

@@ -20,6 +20,7 @@ console.log(tokenDetails)
         reset
     } = useForm();
     const onsubmit = data => {
+        console.log(data)
        axios.post(`http://localhost:5000/worker`, data)
         .then(( {data} ) => {
             console.log(data)

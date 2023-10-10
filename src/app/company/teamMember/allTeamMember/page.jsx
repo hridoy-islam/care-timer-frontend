@@ -18,7 +18,7 @@ const Page = () => {
       axios.get(`http://localhost:5000/worker?softDelete=false`)
           .then(function (response) {
               // handle success
-              setTeamMember(response.data.data)
+              setTeamMember(response?.data?.data)
           })
   }
   useEffect(() => {
@@ -27,25 +27,25 @@ const Page = () => {
   console.log(teamMember)
   // Single Worker Delete
   const handleDelete = async (_id) => {
-    axios.delete(`http://localhost:5000/worker/${_id}`,)
-      .then(({ data }) => {
-        if (!data.success) {
-          toast.success('Team Member Archived', {
-            position: toast.POSITION.TOP_CENTER
-          });
-          return router.push('/company/teamMember/archiveTeamMember')
-        }
-        else {
-          toast.error("Something Error", {
-            position: toast.POSITION.TOP_CENTER
-          });
-          return router.push('/company/teamMember/allTeamMember')
-        }
-      })
-      .catch(error => {
-        const res = error.response;
-        toast.error(res);
-      });
+    // axios.delete(`http://localhost:5000/worker/${_id}`,)
+    //   .then(({ data }) => {
+    //     if (!data.success) {
+    //       toast.success('Team Member Archived', {
+    //         position: toast.POSITION.TOP_CENTER
+    //       });
+    //       return router.push('/company/teamMember/archiveTeamMember')
+    //     }
+    //     else {
+    //       toast.error("Something Error", {
+    //         position: toast.POSITION.TOP_CENTER
+    //       });
+    //       return router.push('/company/teamMember/allTeamMember')
+    //     }
+    //   })
+    //   .catch(error => {
+    //     const res = error.response;
+    //     toast.error(res);
+    //   });
 
   };
   return (

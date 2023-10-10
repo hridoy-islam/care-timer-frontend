@@ -71,7 +71,7 @@ const page = () => {
 
             })
             .catch(error => {
-                toast.error(error.message);
+                toast.error('Something Wrong');
             });
     }
     return (
