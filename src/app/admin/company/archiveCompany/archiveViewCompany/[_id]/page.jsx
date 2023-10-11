@@ -1,37 +1,32 @@
 'use client';
 import axios from 'axios';
 import BreadCumb from '../../../../../../components/breadCumb/BreadCumb'
-import React from 'react';
+import React, { useContext } from 'react';
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation'
+import { userContext } from '../../../../../../context/MainContext';
 
 const page = ({params: {_id}}) => {
+  const {token} = useContext(userContext)
   const [company, setCompany] = useState();
   const fetchData = () => {
-    axios.get(`https://clockin-backend.vercel.app/company/${_id}`)
-      .then(function (response) {
-        // handle success
-        setCompany(response.data.data)
-      })
+      axios.get( `http://localhost:5000/company/${_id}`, {
+        headers: {
+        'Authorization': `Bearer ${token}`
+        }
+        }).then(function (response) {
+          // handle success
+          setCompany(response?.data?.data)
+        })
   }
   useEffect(() => {
     fetchData()
   }, [])
-  console.log(company)
     return (
         <div className='bg-white border lg:w-3/4 mx-auto border-gray-200 rounded-xl shadow-sm p-6 '>
             <BreadCumb title="Company Details" />
             <table className="w-full mt-6 divide-y divide-gray-200 ">
                   {/* <thead className="bg-gray-50 ">
-                    
 
-                     
-
-                      
-
-                      
-                     
-                      
                       
                   </thead> */}
 

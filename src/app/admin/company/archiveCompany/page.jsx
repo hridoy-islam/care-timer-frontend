@@ -1,30 +1,34 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AiOutlineEye } from "react-icons/ai";
 import { BiEditAlt } from "react-icons/bi";
 import { BsTrash3 } from "react-icons/bs";
 import React from 'react';
 import axios from 'axios';
 import Link from 'next/link';
+import { userContext } from '../../../../context/MainContext';
 
 const Page = () => {
+  const {token} = useContext(userContext)
   const [company, setCompany] = useState();
   const fetchData = () => {
-    axios.get(`https://clockin-backend.vercel.app/company/archives`)
-      .then(function (response) {
+    axios.get( `http://localhost:5000/company?softDelete=true&role=company`, {
+      headers: {
+      'Authorization': `Bearer ${token}`
+      }
+      }).then(function (response) {
         // handle success
-        setCompany(response.data.data)
+        setCompany(response?.data?.data)
       })
-  }
+}
   useEffect(() => {
     fetchData()
   }, [])
-  console.log(company)
-  const handleDelete = async (_id) => {
-    const proceed = window.confirm("Are you sure to delete this?");
+//   const handleDelete = async (_id) => {
+//     const proceed = window.confirm("Are you sure to delete this?");
     
-};
+// };
   return (
     <div>
       <div className="w-full px-4 py-10 sm:px-6 lg:px-4 lg:py-4 mx-auto">
@@ -41,12 +45,6 @@ const Page = () => {
 
                   <div>
                     <div className="inline-flex gap-x-2">
-                      {/* <Link className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-white hover:bg-primary focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm " href="/admin/company/addCompany">
-                        <svg className="w-3 h-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                          <path d="M2.63452 7.50001L13.6345 7.5M8.13452 13V2" stroke="currentColor" strokeWidth="2" stroke-linecap="round" />
-                        </svg>
-                        Add Company
-                      </Link> */}
                     </div>
                   </div>
                 </div>
@@ -88,7 +86,7 @@ const Page = () => {
                   </thead>
 
                   <tbody className="divide-y divide-gray-200 ">
-                    {company?.length > 0 && company?.map((item, index) => <tr key={index}>
+                    {company?.data?.length > 0 && company?.data?.map((item, index) => <tr key={index}>
                       <td className="h-px pl-6 w-px whitespace-nowrap">
                         <div className="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
                           <span className="block text-md text-secondary">{item.name
@@ -118,24 +116,6 @@ const Page = () => {
                             </button>
                             </Link>
                           </div>
-                          {/* <div className="hs-tooltip inline-block">
-                            <Link href='/admin/company/editCompany'>
-                            <button type="button" className="hs-tooltip-toggle text-2xl">
-                              <BiEditAlt fill="#979797" />
-                              <span className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
-                                Edit
-                              </span>
-                            </button>
-                            </Link>
-                          </div>
-                          <div className="hs-tooltip inline-block pr-2">
-                            <button onClick={() => handleDelete(item._id)} type="button" className="hs-tooltip-toggle text-xl">
-                              <BsTrash3 fill="red" />
-                              <span className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-red-800 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
-                                Delete
-                              </span>
-                            </button>
-                          </div> */}
                         </div>
                       </td>
                     </tr>)}
@@ -144,7 +124,7 @@ const Page = () => {
                 <div className="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200 ">
                   <div>
                     <p className="text-sm text-gray-600 ">
-                      <span className="font-semibold text-gray-800 ">{company?.length}</span> results
+                      <span className="font-semibold text-gray-800 ">{company?.data?.length}</span> results
                     </p>
                   </div>
 

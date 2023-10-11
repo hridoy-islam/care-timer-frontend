@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { AiOutlineEye } from "react-icons/ai";
 import { BiEditAlt } from "react-icons/bi";
 import { BsTrash3 } from "react-icons/bs";
@@ -8,18 +8,27 @@ import axios from 'axios';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
+import { userContext } from '../../../../context/MainContext';
 
 const Page = () => {
   // const  userDetails   = JSON.parse(localStorage?.getItem('details'));
   // console.log(userDetails)
   const router = useRouter()
+  const {token} = useContext(userContext)
   const [teamMember, setTeamMember] = useState();
+console.log(token)
   const fetchData = () => {
-      axios.get(`http://localhost:5000/worker?softDelete=false`)
-          .then(function (response) {
-              // handle success
-              setTeamMember(response?.data?.data)
-          })
+      axios.get( `http://localhost:5000/worker?softDelete=false`, {
+        headers: {
+        'Authorization': `Bearer ${token}`
+        }
+        }).then(function (response) {
+          console.log(response?.data?.data)
+          // handle success
+          setTeamMember(response?.data?.data)
+        })
+        // .then(x=>
+        //   console.log(x.data.data))
   }
   useEffect(() => {
     fetchData()
@@ -106,7 +115,7 @@ const Page = () => {
                   </thead>
 
                   <tbody class="divide-y divide-gray-200 ">
-                  {teamMember?.length > 0 && teamMember?.map((item, index) => <tr key={index}>
+                  {teamMember?.data?.length > 0 && teamMember?.data?.map((item, index) => <tr key={index}>
                       <td class="h-px pl-6 w-px whitespace-nowrap">
                         <div class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
                         <span class="block text-md text-secondary">{item.name}</span>
@@ -155,7 +164,7 @@ const Page = () => {
                 <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200 ">
                   <div>
                     <p class="text-sm text-gray-600 ">
-                      <span class="font-semibold text-gray-800 ">{teamMember?.length}</span> results
+                      <span class="font-semibold text-gray-800 ">{teamMember?.data?.length}</span> results
                     </p>
                   </div>
 

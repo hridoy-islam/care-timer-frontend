@@ -1,43 +1,27 @@
 "use client"
 import axios from 'axios';
 import BreadCumb from '../../../../../../components/breadCumb/BreadCumb'
-import React from 'react';
+import React, { useContext } from 'react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation'
+import { userContext } from '../../../../../../context/MainContext';
 
 const page = ({params: {_id}}) => {
+    const {token} = useContext(userContext)
     const router = useRouter()
     const {
         register,
         handleSubmit,
         reset,
     } = useForm();
-    // axios.put(`http://localhost:5000/company/${_id}`,)
-    // .then(({ data }) => {
-    //     if (!data.success) {
-    //         toast.success('Edit Company Successfully', {
-    //             position: toast.POSITION.TOP_CENTER
-    //           });
-    //         return router.push('/admin/company/allCompany')
-    //     }
-    //     else {
-    //         toast.error("Something Error", {
-    //         position: toast.POSITION.TOP_CENTER
-    //       });
-    //       return router.push('/admin/company/addCompany')
-    //     }
-    //     reset()
-
-    // })
-    // .catch(error => {
-    //     const res = error.response;
-    //     toast.error(res);
-    // });
     const onsubmit = data =>
-        axios.put(`http://localhost:5000/company/${_id}`, data)
-        .then(({ data }) => {
+        axios.patch( `http://localhost:5000/company/${_id}`, data,  {
+            headers: {
+            'Authorization': `Bearer ${token}`
+            }
+            }).then(({ data }) => {
                     if (!data.success) {
                       toast.success('Company Edit Successfully', {
                         position: toast.POSITION.TOP_CENTER
@@ -55,40 +39,21 @@ const page = ({params: {_id}}) => {
                 const res = error.response;
                 toast.error(res);
             });
-    // const onsubmit = data => {
-    //     axios.put(`http://localhost:5000/company/${_id}`, data)
-    //       .then(({ data }) => {
-    //         if (!data.success) {
-    //           toast.success('Company Archive Successfully', {
-    //             position: toast.POSITION.TOP_CENTER
-    //           });
-    //           return router.push('/admin/company/archiveCompany')
-    //         }
-    //         else {
-    //           toast.error("Something Error", {
-    //             position: toast.POSITION.TOP_CENTER
-    //           });
-    //           return router.push('/admin/company/allCompany')
-    //         }
-    //       })
-    //       .catch(error => {
-    //         const res = error.response;
-    //         toast.error(res);
-    //       });
-    
-    //   };
     const [company, setCompany] = useState();
     const fetchData = () => {
-      axios.get(`https://clockin-backend.vercel.app/company/${_id}
-      `)
-        .then(function (response) {
-          // handle success
-          setCompany(response.data.data)
-        })
+        axios.get( `http://localhost:5000/company/${_id}`, {
+          headers: {
+          'Authorization': `Bearer ${token}`
+          }
+          }).then(function (response) {
+            // handle success
+            setCompany(response?.data?.data)
+          })
     }
     useEffect(() => {
       fetchData()
     }, [])
+    
     return (
         <div>
             
@@ -180,13 +145,13 @@ const page = ({params: {_id}}) => {
                                     <div className="mt-2">
                                         <input
                                             type="text"
-                                            name="contact-name"
+                                            name="contactName"
                                             id="contact-name"
                                             placeholder='name'
                                             required
                                             defaultValue={company?.contactName}
                                             className="block pl-4 w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
-                                            {...register('contact-name')}
+                                            {...register('contactName')}
                                         />
                                     </div>
                                 </div>
@@ -197,13 +162,13 @@ const page = ({params: {_id}}) => {
                                     <div className="mt-2">
                                         <input
                                             type="phone"
-                                            name="contact-phone"
+                                            name="contactPhone"
                                             id="contact-phone"
                                             placeholder='phone'
                                             required
                                             defaultValue={company?.contactPhone}
                                             className="block pl-4 w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
-                                            {...register('contact-phone')}
+                                            {...register('contactPhone')}
                                         />
                                     </div>
                                 </div>

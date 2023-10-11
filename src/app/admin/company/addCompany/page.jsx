@@ -1,14 +1,16 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import BreadCumb from '../../../../components/breadCumb/BreadCumb'
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation'
 import { BiSolidHide, BiShow } from "react-icons/bi";
+import { userContext } from '../../../../context/MainContext';
 
 
 const page = () => {
+    const {token} = useContext(userContext)
     const router = useRouter()
     const [passwordType, setPasswordType] = useState("password");
     const togglePassword = () => {
@@ -23,10 +25,13 @@ const page = () => {
         handleSubmit,
         reset,
     } = useForm();
+
     const onsubmit = data => {
-       console.log(data);
-       axios.post(`/api/company`, data)
-            .then(({ data }) => {
+       axios.post( `http://localhost:5000/company`, data,  {
+        headers: {
+        'Authorization': `Bearer ${token}`
+        }
+        } ).then(({ data }) => {
                 if (!data.success) {''
                     toast.success('Create Company', {
                         position: toast.POSITION.TOP_CENTER
