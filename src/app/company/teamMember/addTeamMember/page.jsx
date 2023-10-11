@@ -7,11 +7,8 @@ import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify';
 import {  userContext } from '../../../../context/MainContext';
 
-const page = () => {  
-//     const  userDetails   = JSON.parse(localStorage?.getItem('details'));
-// console.log(userDetails?.data?._id)
-// const tokenDetails = JSON.parse.localStorage?.getItem('details');
-const {tokenDetails} = useContext(userContext)
+const page = () => {
+const {token, tokenDetails} = useContext(userContext)
 console.log(tokenDetails)
     const router = useRouter()
     const {
@@ -21,9 +18,11 @@ console.log(tokenDetails)
     } = useForm();
     const onsubmit = data => {
         console.log(data)
-       axios.post(`http://localhost:5000/worker`, data)
-        .then(( {data} ) => {
-            console.log(data)
+        axios.post( `http://localhost:5000/worker`, data,  {
+         headers: {
+         'Authorization': `Bearer ${token}`
+         }
+         }).then(( {data} ) => {
             if (!data.success) {
                 toast.success('Team Member Added', {
                     position: toast.POSITION.TOP_CENTER
@@ -42,7 +41,7 @@ console.log(tokenDetails)
            const res = error.response;
            toast.error(res);
        });
-    }
+     }
     return (
         <div>
             

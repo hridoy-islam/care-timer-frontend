@@ -1,17 +1,22 @@
 'use client';
 import axios from 'axios';
 import BreadCumb from '../../../../../../components/breadCumb/BreadCumb';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { userContext } from '../../../../../../context/MainContext';
 
 const page = ({params: {_id}}) => {
+  const {token} = useContext(userContext)
     const [teamMember, setTeamMember] = useState();
     const fetchData = () => {
-        axios.get(`https://clockin-backend.vercel.app/worker/${_id}`)
-            .then(function (response) {
-                // handle success
-                setTeamMember(response.data.data)
-            })
-    }
+      axios.get( `http://localhost:5000/worker/${_id}`, {
+        headers: {
+        'Authorization': `Bearer ${token}`
+        }
+        }).then(function (response) {
+          // handle success
+          setTeamMember(response?.data?.data)
+        })
+  }
     useEffect(() => {
       fetchData()
     }, [])

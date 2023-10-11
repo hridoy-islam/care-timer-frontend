@@ -1,25 +1,29 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AiOutlineEye } from "react-icons/ai";
 import { BiEditAlt } from "react-icons/bi";
 import { BsTrash3 } from "react-icons/bs";
 import React from 'react';
 import axios from 'axios';
 import Link from 'next/link';
+import { userContext } from '../../../../context/MainContext';
 
 const Page = () => {
+  const {token} = useContext(userContext)
   const [teamMember, setTeamMember] = useState();
   const fetchData = () => {
-      axios.get(`http://localhost:5000/worker?softDelete=true`)
-          .then(function (response) {
-              // handle success
-              setTeamMember(response.data.data)
-          })
-  }
+    axios.get( `http://localhost:5000/worker?softDelete=true`, {
+      headers: {
+      'Authorization': `Bearer ${token}`
+      }
+      }).then(function (response) {
+        // handle success
+        setTeamMember(response?.data?.data)
+      })
+}
   useEffect(() => {
     fetchData()
   }, [])
-  console.log(teamMember)
   return (
     <div>
       <div class="lg:w-3/4 px-4 py-10 sm:px-3 lg:px-4 lg:py-4 mx-auto">
@@ -69,7 +73,7 @@ const Page = () => {
                   </thead>
 
                   <tbody class="divide-y divide-gray-200 ">
-                  {teamMember?.length > 0 && teamMember?.map((item, index) => <tr key={index}>
+                  {teamMember?.data?.length > 0 && teamMember?.data?.map((item, index) => <tr key={index}>
                       <td class="h-px pl-6 w-px whitespace-nowrap">
                         <div class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
                         <span class="block text-md text-secondary">{item.name}</span>
@@ -100,7 +104,7 @@ const Page = () => {
                 <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200 ">
                   <div>
                     <p class="text-sm text-gray-600 ">
-                      <span class="font-semibold text-gray-800 ">{teamMember?.length}</span> results
+                      <span class="font-semibold text-gray-800 ">{teamMember?.data?.length}</span> results
                     </p>
                   </div>
 

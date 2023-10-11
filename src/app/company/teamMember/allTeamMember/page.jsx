@@ -11,12 +11,9 @@ import { useRouter } from 'next/navigation';
 import { userContext } from '../../../../context/MainContext';
 
 const Page = () => {
-  // const  userDetails   = JSON.parse(localStorage?.getItem('details'));
-  // console.log(userDetails)
   const router = useRouter()
   const {token} = useContext(userContext)
   const [teamMember, setTeamMember] = useState();
-console.log(token)
   const fetchData = () => {
       axios.get( `http://localhost:5000/worker?softDelete=false`, {
         headers: {
@@ -27,34 +24,34 @@ console.log(token)
           // handle success
           setTeamMember(response?.data?.data)
         })
-        // .then(x=>
-        //   console.log(x.data.data))
   }
   useEffect(() => {
     fetchData()
   }, [])
-  console.log(teamMember)
   // Single Worker Delete
   const handleDelete = async (_id) => {
-    // axios.delete(`http://localhost:5000/worker/${_id}`,)
-    //   .then(({ data }) => {
-    //     if (!data.success) {
-    //       toast.success('Team Member Archived', {
-    //         position: toast.POSITION.TOP_CENTER
-    //       });
-    //       return router.push('/company/teamMember/archiveTeamMember')
-    //     }
-    //     else {
-    //       toast.error("Something Error", {
-    //         position: toast.POSITION.TOP_CENTER
-    //       });
-    //       return router.push('/company/teamMember/allTeamMember')
-    //     }
-    //   })
-    //   .catch(error => {
-    //     const res = error.response;
-    //     toast.error(res);
-    //   });
+    axios.delete( `http://localhost:5000/worker/${_id}`, {
+      headers: {
+      'Authorization': `Bearer ${token}`
+      }
+      }).then(({ data }) => {
+        if (!data.success) {
+          toast.success('Team Member Archived', {
+            position: toast.POSITION.TOP_CENTER
+          });
+          return router.push('/company/teamMember/archiveTeamMember')
+        }
+        else {
+          toast.error("Something Error", {
+            position: toast.POSITION.TOP_CENTER
+          });
+          return router.push('/company/teamMember/allTeamMember')
+        }
+      })
+      .catch(error => {
+        const res = error.response;
+        toast.error(res);
+      });
 
   };
   return (

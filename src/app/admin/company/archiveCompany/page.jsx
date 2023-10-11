@@ -25,10 +25,6 @@ const Page = () => {
   useEffect(() => {
     fetchData()
   }, [])
-//   const handleDelete = async (_id) => {
-//     const proceed = window.confirm("Are you sure to delete this?");
-    
-// };
   return (
     <div>
       <div className="w-full px-4 py-10 sm:px-6 lg:px-4 lg:py-4 mx-auto">
