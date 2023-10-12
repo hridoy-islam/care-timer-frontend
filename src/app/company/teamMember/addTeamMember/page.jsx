@@ -9,7 +9,6 @@ import {  userContext } from '../../../../context/MainContext';
 
 const page = () => {
 const {token, tokenDetails} = useContext(userContext)
-console.log(tokenDetails)
     const router = useRouter()
     const {
         register,

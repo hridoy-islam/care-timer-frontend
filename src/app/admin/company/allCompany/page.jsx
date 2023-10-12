@@ -33,28 +33,36 @@ const Page = () => {
 
   // Single Company Delete
   const handleDelete = async (_id) => {
-    axios.delete( `http://localhost:5000/company/${_id}`, {
-      headers: {
-      'Authorization': `Bearer ${token}`
+    const proceed = window.confirm("Are you sure to delete this?");
+    
+    try {
+      if (proceed) {
+        axios.delete( `http://localhost:5000/company/${_id}`, {
+          headers: {
+          'Authorization': `Bearer ${token}`
+          }
+          }).then(({ data }) => {
+            if (!data.success) {
+              toast.success('Company Archived Successfully', {
+                position: toast.POSITION.TOP_CENTER
+              });
+              return router.push('/admin/company/archiveCompany')
+            }
+            else {
+              toast.error("Something Error", {
+                position: toast.POSITION.TOP_CENTER
+              });
+              return router.push('/admin/company/allCompany')
+            }
+          }).catch(error => {
+            const res = error.response;
+            toast.error(res);
+          });
       }
-      }).then(({ data }) => {
-        if (!data.success) {
-          toast.success('Company Archive Successfully', {
-            position: toast.POSITION.TOP_CENTER
-          });
-          return router.push('/admin/company/archiveCompany')
-        }
-        else {
-          toast.error("Something Error", {
-            position: toast.POSITION.TOP_CENTER
-          });
-          return router.push('/admin/company/allCompany')
-        }
-      })
-      .catch(error => {
-        const res = error.response;
-        toast.error(res);
-      });
+  } catch (error) {
+      alert(error.response);
+      toast.error("Something Went Worng");
+  }
 
   };
   return (

@@ -9,9 +9,8 @@ import { userContext } from '../../../../../../context/MainContext';
 const page = ({params: {_id}}) => {
   const {token} = useContext(userContext)
   const [company, setCompany] = useState();
-  console.log(process.env.DB_HOST)
   const fetchData = () => {
-    axios.get( `http://localhost:5000/worker/${_id}`, {
+    axios.get( `http://localhost:5000/customer/${_id}`, {
       headers: {
       'Authorization': `Bearer ${token}`
       }
@@ -52,7 +51,7 @@ const page = ({params: {_id}}) => {
                     <th scope="col" class="px-6 py-3 text-left">
                         <div class="flex items-center gap-x-2">
                           <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
-                             Phone Number
+                             Phone
                           </span>
                         </div>
                       </th>                      
@@ -66,21 +65,45 @@ const page = ({params: {_id}}) => {
                     <th scope="col" class="px-6 py-3 text-left">
                         <div class="flex items-center gap-x-2">
                           <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
-                          Holidays
+                          Address
                           </span>
                         </div>
                       </th>                      
                     <td class="h-px w-72 whitespace-nowrap">
                         <div class="px-6 py-3">
-                          <span class="block text-md text-secondary">{company?.holidays}</span>
+                          <span class="block text-md text-secondary">{company?.location}</span>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                    <th scope="col" class="px-6 py-3 text-left">
+                        <div class="flex items-center gap-x-2">
+                          <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
+                          Latitude
+                          </span>
+                        </div>
+                      </th>                      
+                    <td class="h-px w-72 whitespace-nowrap">
+                        <div class="px-6 py-3">
+                          <span class="block text-md text-secondary">{company?.latitude}</span>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                    <th scope="col" class="px-6 py-3 text-left">
+                        <div class="flex items-center gap-x-2">
+                          <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
+                          Longitude
+                          </span>
+                        </div>
+                      </th>                      
+                    <td class="h-px w-72 whitespace-nowrap">
+                        <div class="px-6 py-3">
+                          <span class="block text-md text-secondary">{company?.longitude}</span>
                         </div>
                       </td>
                     </tr>
                     
-                        <tr >
-                      
-
-                    </tr>
                   </tbody>
                 </table>
         </div >

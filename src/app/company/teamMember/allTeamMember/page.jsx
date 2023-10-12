@@ -14,13 +14,13 @@ const Page = () => {
   const router = useRouter()
   const {token} = useContext(userContext)
   const [teamMember, setTeamMember] = useState();
+
   const fetchData = () => {
       axios.get( `http://localhost:5000/worker?softDelete=false`, {
         headers: {
         'Authorization': `Bearer ${token}`
         }
         }).then(function (response) {
-          console.log(response?.data?.data)
           // handle success
           setTeamMember(response?.data?.data)
         })
@@ -30,30 +30,37 @@ const Page = () => {
   }, [])
   // Single Worker Delete
   const handleDelete = async (_id) => {
-    axios.delete( `http://localhost:5000/worker/${_id}`, {
-      headers: {
-      'Authorization': `Bearer ${token}`
+    const proceed = window.confirm("Are you sure to delete this?");
+    
+    try {
+      if (proceed) {
+        axios.delete( `http://localhost:5000/worker/${_id}`, {
+          headers: {
+          'Authorization': `Bearer ${token}`
+          }
+          }).then(({ data }) => {
+            if (!data.success) {
+              toast.success('Team Member Archived', {
+                position: toast.POSITION.TOP_CENTER
+              });
+              return router.push('/company/teamMember/archiveTeamMember')
+            }
+            else {
+              toast.error("Something Error", {
+                position: toast.POSITION.TOP_CENTER
+              });
+              return router.push('/company/teamMember/allTeamMember')
+            }
+          }).catch(error => {
+            const res = error.response;
+            toast.error(res);
+          });
       }
-      }).then(({ data }) => {
-        if (!data.success) {
-          toast.success('Team Member Archived', {
-            position: toast.POSITION.TOP_CENTER
-          });
-          return router.push('/company/teamMember/archiveTeamMember')
-        }
-        else {
-          toast.error("Something Error", {
-            position: toast.POSITION.TOP_CENTER
-          });
-          return router.push('/company/teamMember/allTeamMember')
-        }
-      })
-      .catch(error => {
-        const res = error.response;
-        toast.error(res);
-      });
-
-  };
+  } catch (error) {
+      alert(error.response);
+      toast.error("Something Went Worng");
+  }
+};
   return (
     <div>
       <div class="w-full px-4 py-10 sm:px-3 lg:px-4 lg:py-4 mx-auto">

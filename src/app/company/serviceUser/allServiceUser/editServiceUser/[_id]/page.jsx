@@ -1,18 +1,58 @@
 "use client"
 
-import BreadCumb from '../../../../components/breadCumb/BreadCumb';
-import React from 'react';
+import axios from 'axios';
+import BreadCumb from '../../../../../../components/breadCumb/BreadCumb';
+import React, { useEffect, useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
-const page = () => {
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
+import { userContext } from '../../../../../../context/MainContext';
+const page = ({params: {_id}}) => {
+    const {token} = useContext(userContext);
+    const [serviceUser, setServiceUser] = useState();
+    const router = useRouter()
     const {
         register,
         handleSubmit,
         reset,
     } = useForm();
-    const onsubmit = data => {
-       console.log(data);
-       reset
+    const onsubmit = data =>
+        axios.patch( `http://localhost:5000/customer/${_id}`, data,  {
+            headers: {
+            'Authorization': `Bearer ${token}`
+            }
+            }).then(({ data }) => {
+                    if (!data.success) {
+                      toast.success('Service User Edit Successfully', {
+                        position: toast.POSITION.TOP_CENTER
+                      });
+                      return router.push('/company/serviceUser/allServiceUser')
+                    }
+                    else {
+                      toast.error("Something Error", {
+                        position: toast.POSITION.TOP_CENTER
+                      });
+                      return router.push('/company/serviceUser/editServiceUser')
+                    }
+                  })
+            .catch(error => {
+                const res = error.response;
+                toast.error(res);
+            });
+    const fetchData = () => {
+        axios.get( `http://localhost:5000/customer/${_id}`, {
+          headers: {
+          'Authorization': `Bearer ${token}`
+          }
+          }).then(function (response) {
+            // handle success
+            setServiceUser(response?.data?.data)
+          })
     }
+    useEffect(() => {
+      fetchData()
+    }, [])
+    console.log(serviceUser)
     return (
         <div>
             <div className='bg-white border border-gray-200 rounded-xl shadow-sm p-6 mx-4'>
@@ -32,6 +72,7 @@ const page = () => {
                                             id="name"
                                             placeholder='name'
                                             required
+                                            defaultValue={serviceUser?.name}
                                             className="block w-full pl-4 rounded-md border-0 py-2 text-[gray-900 ] shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
                                             {...register('name')}
                                         />
@@ -48,6 +89,7 @@ const page = () => {
                                             id="latitude"
                                             placeholder='latitude'
                                             required
+                                            defaultValue={serviceUser?.latitude}
                                             className="block w-full pl-4 rounded-md border-0 py-2 text-[gray-900 ] shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
                                             {...register('latitude')}
                                         />
@@ -71,6 +113,7 @@ const page = () => {
                                             id="longitude"
                                             placeholder='longitude'
                                             required
+                                            defaultValue={serviceUser?.longitude}
                                             className="block pl-4 w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
                                             {...register('longitude')}
                                         />
@@ -83,12 +126,13 @@ const page = () => {
                                     <div className="mt-2">
                                         <input
                                             type="text"
-                                            name="address"
-                                            id="address"
+                                            name="location"
+                                            id="location"
                                             placeholder='address'
                                             required
+                                            defaultValue={serviceUser?.location}
                                             className="block pl-4 w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
-                                            {...register('address')}
+                                            {...register('location')}
                                         />
                                     </div>
                                 </div>

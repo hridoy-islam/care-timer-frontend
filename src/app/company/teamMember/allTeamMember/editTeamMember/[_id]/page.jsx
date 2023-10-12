@@ -8,7 +8,8 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 
 const page = ({params: {_id}}) => {
-    const {token} = useContext(userContext)
+    const {token} = useContext(userContext);
+    const [teamMember, setTeamMember] = useState();
     const router = useRouter()
     const {
         register,
@@ -38,7 +39,6 @@ const page = ({params: {_id}}) => {
                 const res = error.response;
                 toast.error(res);
             });
-    const [teamMember, setTeamMember] = useState();
     const fetchData = () => {
         axios.get( `http://localhost:5000/worker/${_id}`, {
           headers: {

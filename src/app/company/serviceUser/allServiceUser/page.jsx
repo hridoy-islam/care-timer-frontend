@@ -8,24 +8,59 @@ import React from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
-import { MenuContext } from "../../../../context/MenuContext";
+import { userContext } from '../../../../context/MainContext';
+import { useRouter } from 'next/navigation';
 
 const Page = () => {
-  const { tokenDetails,  setTokenDetails } = useContext(MenuContext);
-  console.log(tokenDetails?.data)
+  const router = useRouter()
+  const {token, tokenDetails} = useContext(userContext)
   const [serviceUser, setServiceUser] = useState();
   const fetchData = () => {
-    axios.get(`https://clockin-backend.vercel.app/customer`)
-      .then(function (response) {
+    axios.get( `http://localhost:5000/customer?softDelete=false&company=${tokenDetails?.data?._id}`, {
+      headers: {
+      'Authorization': `Bearer ${token}`
+      }
+      }).then(function (response) {
         // handle success
-        setServiceUser(response.data.data)
+        setServiceUser(response?.data?.data)
       })
-  }
+}
   useEffect(() => {
     fetchData()
   }, [])
   const handleDelete = async (_id) => {
     const proceed = window.confirm("Are you sure to delete this?");
+    
+    try {
+      if (proceed) {
+        axios.delete( `http://localhost:5000/customer/${_id}`, {
+          headers: {
+          'Authorization': `Bearer ${token}`
+          }
+          }).then(({ data }) => {
+            if (!data.success) {
+              toast.success('Service User Archived', {
+                position: toast.POSITION.TOP_CENTER
+              });
+              return router.push('/company/serviceUser/archiveServiceUser')
+            }
+            else {
+              toast.error("Something Error", {
+                position: toast.POSITION.TOP_CENTER
+              });
+              return router.push('/company/serviceUser/allServiceUser')
+            }
+          }).catch(error => {
+            const res = error.response;
+            toast.error(res);
+          });
+      }
+  } catch (error) {
+      alert(error.response);
+      toast.error("Something Went Worng");
+  }
+        
+      
     
 };
   return (
@@ -87,7 +122,7 @@ const Page = () => {
                   </thead>
 
                   <tbody class="divide-y divide-gray-200 ">
-                    {serviceUser?.length > 0 && serviceUser?.map((item, index) => <tr key={index}>
+                    {serviceUser?.data?.length > 0 && serviceUser?.data?.map((item, index) => <tr key={index}>
                       <td class="h-px pl-6 w-px whitespace-nowrap">
                         <div class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
                           <span class="block text-md text-secondary">{item.name}</span>
@@ -103,7 +138,7 @@ const Page = () => {
                       <td class="h-px w-24 whitespace-nowrap">
                         <div className="flex justify-evenly ">
                           <div class="hs-tooltip inline-block">
-                            <Link href='/company/serviceUser/viewServiceUser'>
+                            <Link href={`/company/serviceUser/allServiceUser/viewServiceUser/${item._id}`}>
                             <button type="button" class="hs-tooltip-toggle text-2xl">
                               <AiOutlineEye fill="#979797" />
                               <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
@@ -113,7 +148,7 @@ const Page = () => {
                             </Link>
                           </div>
                           <div class="hs-tooltip inline-block">
-                            <Link href='/company/serviceUser/editServiceUser'>
+                            <Link href={`/company/serviceUser/allServiceUser/editServiceUser/${item._id}`}>
                             <button type="button" class="hs-tooltip-toggle text-2xl">
                               <BiEditAlt fill="#979797" />
                               <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
@@ -138,7 +173,7 @@ const Page = () => {
                 <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200 ">
                   <div>
                     <p class="text-sm text-gray-600 ">
-                      <span class="font-semibold text-gray-800 ">{serviceUser?.length}</span> results
+                      <span class="font-semibold text-gray-800 ">{serviceUser?.data?.length}</span> results
                     </p>
                   </div>
 

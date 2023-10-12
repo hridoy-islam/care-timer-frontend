@@ -4,10 +4,12 @@ import axios from 'axios';
 import BreadCumb from '../../../../components/breadCumb/BreadCumb';
 import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify';
 import { userContext } from '../../../../context/MainContext';
 const page = () => {
-    const {tokenDetails} = useContext(userContext)
+    const {token, tokenDetails} = useContext(userContext)
+    const router = useRouter()
     const {
         register,
         handleSubmit,
@@ -15,25 +17,30 @@ const page = () => {
     } = useForm();
     const onsubmit = data => {
         console.log(data)
-        axios.post(`http://localhost:5000/customer`, data)
-        .then(({ data }) => {
-            console.log(data)
-            if (data.success) {
-                toast.success("Create Service User");
-                // navigate('/');
+        axios.post( `http://localhost:5000/customer`, data,  {
+         headers: {
+         'Authorization': `Bearer ${token}`
+         }
+         }).then(( {data} ) => {
+            if (!data.success) {
+                toast.success('Team Member Added', {
+                    position: toast.POSITION.TOP_CENTER
+                  });
+                return router.push('/company/serviceUser/allServiceUser')
             }
             else {
-                toast.success("Something Wrong");
-                // navigate('/');
-            }
+                toast.error("Something Error", {
+                position: toast.POSITION.TOP_CENTER
+              });
+              return router.push('/company/serviceUser/addServiceUser')
+            };
             reset()
- 
-        })
-        .catch(error => {
-            const res = error.response;
-            toast.error(res);
-        });
-    }
+       })
+       .catch(error => {
+           const res = error.response;
+           toast.error(res);
+       });
+     }
     return (
         <div>
             <div className='bg-white border border-gray-200 rounded-xl shadow-sm p-6 mx-4'>
