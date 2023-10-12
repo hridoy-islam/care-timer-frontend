@@ -46,7 +46,7 @@ const Page = () => {
               toast.success('Company Archived Successfully', {
                 position: toast.POSITION.TOP_CENTER
               });
-              return router.push('/admin/company/archiveCompany')
+              return router.push('/admin/company/allCompany')
             }
             else {
               toast.error("Something Error", {

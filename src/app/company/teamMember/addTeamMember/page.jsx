@@ -125,12 +125,9 @@ const {token, tokenDetails} = useContext(userContext)
                                     </div>
                                 </div>
                                 <div className="col-span-3">
-                                    <label htmlFor="city" className="block text-md font-medium leading-6 text-gray-900">
-                                        Company
-                                    </label>
-                                    <div className="mt-2">
+                                    <div className="">
                                         <input
-                                            type="text"
+                                            type="hidden"
                                             name="company"
                                             id="company"
                                             placeholder='company'

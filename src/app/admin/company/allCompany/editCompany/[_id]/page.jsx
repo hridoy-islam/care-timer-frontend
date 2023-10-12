@@ -23,7 +23,7 @@ const page = ({params: {_id}}) => {
             }
             }).then(({ data }) => {
                     if (!data.success) {
-                      toast.success('Company Edit Successfully', {
+                      toast.success('Company Update Successfully', {
                         position: toast.POSITION.TOP_CENTER
                       });
                       return router.push('/admin/company/allCompany')
@@ -58,7 +58,7 @@ const page = ({params: {_id}}) => {
         <div>
             
             <div className='bg-white border border-gray-200 rounded-xl shadow-sm p-6 mx-4'>
-            <BreadCumb title="Edit Company" />
+            <BreadCumb title="Update Company" />
             <form onSubmit={handleSubmit(onsubmit)} className='container mx-auto py-4'>
                     <div className="space-y-12 mt-8">
                         <div className=" pb-4">
@@ -195,7 +195,7 @@ const page = ({params: {_id}}) => {
                     </div>
                     <div className="mt-6 flex items-center lg:justify-end justify-center gap-x-12 ">
                         <button type="submit" className="py-3 px-8 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-[#fff] hover:bg-[#f98808c0] focus:outline-none focus:ring-2 focus:ring-[#F98708] focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
-                            Edit Company
+                            Update Company
                         </button>
                     </div>
                 </form>

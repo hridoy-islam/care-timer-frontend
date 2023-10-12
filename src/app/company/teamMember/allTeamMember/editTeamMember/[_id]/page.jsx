@@ -23,7 +23,7 @@ const page = ({params: {_id}}) => {
             }
             }).then(({ data }) => {
                     if (!data.success) {
-                      toast.success('Team Member Edit Successfully', {
+                      toast.success('Team Member Update Successfully', {
                         position: toast.POSITION.TOP_CENTER
                       });
                       return router.push('/company/teamMember/allTeamMember')
@@ -55,7 +55,7 @@ const page = ({params: {_id}}) => {
     return (
         <div>
             <div className='bg-white border border-gray-200 rounded-xl shadow-sm p-6 mx-4'>
-            <BreadCumb title="Edit Team Member" />
+            <BreadCumb title="Update Team Member" />
             <form onSubmit={handleSubmit(onsubmit)} className='container mx-auto py-4'>
                     <div className="space-y-12 mt-8">
                         <div className=" pb-4">
@@ -143,7 +143,7 @@ const page = ({params: {_id}}) => {
                     </div>
                     <div className="mt-6 flex items-center lg:justify-end justify-center gap-x-12 ">
                         <button type="submit" class="py-3 px-8 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-[#fff] hover:bg-[#f98808c0] focus:outline-none focus:ring-2 focus:ring-[#F98708] focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
-                            Edit Team Member
+                            Update Team Member
                         </button>
                     </div>
                 </form>

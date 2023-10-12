@@ -42,7 +42,7 @@ const Page = () => {
               toast.success('Service User Archived', {
                 position: toast.POSITION.TOP_CENTER
               });
-              return router.push('/company/serviceUser/archiveServiceUser')
+              return router.push('/company/serviceUser/allServiceUser')
             }
             else {
               toast.error("Something Error", {
