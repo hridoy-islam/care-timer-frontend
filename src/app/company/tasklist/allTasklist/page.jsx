@@ -1,24 +1,67 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { AiOutlineEye } from "react-icons/ai";
 import { BiEditAlt } from "react-icons/bi";
 import { BsTrash3 } from "react-icons/bs";
 import React from 'react';
 import axios from 'axios';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
+import { userContext } from '../../../../context/MainContext';
 
 const Page = () => {
+  const router = useRouter()
+  const {token, tokenDetails} = useContext(userContext)
   const [tasklist, setTasklist] = useState();
   const fetchData = () => {
-    axios.get(`https://clockin-backend.vercel.app/tasklist`)
-      .then(function (response) {
+    axios.get( `http://localhost:5000/tasklist?softDelete=false&company=${tokenDetails?.data?._id}`, {
+      headers: {
+      'Authorization': `Bearer ${token}`
+      }
+      }).then(function (response) {
         // handle success
-        setTasklist(response.data.data)
+        setTasklist(response?.data?.data)
       })
-  }
+}
   useEffect(() => {
     fetchData()
   }, [])
+  const handleDelete = async (_id) => {
+    const proceed = window.confirm("Are you sure to delete this?");
+    
+    try {
+      if (proceed) {
+        axios.delete( `http://localhost:5000/tasklist/${_id}`, {
+          headers: {
+          'Authorization': `Bearer ${token}`
+          }
+          }).then(({ data }) => {
+            if (data.success) {
+              toast.success('Task list Archived', {
+                position: toast.POSITION.TOP_CENTER
+              });
+              return router.push('/company/tasklist/allTasklist')
+            }
+            else {
+              toast.error("Something Error", {
+                position: toast.POSITION.TOP_CENTER
+              });
+              return router.push('/company/tasklist/allTasklist')
+            }
+          }).catch(error => {
+            const res = error.response;
+            toast.error(res);
+          });
+      }
+  } catch (error) {
+      alert(error.response);
+      toast.error("Something Went Worng");
+  }
+        
+      
+    
+};
   return (
     <div>
       <div class="max-w-[40rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-4 mx-auto">
@@ -56,6 +99,13 @@ const Page = () => {
                           </span>
                         </div>
                       </th>
+                      <th scope="col" class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3 text-left">
+                        <div class="flex items-center gap-x-2 pl-6">
+                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
+                            Status
+                          </span>
+                        </div>
+                      </th>
 
 
                       <th scope="col" class="px-6 py-3 text-center">
@@ -69,10 +119,15 @@ const Page = () => {
                   </thead>
 
                   <tbody class="divide-y divide-gray-200 ">
-                    {tasklist?.length > 0 && tasklist?.map((item, index) => <tr key={index}>
+                    {tasklist?.data?.length > 0 && tasklist?.data?.map((item, index) => <tr key={index}>
                       <td class="h-px pl-6 w-px whitespace-nowrap">
                         <div class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
                           <span class="block text-md text-secondary">{item.taskName}</span>
+                        </div>
+                      </td>
+                      <td class="h-px pl-6 w-px whitespace-nowrap">
+                        <div class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
+                          <span class="block text-md text-secondary capitalize">{item.status}</span>
                         </div>
                       </td>
 
@@ -81,7 +136,7 @@ const Page = () => {
                         <div className="flex justify-evenly ">
 
                           <div class="hs-tooltip inline-block">
-                            <Link href='/company/tasklist/editTasklist'>
+                            <Link href={`/company/tasklist/allTasklist/editTasklist/${item._id}`}>
                             <button type="button" class="hs-tooltip-toggle text-2xl">
                               <BiEditAlt fill="#979797" />
                               <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
@@ -91,7 +146,7 @@ const Page = () => {
                             </Link>
                           </div>
                           <div class="hs-tooltip inline-block pr-2">
-                            <button type="button" class="hs-tooltip-toggle text-xl">
+                            <button onClick={() => handleDelete(item._id)} type="button" class="hs-tooltip-toggle text-xl">
                               <BsTrash3 fill="red" />
                               <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-red-800 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
                                 Delete
@@ -106,7 +161,7 @@ const Page = () => {
                 <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200 ">
                   <div>
                     <p class="text-sm text-gray-600 ">
-                      <span class="font-semibold text-gray-800 ">{tasklist?.length}</span> results
+                      <span class="font-semibold text-gray-800 ">{tasklist?.data?.length}</span> results
                     </p>
                   </div>
 

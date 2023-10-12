@@ -25,13 +25,13 @@ const page = () => {
                 toast.success('Task Added', {
                     position: toast.POSITION.TOP_CENTER
                   });
-                return router.push('/')
+                return router.push('/company/tasklist/allTasklist')
             }
             else {
                 toast.error("Something Error", {
                 position: toast.POSITION.TOP_CENTER
               });
-              return router.push('/r')
+              return router.push('/company/tasklist/addTasklist')
             };
             reset()
        })
@@ -65,26 +65,9 @@ const page = () => {
                                     </div>
                                 </div>
                                 <div className="col-span-3">
-                                    <label htmlFor="city" className="block text-md font-medium leading-6 text-gray-900">
-                                    Status
-                                    </label>
-                                    <div className="mt-2">
-                                    <select name="status" id="status"  {...register('status')}className="block w-full lg:w-full pl-4 rounded-md border-0 py-2 text-[gray-900 ] shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6">
-                                <option disabled selected value={''}>Status</option>
-
-                                <option value={'Pending'}>Pending</option>
-                                <option value={'Approve'}>Approve</option>
-                                <option value={'Completed'}>Completed</option>
-                            </select>
-                                    </div>
-                                </div>
-                                <div className="col-span-3">
-                                    <label htmlFor="city" className="block text-md font-medium leading-6 text-gray-900">
-                                    Company
-                                    </label>
                                     <div className="mt-2">
                                         <input
-                                            type="text"
+                                            type="hidden"
                                             name="company"
                                             id="company"
                                             placeholder='company'

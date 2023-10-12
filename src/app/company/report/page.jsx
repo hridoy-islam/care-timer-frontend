@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AiOutlineEye } from "react-icons/ai";
 import { BiEditAlt, BiSolidDownload } from "react-icons/bi";
 import { BsTrash3 } from "react-icons/bs";
@@ -7,16 +7,21 @@ import React, { CSSProperties } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 import Select from 'react-select'
+import { userContext } from '../../../context/MainContext';
 // import { DateRangePicker } from 'rsuite';
 const Page = () => {
   const [service, setService] = useState();
+  const {token, tokenDetails} = useContext(userContext)
   const fetchData = () => {
-    axios.get(`https://clockinserver.vercel.app/service/fake/data`)
-      .then(function (response) {
+    axios.get( `http://localhost:5000/service?softDelete=false`, {
+      headers: {
+      'Authorization': `Bearer ${token}`
+      }
+      }).then(function (response) {
         // handle success
-        setService(response.data.data)
+        setService(response?.data?.data)
       })
-  }
+}
   useEffect(() => {
     fetchData()
   }, [])
@@ -90,7 +95,15 @@ const Page = () => {
                       <th scope="col" class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3 text-left">
                         <div class="flex items-center gap-x-2 pl-6">
                           <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
-                            ServiceDate
+                            Service Name
+                          </span>
+                        </div>
+                      </th>
+
+                      <th scope="col" class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3 text-left">
+                        <div class="flex items-center gap-x-2 pl-6">
+                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
+                            Service Date
                           </span>
                         </div>
                       </th>
@@ -116,13 +129,6 @@ const Page = () => {
                           </span>
                         </div>
                       </th>
-                      <th scope="col" class="px-6 py-3 text-left">
-                        <div class="flex items-center gap-x-2">
-                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
-                            Service User
-                          </span>
-                        </div>
-                      </th>
                       <th scope="col" class="px-8 py-3 text-left">
                         <div class="flex items-center gap-x-2">
                           <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
@@ -131,7 +137,7 @@ const Page = () => {
                         </div>
                       </th>
                       <th scope="col" class="px-6 py-3 text-left">
-                        <div class="flex items-center gap-x-2">
+                        <div class="flex items-center gap-x-2 justify-center">
                           <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
                             Action
                           </span>
@@ -141,7 +147,12 @@ const Page = () => {
                   </thead>
 
                   <tbody class="divide-y divide-gray-200 ">
-                    {service?.length > 0 && service?.map((item, index) => <tr key={index}>
+                    {service?.data?.length > 0 && service?.data?.map((item, index) => <tr key={index}>
+                      <td class="h-px w-72 whitespace-nowrap">
+                        <div class="px-6 py-3">
+                          <span class="block text-md text-secondary">{item.serviceName}</span>
+                        </div>
+                      </td>
                       <td class="h-px pl-6 w-px whitespace-nowrap">
                         <div class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
                           <span class="block text-md text-secondary">{item.serviceDate.slice(0, 10)}</span>
@@ -149,22 +160,17 @@ const Page = () => {
                       </td>
                       <td class="h-px w-72 whitespace-nowrap">
                         <div class="px-6 py-3">
-                          <span class="block text-md text-secondary">{item.serviceTimeStart.slice(11, 16)}</span>
+                          <span class="block text-md text-secondary">{item.serviceTimeStart}</span>
                         </div>
                       </td>
                       <td class="h-px w-72 whitespace-nowrap">
                         <div class="px-6 py-3">
-                          <span class="block text-md text-secondary">{item.serviceTimeEnd.slice(11, 16)}</span>
+                          <span class="block text-md text-secondary">{item.serviceTimeEnd}</span>
                         </div>
                       </td>
                       <td class="h-px w-72 whitespace-nowrap">
                         <div class="px-6 py-3">
-                          <span class="block text-md text-secondary">{item.customer.slice(0, 2)}</span>
-                        </div>
-                      </td>
-                      <td class="h-px w-72 whitespace-nowrap">
-                        <div class="px-6 py-3">
-                          <span class="block text-md text-secondary">{item.customer.slice(0, 16)}</span>
+                          <span class="block text-md text-secondary">{item.duration}</span>
                         </div>
                       </td>
                       <td class="h-px w-72 whitespace-nowrap">
@@ -176,7 +182,7 @@ const Page = () => {
                       <td class="h-px w-72 whitespace-nowrap">
                         <div className="flex justify-evenly ">
                           <div class="hs-tooltip inline-block">
-                            <Link href='/company/report/viewReport'>
+                            <Link href={`/company/report/viewReport/${item._id}`}>
                               <button type="button" class="hs-tooltip-toggle text-2xl">
                                 <AiOutlineEye fill="#979797" />
                                 <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
@@ -186,7 +192,7 @@ const Page = () => {
                             </Link>
                           </div>
                           <div class="hs-tooltip inline-block">
-                            <Link href='/company/report/editReport'>
+                            <Link href={`/company/report/editReport/${item._id}`}>
                               <button type="button" class="hs-tooltip-toggle text-2xl">
                                 <BiEditAlt fill="#979797" />
                                 <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
@@ -211,7 +217,7 @@ const Page = () => {
                 <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200 ">
                   <div>
                     <p class="text-sm text-gray-600 ">
-                      <span class="font-semibold text-gray-800 ">{service?.length}</span> results
+                      <span class="font-semibold text-gray-800 ">{service?.data?.length}</span> results
                     </p>
                   </div>
 

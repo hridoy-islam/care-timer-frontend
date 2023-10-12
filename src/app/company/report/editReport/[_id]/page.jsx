@@ -1,5 +1,5 @@
 'use client';
-import BreadCumb from '../../../../components/breadCumb/BreadCumb';
+import BreadCumb from '../../../../../components/breadCumb/BreadCumb';
 import React from 'react';
 import Select from 'react-select'
 import { Controller, useController, useForm } from 'react-hook-form';
@@ -40,7 +40,7 @@ const page = () => {
     return (
         <div>
             <div className='bg-white border border-gray-200 rounded-xl shadow-sm p-6 mx-4 '>
-                <BreadCumb title="Edit Report" />
+                <BreadCumb title="Update Report" />
                 <form onSubmit={handleSubmit(onsubmit)} className='container mx-auto py-4'>
                     <div className="space-y-12 mt-8">
                         <div className=" pb-4">
@@ -131,22 +131,30 @@ const page = () => {
                                         />
                                     </div>
                                 </div>
-
-                                <Select
+                                <div className="col-span-3">
+                                    <label htmlFor="region" className="block text-md font-medium leading-6 text-gray-900">
+                                        Task List
+                                    </label>
+                                    <div className="mt-2">
+                                    <Select
                                     className='select-input'
-                                    placeholder="Select Team Member"
+                                    placeholder="Select Task list"
                                     isClearable
                                     options={taskList}
                                     value={taskValue ? taskList.find(x => x.value === taskValue) : taskValue}
                                     onChange={option => taskOnChange(option ? option.value : option)}
                                     {...taskField}
                                 />
+                                    </div>
+                                </div>
+
+                                
                             </div>
                         </div>
                     </div>
                     <div className="mt-6 flex items-center justify-center lg:justify-end gap-x-12 ">
                         <button type="submit" class="py-3 px-8 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-[#fff] hover:bg-[#f98808c0] focus:outline-none focus:ring-2 focus:ring-[#F98708] focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
-                            Edit Report
+                            Update Report
                         </button>
                     </div>
                 </form>

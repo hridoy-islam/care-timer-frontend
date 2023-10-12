@@ -190,12 +190,12 @@ const AdminSidebar = forwardRef(({ showNav }, ref) => {
           </div>
         </li>
         <li className={`flex justify-start items-center text-lg text-secondary  rounded-lg px-2 py-2 my-2  ${
-              pathname == "/company/report/allReport"
+              pathname == "/company/report"
                 ? "bg-orange-100 text-orange-500"
                 : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
             }`}>
           <MdReport className='mr-2 ' />
-          <Link href='/company/report/allReport' >
+          <Link href='/company/report' >
             Report
           </Link>
         </li>

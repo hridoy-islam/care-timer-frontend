@@ -1,21 +1,28 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { AiOutlineEye } from "react-icons/ai";
 import { BiEditAlt } from "react-icons/bi";
 import { BsTrash3 } from "react-icons/bs";
 import React from 'react';
 import axios from 'axios';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { userContext } from '../../../../context/MainContext';
 
 const Page = () => {
+  const router = useRouter()
+  const {token, tokenDetails} = useContext(userContext)
   const [tasklist, setTasklist] = useState();
   const fetchData = () => {
-    axios.get(`https://clockinserver.vercel.app/tasklist/fake/data`)
-      .then(function (response) {
+    axios.get( `http://localhost:5000/tasklist?softDelete=true&company=${tokenDetails?.data?._id}`, {
+      headers: {
+      'Authorization': `Bearer ${token}`
+      }
+      }).then(function (response) {
         // handle success
-        setTasklist(response.data.data)
+        setTasklist(response?.data?.data)
       })
-  }
+}
   useEffect(() => {
     fetchData()
   }, [])
@@ -69,7 +76,7 @@ const Page = () => {
                   </thead>
 
                   <tbody class="divide-y divide-gray-200 ">
-                    {tasklist?.length > 0 && tasklist?.map((item, index) => <tr key={index}>
+                    {tasklist?.data?.length > 0 && tasklist?.data?.map((item, index) => <tr key={index}>
                       <td class="h-px pl-6 w-px whitespace-nowrap">
                         <div class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
                           <span class="block text-md text-secondary">{item.taskName}</span>
@@ -106,7 +113,7 @@ const Page = () => {
                 <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200 ">
                   <div>
                     <p class="text-sm text-gray-600 ">
-                      <span class="font-semibold text-gray-800 ">{tasklist?.length}</span> results
+                      <span class="font-semibold text-gray-800 ">{tasklist?.data?.length}</span> results
                     </p>
                   </div>
 

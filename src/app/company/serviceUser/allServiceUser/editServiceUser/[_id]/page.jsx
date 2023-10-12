@@ -52,7 +52,6 @@ const page = ({params: {_id}}) => {
     useEffect(() => {
       fetchData()
     }, [])
-    console.log(serviceUser)
     return (
         <div>
             <div className='bg-white border border-gray-200 rounded-xl shadow-sm p-6 mx-4'>
