@@ -8,7 +8,8 @@ import { Controller, useController, useForm } from "react-hook-form";
 const page = () => {
   const { token, tokenDetails } = useContext(userContext);
   const [taskList, setTaskList] = useState([]);
-  // const [singleTask, setSingleTask] = useState([]);
+  const [teamMembers, setTeamMembers] = useState([]);
+  const [serviceUsers, setServiceUsers] = useState([]);
   // const [tasklist, setTasklist] = useState();
   const taskFetchData = () => {
     axios
@@ -22,12 +23,53 @@ const page = () => {
       )
       .then(function (response) {
         // handle success
-        console.log(response?.data?.data?.data);
         setTaskList(response?.data?.data?.data);
       });
   };
+
+  const fetchTeamMemberData = () => {
+    try {
+      axios
+        .get(`${process.env.NEXT_PUBLIC_API_URL}/worker?softDelete=false`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          if (!res.status) {
+            throw new Error("Failed to fetch team member data");
+          }
+          setTeamMembers(res?.data?.data?.data);
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchServiceUsersData = () => {
+    try {
+      axios
+        .get(
+          `${process.env.NEXT_PUBLIC_API_URL}/customer?softDelete=false&company=${tokenDetails?.data?._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then(function (response) {
+          // handle success
+          setServiceUsers(response?.data?.data?.data);
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     taskFetchData();
+    fetchTeamMemberData();
+    fetchServiceUsersData();
   }, []);
 
   const taskListOption = taskList.map((task) => ({
@@ -35,21 +77,31 @@ const page = () => {
     label: task.taskName,
   }));
 
+  const teamMembersOption = teamMembers.map((team) => ({
+    value: team._id,
+    label: team.name,
+  }));
+
+  const serviceUserOption = serviceUsers.map((user) => ({
+    value: user._id,
+    label: user.name,
+  }));
+
   const { register, handleSubmit, reset, control } = useForm();
   const onsubmit = (data) => {
     console.log(data);
     reset;
   };
-  const teamMember = [
-    { value: "Vin", label: "Vin" },
-    { value: "John", label: "John" },
-    { value: "Philip", label: "Philip" },
-  ];
-  const serviceUser = [
-    { value: "Dom", label: "Dom" },
-    { value: "Harry", label: "Harry" },
-    { value: "Tony", label: "Tony" },
-  ];
+  // const teamMember = [
+  //   { value: "Vin", label: "Vin" },
+  //   { value: "John", label: "John" },
+  //   { value: "Philip", label: "Philip" },
+  // ];
+  // const serviceUser = [
+  //   { value: "Dom", label: "Dom" },
+  //   { value: "Harry", label: "Harry" },
+  //   { value: "Tony", label: "Tony" },
+  // ];
   // const taskList = [
   //   { taskName: "Pliers and Drills", id: "Pliers and Drills" },
   //   { taskName: "Repairing Wiring Systems", id: "Repairing Wiring Systems" },
@@ -69,8 +121,6 @@ const page = () => {
   const {
     field: { value: taskValue, onChange: taskOnChange, ...taskField },
   } = useController({ name: "taskName", control });
-
-  console.log(taskValue);
 
   return (
     <div>
@@ -155,10 +205,10 @@ const page = () => {
                       className="select-input"
                       placeholder="Select Service User"
                       isClearable
-                      options={serviceUser}
+                      options={serviceUserOption}
                       value={
                         serviceValue
-                          ? serviceUser.find((x) => x.value === serviceValue)
+                          ? serviceUsers.find((x) => x.value === serviceValue)
                           : serviceValue
                       }
                       onChange={(option) =>
@@ -180,7 +230,7 @@ const page = () => {
                       className="select-input"
                       placeholder="Select Team Member"
                       isClearable
-                      options={teamMember}
+                      options={teamMembersOption}
                       value={
                         teamValue
                           ? teamMember.find((x) => x.value === teamValue)
