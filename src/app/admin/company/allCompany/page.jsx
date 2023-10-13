@@ -1,32 +1,31 @@
 'use client';
 
-import { useContext, useEffect, useState } from 'react';
+import axios from 'axios';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React, { useContext, useEffect, useState } from 'react';
 import { AiOutlineEye } from "react-icons/ai";
 import { BiEditAlt } from "react-icons/bi";
 import { BsTrash3 } from "react-icons/bs";
-import React from 'react';
-import axios from 'axios';
-import Link from 'next/link';
 import { toast } from 'react-toastify';
-import { useRouter } from 'next/navigation'
 import { userContext } from '../../../../context/MainContext';
 
-const Page = () => { 
-  const {token} = useContext(userContext)
+const Page = () => {
+  const { token } = useContext(userContext)
   const router = useRouter()
   const [company, setCompany] = useState();
 
   // All Company View
   const fetchData = () => {
-    axios.get( `http://localhost:5000/company?softDelete=false&role=company`, {
+    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/company?softDelete=false&role=company`, {
       headers: {
-      'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`
       }
-      }).then(function (response) {
-        // handle success
-        setCompany(response?.data?.data)
-      })
-}
+    }).then(function (response) {
+      // handle success
+      setCompany(response?.data?.data)
+    })
+  }
   useEffect(() => {
     fetchData()
   }, [])
@@ -34,35 +33,35 @@ const Page = () => {
   // Single Company Delete
   const handleDelete = async (_id) => {
     const proceed = window.confirm("Are you sure to delete this?");
-    
+
     try {
       if (proceed) {
-        axios.delete( `http://localhost:5000/company/${_id}`, {
+        axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/company/${_id}`, {
           headers: {
-          'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`
           }
-          }).then(({ data }) => {
-            if (!data.success) {
-              toast.success('Company Archived Successfully', {
-                position: toast.POSITION.TOP_CENTER
-              });
-              return router.push('/admin/company/allCompany')
-            }
-            else {
-              toast.error("Something Error", {
-                position: toast.POSITION.TOP_CENTER
-              });
-              return router.push('/admin/company/allCompany')
-            }
-          }).catch(error => {
-            const res = error.response;
-            toast.error(res);
-          });
+        }).then(({ data }) => {
+          if (!data.success) {
+            toast.success('Company Archived Successfully', {
+              position: toast.POSITION.TOP_CENTER
+            });
+            return router.push('/admin/company/allCompany')
+          }
+          else {
+            toast.error("Something Error", {
+              position: toast.POSITION.TOP_CENTER
+            });
+            return router.push('/admin/company/allCompany')
+          }
+        }).catch(error => {
+          const res = error.response;
+          toast.error(res);
+        });
       }
-  } catch (error) {
+    } catch (error) {
       alert(error.response);
       toast.error("Something Went Worng");
-  }
+    }
 
   };
   return (

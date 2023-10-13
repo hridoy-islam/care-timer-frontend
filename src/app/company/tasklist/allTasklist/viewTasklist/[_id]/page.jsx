@@ -1,114 +1,114 @@
 'use client';
 import axios from 'axios';
-import BreadCumb from '../../../../../../components/breadCumb/BreadCumb';
 import React, { useContext, useEffect, useState } from 'react';
+import BreadCumb from '../../../../../../components/breadCumb/BreadCumb';
 import { userContext } from '../../../../../../context/MainContext';
 
-const page = ({params: {_id}}) => {
-  const {token} = useContext(userContext)
+const page = ({ params: { _id } }) => {
+  const { token } = useContext(userContext)
   const [serviceUser, setServiceUser] = useState();
-    const fetchData = () => {
-      axios.get( `http://localhost:5000/customer/${_id}`, {
-        headers: {
+  const fetchData = () => {
+    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/customer/${_id}`, {
+      headers: {
         'Authorization': `Bearer ${token}`
-        }
-        }).then(function (response) {
-          // handle success
-          setServiceUser(response?.data?.data)
-        })
+      }
+    }).then(function (response) {
+      // handle success
+      setServiceUser(response?.data?.data)
+    })
   }
-    useEffect(() => {
-      fetchData()
-    }, [])
-    console.log(serviceUser)
-    return (
-        <div className='bg-white border border-gray-200 rounded-xl shadow-sm p-6  w-3/4 mx-auto'>
-            <BreadCumb title="Team Member Details" />
-            <table class="min-w-full mt-6 divide-y divide-gray-200 ">
-                  {/* <thead class="bg-gray-50 ">
+  useEffect(() => {
+    fetchData()
+  }, [])
+  console.log(serviceUser)
+  return (
+    <div className='bg-white border border-gray-200 rounded-xl shadow-sm p-6  w-3/4 mx-auto'>
+      <BreadCumb title="Team Member Details" />
+      <table class="min-w-full mt-6 divide-y divide-gray-200 ">
+        {/* <thead class="bg-gray-50 ">
                     
                       
                       
                   </thead> */}
 
-                  <tbody class="divide-y divide-gray-200 ">
-                    <tr>
-                    <th scope="col" class="px-6 py-3 text-left">
-                        <div class="flex items-center gap-x-2">
-                          <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
-                           Name
-                          </span>
-                        </div>
-                      </th>                      
-                    <td class="h-px w-72 whitespace-nowrap">
-                        <div class="px-6 py-3">
-                          <span class="block text-md text-secondary">{serviceUser?.name}</span>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                    <th scope="col" class="px-6 py-3 text-left">
-                        <div class="flex items-center gap-x-2">
-                          <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
-                          Phone
-                          </span>
-                        </div>
-                      </th>                      
-                    <td class="h-px w-72 whitespace-nowrap">
-                        <div class="px-6 py-3">
-                          <span class="block text-md text-secondary">{serviceUser?.phone}</span>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>      
-                    <th scope="col" class="px-6 py-3 text-left">
-                        <div class="flex items-center gap-x-2">
-                          <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
-                          Address
-                          </span>
-                        </div>
-                      </th>                
-                    <td class="h-px w-72 whitespace-nowrap">
-                        <div class="px-6 py-3">
-                          <span class="block text-md text-secondary">{serviceUser?.location}</span>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>      
-                    <th scope="col" class="px-6 py-3 text-left">
-                        <div class="flex items-center gap-x-2">
-                          <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
-                          Longitude
-                          </span>
-                        </div>
-                      </th>                
-                    <td class="h-px w-72 whitespace-nowrap">
-                        <div class="px-6 py-3">
-                          <span class="block text-md text-secondary">{serviceUser?.longitude}</span>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>      
-                    <th scope="col" class="px-6 py-3 text-left">
-                        <div class="flex items-center gap-x-2">
-                          <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
-                          Latitude
-                          </span>
-                        </div>
-                      </th>                
-                    <td class="h-px w-72 whitespace-nowrap">
-                        <div class="px-6 py-3">
-                          <span class="block text-md text-secondary">{serviceUser?.latitude}</span>
-                        </div>
-                      </td>
-                    </tr>
-                  <tr >
-                
-                    </tr>
-                  </tbody>
-                </table>
-        </div >
-    );
+        <tbody class="divide-y divide-gray-200 ">
+          <tr>
+            <th scope="col" class="px-6 py-3 text-left">
+              <div class="flex items-center gap-x-2">
+                <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
+                  Name
+                </span>
+              </div>
+            </th>
+            <td class="h-px w-72 whitespace-nowrap">
+              <div class="px-6 py-3">
+                <span class="block text-md text-secondary">{serviceUser?.name}</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="col" class="px-6 py-3 text-left">
+              <div class="flex items-center gap-x-2">
+                <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
+                  Phone
+                </span>
+              </div>
+            </th>
+            <td class="h-px w-72 whitespace-nowrap">
+              <div class="px-6 py-3">
+                <span class="block text-md text-secondary">{serviceUser?.phone}</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="col" class="px-6 py-3 text-left">
+              <div class="flex items-center gap-x-2">
+                <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
+                  Address
+                </span>
+              </div>
+            </th>
+            <td class="h-px w-72 whitespace-nowrap">
+              <div class="px-6 py-3">
+                <span class="block text-md text-secondary">{serviceUser?.location}</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="col" class="px-6 py-3 text-left">
+              <div class="flex items-center gap-x-2">
+                <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
+                  Longitude
+                </span>
+              </div>
+            </th>
+            <td class="h-px w-72 whitespace-nowrap">
+              <div class="px-6 py-3">
+                <span class="block text-md text-secondary">{serviceUser?.longitude}</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="col" class="px-6 py-3 text-left">
+              <div class="flex items-center gap-x-2">
+                <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
+                  Latitude
+                </span>
+              </div>
+            </th>
+            <td class="h-px w-72 whitespace-nowrap">
+              <div class="px-6 py-3">
+                <span class="block text-md text-secondary">{serviceUser?.latitude}</span>
+              </div>
+            </td>
+          </tr>
+          <tr >
+
+          </tr>
+        </tbody>
+      </table>
+    </div >
+  );
 };
 
 export default page;

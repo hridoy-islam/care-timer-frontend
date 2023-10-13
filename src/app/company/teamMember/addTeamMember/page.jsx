@@ -1,14 +1,14 @@
 "use client"
 import axios from 'axios';
-import BreadCumb from '../../../../components/breadCumb/BreadCumb';
-import React, { useContext } from 'react';
+import { useRouter } from 'next/navigation';
+import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify';
-import {  userContext } from '../../../../context/MainContext';
+import BreadCumb from '../../../../components/breadCumb/BreadCumb';
+import { userContext } from '../../../../context/MainContext';
 
 const page = () => {
-const {token, tokenDetails} = useContext(userContext)
+    const { token, tokenDetails } = useContext(userContext)
     const router = useRouter()
     const {
         register,
@@ -17,35 +17,35 @@ const {token, tokenDetails} = useContext(userContext)
     } = useForm();
     const onsubmit = data => {
         console.log(data)
-        axios.post( `http://localhost:5000/worker`, data,  {
-         headers: {
-         'Authorization': `Bearer ${token}`
-         }
-         }).then(( {data} ) => {
+        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/worker`, data, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(({ data }) => {
             if (!data.success) {
                 toast.success('Team Member Added', {
                     position: toast.POSITION.TOP_CENTER
-                  });
+                });
                 return router.push('/company/teamMember/allTeamMember')
             }
             else {
                 toast.error("Something Error", {
-                position: toast.POSITION.TOP_CENTER
-              });
-              return router.push('/company/teamMember/addTeamMember')
+                    position: toast.POSITION.TOP_CENTER
+                });
+                return router.push('/company/teamMember/addTeamMember')
             };
             reset()
-       })
-       .catch(error => {
-           const res = error.response;
-           toast.error(res);
-       });
-     }
+        })
+            .catch(error => {
+                const res = error.response;
+                toast.error(res);
+            });
+    }
     return (
         <div>
-            
+
             <div className='bg-white border border-gray-200 rounded-xl shadow-sm p-6 mx-4'>
-            <BreadCumb title="Create Team Member" />
+                <BreadCumb title="Create Team Member" />
                 <form onSubmit={handleSubmit(onsubmit)} className='container mx-auto py-4'>
                     <div className="space-y-12 mt-8">
                         <div className=" pb-4">

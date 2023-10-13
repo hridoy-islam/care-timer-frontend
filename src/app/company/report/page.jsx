@@ -1,27 +1,26 @@
 'use client';
-import { useContext, useEffect, useState } from 'react';
+import axios from 'axios';
+import Link from 'next/link';
+import React, { useContext, useEffect, useState } from 'react';
 import { AiOutlineEye } from "react-icons/ai";
 import { BiEditAlt, BiSolidDownload } from "react-icons/bi";
 import { BsTrash3 } from "react-icons/bs";
-import React, { CSSProperties } from 'react';
-import axios from 'axios';
-import Link from 'next/link';
-import Select from 'react-select'
+import Select from 'react-select';
 import { userContext } from '../../../context/MainContext';
 // import { DateRangePicker } from 'rsuite';
 const Page = () => {
   const [service, setService] = useState();
-  const {token, tokenDetails} = useContext(userContext)
+  const { token, tokenDetails } = useContext(userContext)
   const fetchData = () => {
-    axios.get( `http://localhost:5000/service?softDelete=false`, {
+    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/service?softDelete=false`, {
       headers: {
-      'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`
       }
-      }).then(function (response) {
-        // handle success
-        setService(response?.data?.data)
-      })
-}
+    }).then(function (response) {
+      // handle success
+      setService(response?.data?.data)
+    })
+  }
   useEffect(() => {
     fetchData()
   }, [])
@@ -48,15 +47,15 @@ const Page = () => {
         <div class="flex flex-col">
           <div class="-m-1.5 overflow-x-auto">
             <div class="p-1.5 min-w-full inline-block align-middle">
-            <div className='flex '>
-                        {/* <label className='pb-1 pl-1 text-sm font-base text-end font-serif'>Generate Report</label> */}
-                      <Link class="py-3 px-6  w-48 lg:ml-auto mb-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-white hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm " href="#">
-                        Export PDF <BiSolidDownload className='text-xl' />
-                      </Link>
-                      </div>
+              <div className='flex '>
+                {/* <label className='pb-1 pl-1 text-sm font-base text-end font-serif'>Generate Report</label> */}
+                <Link class="py-3 px-6  w-48 lg:ml-auto mb-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-white hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm " href="#">
+                  Export PDF <BiSolidDownload className='text-xl' />
+                </Link>
+              </div>
               <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden  ">
                 <div class="px-6 py-4 grid gap-3 border-b border-gray-200 ">
-                
+
                   <div>
                     <div class="flex justify-between items-center gap-x-2">
 
@@ -65,7 +64,7 @@ const Page = () => {
                         <input className='border rounded-md py-1.5 px-3' type='date'></input>
                       </div>
                       <div className='flex flex-col'>
-                      <label className='pb-1 pl-1 text-sm font-base font-serif'>To : </label>
+                        <label className='pb-1 pl-1 text-sm font-base font-serif'>To : </label>
                         <input className='border rounded-md py-1.5 px-3' type='date'></input>
                       </div>
 

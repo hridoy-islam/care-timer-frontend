@@ -1,28 +1,23 @@
 'use client';
-import { useEffect, useState, useContext } from 'react';
-import { AiOutlineEye } from "react-icons/ai";
-import { BiEditAlt } from "react-icons/bi";
-import { BsTrash3 } from "react-icons/bs";
-import React from 'react';
 import axios from 'axios';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import React, { useContext, useEffect, useState } from 'react';
 import { userContext } from '../../../../context/MainContext';
 
 const Page = () => {
   const router = useRouter()
-  const {token, tokenDetails} = useContext(userContext)
+  const { token, tokenDetails } = useContext(userContext)
   const [tasklist, setTasklist] = useState();
   const fetchData = () => {
-    axios.get( `http://localhost:5000/tasklist?softDelete=true&company=${tokenDetails?.data?._id}`, {
+    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/tasklist?softDelete=true&company=${tokenDetails?.data?._id}`, {
       headers: {
-      'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`
       }
-      }).then(function (response) {
-        // handle success
-        setTasklist(response?.data?.data)
-      })
-}
+    }).then(function (response) {
+      // handle success
+      setTasklist(response?.data?.data)
+    })
+  }
   useEffect(() => {
     fetchData()
   }, [])
@@ -36,7 +31,7 @@ const Page = () => {
                 <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200 ">
                   <div>
                     <h2 class="text-2xl font-semibold text-gray-800 ">
-                    Archive Tasklist
+                      Archive Tasklist
                     </h2>
                   </div>
 

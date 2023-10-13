@@ -1,68 +1,67 @@
 'use client';
 
-import { useContext, useEffect, useState } from 'react';
+import axios from 'axios';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React, { useContext, useEffect, useState } from 'react';
 import { AiOutlineEye } from "react-icons/ai";
 import { BiEditAlt } from "react-icons/bi";
 import { BsTrash3 } from "react-icons/bs";
-import React from 'react';
-import axios from 'axios';
-import Link from 'next/link';
 import { toast } from 'react-toastify';
 import { userContext } from '../../../../context/MainContext';
-import { useRouter } from 'next/navigation';
 
 const Page = () => {
   const router = useRouter()
-  const {token, tokenDetails} = useContext(userContext)
+  const { token, tokenDetails } = useContext(userContext)
   const [serviceUser, setServiceUser] = useState();
   const fetchData = () => {
-    axios.get( `http://localhost:5000/customer?softDelete=false&company=${tokenDetails?.data?._id}`, {
+    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/customer?softDelete=false&company=${tokenDetails?.data?._id}`, {
       headers: {
-      'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`
       }
-      }).then(function (response) {
-        // handle success
-        setServiceUser(response?.data?.data)
-      })
-}
+    }).then(function (response) {
+      // handle success
+      setServiceUser(response?.data?.data)
+    })
+  }
   useEffect(() => {
     fetchData()
   }, [])
   const handleDelete = async (_id) => {
     const proceed = window.confirm("Are you sure to delete this?");
-    
+
     try {
       if (proceed) {
-        axios.delete( `http://localhost:5000/customer/${_id}`, {
+        axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/customer/${_id}`, {
           headers: {
-          'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`
           }
-          }).then(({ data }) => {
-            if (!data.success) {
-              toast.success('Service User Archived', {
-                position: toast.POSITION.TOP_CENTER
-              });
-              return router.push('/company/serviceUser/allServiceUser')
-            }
-            else {
-              toast.error("Something Error", {
-                position: toast.POSITION.TOP_CENTER
-              });
-              return router.push('/company/serviceUser/allServiceUser')
-            }
-          }).catch(error => {
-            const res = error.response;
-            toast.error(res);
-          });
+        }).then(({ data }) => {
+          if (!data.success) {
+            toast.success('Service User Archived', {
+              position: toast.POSITION.TOP_CENTER
+            });
+            return router.push('/company/serviceUser/allServiceUser')
+          }
+          else {
+            toast.error("Something Error", {
+              position: toast.POSITION.TOP_CENTER
+            });
+            return router.push('/company/serviceUser/allServiceUser')
+          }
+        }).catch(error => {
+          const res = error.response;
+          toast.error(res);
+        });
       }
-  } catch (error) {
+    } catch (error) {
       alert(error.response);
       toast.error("Something Went Worng");
-  }
-        
-      
-    
-};
+    }
+
+
+
+  };
   return (
     <div>
       <div class="w-full lg:px-4 sm:px-3 py-10 lg:py-4 mx-auto">
@@ -78,9 +77,9 @@ const Page = () => {
                   </div>
                   <div>
                     <div class="inline-flex gap-x-2">
-                      
-                      <Link class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-white hover:bg-primary focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm " 
-                      href="/company/serviceUser/addServiceUser">
+
+                      <Link class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-white hover:bg-primary focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm "
+                        href="/company/serviceUser/addServiceUser">
                         <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                           <path d="M2.63452 7.50001L13.6345 7.5M8.13452 13V2" stroke="currentColor" strokeWidth="2" stroke-linecap="round" />
                         </svg>
@@ -96,7 +95,7 @@ const Page = () => {
                       <th scope="col" class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3 text-left">
                         <div class="flex items-center gap-x-2 pl-6">
                           <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
-                            Service User 
+                            Service User
                           </span>
                         </div>
                       </th>
@@ -139,22 +138,22 @@ const Page = () => {
                         <div className="flex justify-evenly ">
                           <div class="hs-tooltip inline-block">
                             <Link href={`/company/serviceUser/allServiceUser/viewServiceUser/${item._id}`}>
-                            <button type="button" class="hs-tooltip-toggle text-2xl">
-                              <AiOutlineEye fill="#979797" />
-                              <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
-                                View
-                              </span>
-                            </button>
+                              <button type="button" class="hs-tooltip-toggle text-2xl">
+                                <AiOutlineEye fill="#979797" />
+                                <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
+                                  View
+                                </span>
+                              </button>
                             </Link>
                           </div>
                           <div class="hs-tooltip inline-block">
                             <Link href={`/company/serviceUser/allServiceUser/editServiceUser/${item._id}`}>
-                            <button type="button" class="hs-tooltip-toggle text-2xl">
-                              <BiEditAlt fill="#979797" />
-                              <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
-                                Edit
-                              </span>
-                            </button>
+                              <button type="button" class="hs-tooltip-toggle text-2xl">
+                                <BiEditAlt fill="#979797" />
+                                <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
+                                  Edit
+                                </span>
+                              </button>
                             </Link>
                           </div>
                           <div class="hs-tooltip inline-block pr-2">

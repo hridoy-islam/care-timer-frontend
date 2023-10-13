@@ -1,27 +1,24 @@
 'use client';
 
-import { useContext, useEffect, useState } from 'react';
-import { AiOutlineEye } from "react-icons/ai";
-import { BiEditAlt } from "react-icons/bi";
-import { BsTrash3 } from "react-icons/bs";
-import React from 'react';
 import axios from 'axios';
 import Link from 'next/link';
+import React, { useContext, useEffect, useState } from 'react';
+import { AiOutlineEye } from "react-icons/ai";
 import { userContext } from '../../../../context/MainContext';
 
 const Page = () => {
-  const {token} = useContext(userContext)
+  const { token } = useContext(userContext)
   const [company, setCompany] = useState();
   const fetchData = () => {
-    axios.get( `http://localhost:5000/company?softDelete=true&role=company`, {
+    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/company?softDelete=true&role=company`, {
       headers: {
-      'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`
       }
-      }).then(function (response) {
-        // handle success
-        setCompany(response?.data?.data)
-      })
-}
+    }).then(function (response) {
+      // handle success
+      setCompany(response?.data?.data)
+    })
+  }
   useEffect(() => {
     fetchData()
   }, [])
@@ -35,7 +32,7 @@ const Page = () => {
                 <div className="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200 ">
                   <div>
                     <h2 className="text-2xl font-semibold text-gray-800 ">
-                    Archive Company
+                      Archive Company
                     </h2>
                   </div>
 
@@ -104,12 +101,12 @@ const Page = () => {
                         <div className="flex justify-evenly ">
                           <div className="hs-tooltip inline-block">
                             <Link href={`/admin/company/archiveCompany/archiveViewCompany/${item._id}`}>
-                            <button type="button" className="hs-tooltip-toggle text-2xl">
-                              <AiOutlineEye fill="#979797" />
-                              <span className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
-                                View
-                              </span>
-                            </button>
+                              <button type="button" className="hs-tooltip-toggle text-2xl">
+                                <AiOutlineEye fill="#979797" />
+                                <span className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
+                                  View
+                                </span>
+                              </button>
                             </Link>
                           </div>
                         </div>

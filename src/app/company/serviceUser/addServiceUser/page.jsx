@@ -1,14 +1,14 @@
 "use client"
 
 import axios from 'axios';
-import BreadCumb from '../../../../components/breadCumb/BreadCumb';
-import React, { useContext } from 'react';
+import { useRouter } from 'next/navigation';
+import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify';
+import BreadCumb from '../../../../components/breadCumb/BreadCumb';
 import { userContext } from '../../../../context/MainContext';
 const page = () => {
-    const {token, tokenDetails} = useContext(userContext)
+    const { token, tokenDetails } = useContext(userContext)
     const router = useRouter()
     const {
         register,
@@ -16,41 +16,41 @@ const page = () => {
         reset,
     } = useForm();
     const onsubmit = data => {
-        axios.post( `http://localhost:5000/customer`, data,  {
-         headers: {
-         'Authorization': `Bearer ${token}`
-         }
-         }).then(( {data} ) => {
+        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/customer`, data, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(({ data }) => {
             if (!data.success) {
-                toast.success('Team Member Added', {
+                toast.success('Service User Added', {
                     position: toast.POSITION.TOP_CENTER
-                  });
+                });
                 return router.push('/company/serviceUser/allServiceUser')
             }
             else {
                 toast.error("Something Error", {
-                position: toast.POSITION.TOP_CENTER
-              });
-              return router.push('/company/serviceUser/addServiceUser')
+                    position: toast.POSITION.TOP_CENTER
+                });
+                return router.push('/company/serviceUser/addServiceUser')
             };
             reset()
-       })
-       .catch(error => {
-           const res = error.response;
-           toast.error(res);
-       });
-     }
+        })
+            .catch(error => {
+                const res = error.response;
+                toast.error(res);
+            });
+    }
     return (
         <div>
             <div className='bg-white border border-gray-200 rounded-xl shadow-sm p-6 mx-4'>
-            <BreadCumb title="Create Service User" />
+                <BreadCumb title="Create Service User" />
                 <form onSubmit={handleSubmit(onsubmit)} className='container mx-auto py-4'>
                     <div className="space-y-12 mt-8">
                         <div className=" pb-4">
                             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                 <div className="col-span-3">
                                     <label htmlFor="street-address" className="block text-md font-medium leading-6 text-gray-900">
-                                    Service User Name
+                                        Service User Name
                                     </label>
                                     <div className="mt-2">
                                         <input
@@ -66,7 +66,7 @@ const page = () => {
                                 </div>
                                 <div className="col-span-3">
                                     <label htmlFor="street-address" className="block text-md font-medium leading-6 text-gray-900">
-                                    Service User Phone
+                                        Service User Phone
                                     </label>
                                     <div className="mt-2">
                                         <input
@@ -82,10 +82,10 @@ const page = () => {
                                 </div>
                                 <div className="col-span-3">
                                     <label htmlFor="city" className="block text-md font-medium leading-6 text-gray-900">
-                                    Latitude
+                                        Latitude
                                     </label>
                                     <div className="mt-2">
-                                    <input
+                                        <input
                                             type="number"
                                             name="latitude"
                                             id="latitude"
@@ -98,7 +98,7 @@ const page = () => {
                                 </div>
                                 <div className="col-span-3">
                                     <label htmlFor="street-address" className="block text-md font-medium leading-6 text-gray-900">
-                                    Longitude
+                                        Longitude
                                     </label>
                                     <div className="mt-2">
                                         <input
@@ -114,7 +114,7 @@ const page = () => {
                                 </div>
                                 <div className="col-span-3">
                                     <label htmlFor="city" className="block text-md font-medium leading-6 text-gray-900">
-                                    Location
+                                        Location
                                     </label>
                                     <div className="mt-2">
                                         <input

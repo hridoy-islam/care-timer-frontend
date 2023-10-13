@@ -1,26 +1,23 @@
 'use client';
-import { useContext, useEffect, useState } from 'react';
-import { AiOutlineEye } from "react-icons/ai";
-import { BiEditAlt } from "react-icons/bi";
-import { BsTrash3 } from "react-icons/bs";
-import React from 'react';
 import axios from 'axios';
 import Link from 'next/link';
+import React, { useContext, useEffect, useState } from 'react';
+import { AiOutlineEye } from "react-icons/ai";
 import { userContext } from '../../../../context/MainContext';
 
 const Page = () => {
-  const {token} = useContext(userContext)
+  const { token } = useContext(userContext)
   const [teamMember, setTeamMember] = useState();
   const fetchData = () => {
-    axios.get( `http://localhost:5000/worker?softDelete=true`, {
+    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/worker?softDelete=true`, {
       headers: {
-      'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`
       }
-      }).then(function (response) {
-        // handle success
-        setTeamMember(response?.data?.data)
-      })
-}
+    }).then(function (response) {
+      // handle success
+      setTeamMember(response?.data?.data)
+    })
+  }
   useEffect(() => {
     fetchData()
   }, [])
@@ -39,7 +36,7 @@ const Page = () => {
                   </div>
 
                   <div>
-                  
+
                   </div>
                 </div>
                 <table class="min-w-full divide-y divide-gray-200 ">
@@ -49,7 +46,7 @@ const Page = () => {
                       <th scope="col" class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3 text-left">
                         <div class="flex items-center gap-x-2 pl-6">
                           <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
-                           Team Member
+                            Team Member
                           </span>
                         </div>
                       </th>
@@ -73,27 +70,27 @@ const Page = () => {
                   </thead>
 
                   <tbody class="divide-y divide-gray-200 ">
-                  {teamMember?.data?.length > 0 && teamMember?.data?.map((item, index) => <tr key={index}>
+                    {teamMember?.data?.length > 0 && teamMember?.data?.map((item, index) => <tr key={index}>
                       <td class="h-px pl-6 w-px whitespace-nowrap">
                         <div class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
-                        <span class="block text-md text-secondary">{item.name}</span>
+                          <span class="block text-md text-secondary">{item.name}</span>
                         </div>
                       </td>
                       <td class="h-px w-72 whitespace-nowrap">
                         <div class="px-6 py-3">
-                        <span class="block text-md text-secondary">{item.phone}</span>
+                          <span class="block text-md text-secondary">{item.phone}</span>
                         </div>
                       </td>
                       <td class="h-px w-24 whitespace-nowrap">
                         <div className="flex justify-evenly ">
                           <div class="hs-tooltip inline-block">
                             <Link href={`/company/teamMember/archiveTeamMember/archiveViewTeamMember/${item._id}`}>
-                            <button type="button" class="hs-tooltip-toggle text-2xl">
-                              <AiOutlineEye fill="#979797" />
-                              <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
-                                View
-                              </span>
-                            </button>
+                              <button type="button" class="hs-tooltip-toggle text-2xl">
+                                <AiOutlineEye fill="#979797" />
+                                <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
+                                  View
+                                </span>
+                              </button>
                             </Link>
                           </div>
                         </div>

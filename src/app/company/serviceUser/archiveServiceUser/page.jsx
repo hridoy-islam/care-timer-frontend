@@ -1,35 +1,31 @@
 'use client';
 
-import { useContext, useEffect, useState } from 'react';
-import { AiOutlineEye } from "react-icons/ai";
-import { BiEditAlt } from "react-icons/bi";
-import { BsTrash3 } from "react-icons/bs";
-import React from 'react';
 import axios from 'axios';
 import Link from 'next/link';
-import { toast } from 'react-toastify';
+import React, { useContext, useEffect, useState } from 'react';
+import { AiOutlineEye } from "react-icons/ai";
 import { userContext } from '../../../../context/MainContext';
 
 const Page = () => {
-  const {token, tokenDetails} = useContext(userContext);
+  const { token, tokenDetails } = useContext(userContext);
   const [serviceUser, setServiceUser] = useState();
   const fetchData = () => {
-    axios.get( `http://localhost:5000/customer?softDelete=true&company=${tokenDetails?.data?._id}`, {
+    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/customer?softDelete=true&company=${tokenDetails?.data?._id}`, {
       headers: {
-      'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`
       }
-      }).then(function (response) {
-        // handle success
-        setServiceUser(response?.data?.data)
-      })
-}
+    }).then(function (response) {
+      // handle success
+      setServiceUser(response?.data?.data)
+    })
+  }
   useEffect(() => {
     fetchData()
   }, [])
   const handleDelete = async (_id) => {
     const proceed = window.confirm("Are you sure to delete this?");
-    
-};
+
+  };
   return (
     <div>
       <div class="w-full lg:px-4 py-10 lg:py-4 mx-auto">
@@ -40,13 +36,13 @@ const Page = () => {
                 <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200 ">
                   <div>
                     <h2 class="text-2xl font-semibold text-gray-800 ">
-                    Archive Service User
+                      Archive Service User
                     </h2>
                   </div>
 
                   <div>
                     <div class="inline-flex gap-x-2">
-                      
+
                     </div>
                   </div>
                 </div>
@@ -57,7 +53,7 @@ const Page = () => {
                       <th scope="col" class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3 text-left">
                         <div class="flex items-center gap-x-2 pl-6">
                           <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
-                            Service User 
+                            Service User
                           </span>
                         </div>
                       </th>
@@ -100,12 +96,12 @@ const Page = () => {
                         <div className="flex justify-evenly ">
                           <div class="hs-tooltip inline-block">
                             <Link href={`/company/serviceUser/archiveServiceUser/archiveViewServiceUser/${item._id}`}>
-                            <button type="button" class="hs-tooltip-toggle text-2xl">
-                              <AiOutlineEye fill="#979797" />
-                              <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
-                                View
-                              </span>
-                            </button>
+                              <button type="button" class="hs-tooltip-toggle text-2xl">
+                                <AiOutlineEye fill="#979797" />
+                                <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
+                                  View
+                                </span>
+                              </button>
                             </Link>
                           </div>
                           {/* <div class="hs-tooltip inline-block">

@@ -1,14 +1,14 @@
 "use client"
 import axios from 'axios';
-import BreadCumb from '../../../../../../components/breadCumb/BreadCumb';
-import React, { useEffect, useState, useContext } from 'react';
+import { useRouter } from 'next/navigation';
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { useRouter } from 'next/navigation';
+import BreadCumb from '../../../../../../components/breadCumb/BreadCumb';
 import { userContext } from '../../../../../../context/MainContext';
 
-const page = ({params: {_id}}) => {
-    const {token} = useContext(userContext);
+const page = ({ params: { _id } }) => {
+    const { token } = useContext(userContext);
     const [tasklist, setTasklist] = useState();
     const router = useRouter()
     const {
@@ -17,53 +17,53 @@ const page = ({params: {_id}}) => {
         reset,
     } = useForm();
     const onsubmit = data =>
-        axios.patch( `http://localhost:5000/tasklist/${_id}`, data,  {
+        axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/tasklist/${_id}`, data, {
             headers: {
-            'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`
             }
-            }).then(({ data }) => {
-                    if (!data.success) {
-                      toast.success('Task List Update Successfully', {
-                        position: toast.POSITION.TOP_CENTER
-                      });
-                      return router.push('/company/tasklist/allTasklist')
-                    }
-                    else {
-                      toast.error("Something Error", {
-                        position: toast.POSITION.TOP_CENTER
-                      });
-                      return router.push('/company/tasklist/allTasklist')
-                    }
-                  })
+        }).then(({ data }) => {
+            if (!data.success) {
+                toast.success('Task List Update Successfully', {
+                    position: toast.POSITION.TOP_CENTER
+                });
+                return router.push('/company/tasklist/allTasklist')
+            }
+            else {
+                toast.error("Something Error", {
+                    position: toast.POSITION.TOP_CENTER
+                });
+                return router.push('/company/tasklist/allTasklist')
+            }
+        })
             .catch(error => {
                 const res = error.response;
                 toast.error(res);
             });
     const fetchData = () => {
-        axios.get( `http://localhost:5000/tasklist/${_id}`, {
-          headers: {
-          'Authorization': `Bearer ${token}`
-          }
-          }).then(function (response) {
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/tasklist/${_id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(function (response) {
             // handle success
             setTasklist(response?.data?.data)
-          })
+        })
     }
     useEffect(() => {
-      fetchData()
+        fetchData()
     }, [])
     console.log(tasklist)
     return (
         <div>
             <div className='bg-white border border-gray-200 rounded-xl shadow-sm p-6 mx-4'>
-            <BreadCumb title="Edit TaskList" />
+                <BreadCumb title="Edit TaskList" />
                 <form onSubmit={handleSubmit(onsubmit)} className='container mx-auto py-4'>
                     <div className="space-y-12 mt-8">
                         <div className=" pb-4">
                             <div className="mt-10 grid lg:grid-cols-1 gap-x-6 gap-y-8 ">
                                 <div className="col-span-3">
                                     <label htmlFor="street-address" className="block text-md font-medium leading-6 text-gray-900">
-                                       Task Name
+                                        Task Name
                                     </label>
                                     <div className="mt-2">
                                         <input

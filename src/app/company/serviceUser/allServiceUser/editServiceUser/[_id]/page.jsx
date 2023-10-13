@@ -1,14 +1,14 @@
 "use client"
 
 import axios from 'axios';
-import BreadCumb from '../../../../../../components/breadCumb/BreadCumb';
-import React, { useEffect, useState, useContext } from 'react';
+import { useRouter } from 'next/navigation';
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { useRouter } from 'next/navigation';
+import BreadCumb from '../../../../../../components/breadCumb/BreadCumb';
 import { userContext } from '../../../../../../context/MainContext';
-const page = ({params: {_id}}) => {
-    const {token} = useContext(userContext);
+const page = ({ params: { _id } }) => {
+    const { token } = useContext(userContext);
     const [serviceUser, setServiceUser] = useState();
     const router = useRouter()
     const {
@@ -17,52 +17,52 @@ const page = ({params: {_id}}) => {
         reset,
     } = useForm();
     const onsubmit = data =>
-        axios.patch( `http://localhost:5000/customer/${_id}`, data,  {
+        axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/customer/${_id}`, data, {
             headers: {
-            'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`
             }
-            }).then(({ data }) => {
-                    if (!data.success) {
-                      toast.success('Service User Update Successfully', {
-                        position: toast.POSITION.TOP_CENTER
-                      });
-                      return router.push('/company/serviceUser/allServiceUser')
-                    }
-                    else {
-                      toast.error("Something Error", {
-                        position: toast.POSITION.TOP_CENTER
-                      });
-                      return router.push('/company/serviceUser/editServiceUser')
-                    }
-                  })
+        }).then(({ data }) => {
+            if (!data.success) {
+                toast.success('Service User Update Successfully', {
+                    position: toast.POSITION.TOP_CENTER
+                });
+                return router.push('/company/serviceUser/allServiceUser')
+            }
+            else {
+                toast.error("Something Error", {
+                    position: toast.POSITION.TOP_CENTER
+                });
+                return router.push('/company/serviceUser/editServiceUser')
+            }
+        })
             .catch(error => {
                 const res = error.response;
                 toast.error(res);
             });
     const fetchData = () => {
-        axios.get( `http://localhost:5000/customer/${_id}`, {
-          headers: {
-          'Authorization': `Bearer ${token}`
-          }
-          }).then(function (response) {
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/customer/${_id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(function (response) {
             // handle success
             setServiceUser(response?.data?.data)
-          })
+        })
     }
     useEffect(() => {
-      fetchData()
+        fetchData()
     }, [])
     return (
         <div>
             <div className='bg-white border border-gray-200 rounded-xl shadow-sm p-6 mx-4'>
-            <BreadCumb title="Update Service User" />
-            <form onSubmit={handleSubmit(onsubmit)} className='container mx-auto py-4'>
+                <BreadCumb title="Update Service User" />
+                <form onSubmit={handleSubmit(onsubmit)} className='container mx-auto py-4'>
                     <div className="space-y-12 mt-8">
                         <div className=" pb-4">
                             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                 <div className="col-span-3">
                                     <label htmlFor="street-address" className="block text-md font-medium leading-6 text-gray-900">
-                                    Service User Name
+                                        Service User Name
                                     </label>
                                     <div className="mt-2">
                                         <input
@@ -79,10 +79,10 @@ const page = ({params: {_id}}) => {
                                 </div>
                                 <div className="col-span-3">
                                     <label htmlFor="city" className="block text-md font-medium leading-6 text-gray-900">
-                                    Latitude
+                                        Latitude
                                     </label>
                                     <div className="mt-2">
-                                    <input
+                                        <input
                                             type="text"
                                             name="latitude"
                                             id="latitude"
@@ -103,7 +103,7 @@ const page = ({params: {_id}}) => {
                             <div className=" grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                 <div className="col-span-3">
                                     <label htmlFor="street-address" className="block text-md font-medium leading-6 text-gray-900">
-                                    Longitude
+                                        Longitude
                                     </label>
                                     <div className="mt-2">
                                         <input
@@ -135,8 +135,8 @@ const page = ({params: {_id}}) => {
                                         />
                                     </div>
                                 </div>
-                                
-                                
+
+
                             </div>
                         </div>
                     </div>

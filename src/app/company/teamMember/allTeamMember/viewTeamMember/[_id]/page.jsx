@@ -1,79 +1,79 @@
 'use client';
 import axios from 'axios';
-import BreadCumb from '../../../../../../components/breadCumb/BreadCumb';
 import React, { useContext, useEffect, useState } from 'react';
+import BreadCumb from '../../../../../../components/breadCumb/BreadCumb';
 import { userContext } from '../../../../../../context/MainContext';
 
-const page = ({params: {_id}}) => {
-  const {token} = useContext(userContext)
-    const [teamMember, setTeamMember] = useState();
-    const fetchData = () => {
-      axios.get( `http://localhost:5000/worker/${_id}`, {
-        headers: {
+const page = ({ params: { _id } }) => {
+  const { token } = useContext(userContext)
+  const [teamMember, setTeamMember] = useState();
+  const fetchData = () => {
+    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/worker/${_id}`, {
+      headers: {
         'Authorization': `Bearer ${token}`
-        }
-        }).then(function (response) {
-          // handle success
-          setTeamMember(response?.data?.data)
-        })
+      }
+    }).then(function (response) {
+      // handle success
+      setTeamMember(response?.data?.data)
+    })
   }
-    useEffect(() => {
-      fetchData()
-    }, [])
-    return (
-        <div className='bg-white border border-gray-200 rounded-xl shadow-sm p-6 mx-4'>
-            <BreadCumb title="Team Member Details" />
-            <table class="min-w-full mt-6 divide-y divide-gray-200 ">
-                  {/* <thead class="bg-gray-50 ">
+  useEffect(() => {
+    fetchData()
+  }, [])
+  return (
+    <div className='bg-white border border-gray-200 rounded-xl shadow-sm p-6 mx-4'>
+      <BreadCumb title="Team Member Details" />
+      <table class="min-w-full mt-6 divide-y divide-gray-200 ">
+        {/* <thead class="bg-gray-50 ">
                     
                       
                       
                   </thead> */}
 
-                  <tbody class="divide-y divide-gray-200 ">
-                    <tr>
-                    <th scope="col" class="px-6 py-3 text-left">
-                        <div class="flex items-center gap-x-2">
-                          <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
-                           Name
-                          </span>
-                        </div>
-                      </th>                      
-                    <td class="h-px w-72 whitespace-nowrap">
-                        <div class="px-6 py-3">
-                          <span class="block text-md text-secondary">{teamMember?.name}</span>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                    <th scope="col" class="px-6 py-3 text-left">
-                        <div class="flex items-center gap-x-2">
-                          <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
-                             Number
-                          </span>
-                        </div>
-                      </th>                      
-                    <td class="h-px w-72 whitespace-nowrap">
-                        <div class="px-6 py-3">
-                          <span class="block text-md text-secondary">{teamMember?.phone}</span>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>      
-                    <th scope="col" class="px-6 py-3 text-left">
-                        <div class="flex items-center gap-x-2">
-                          <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
-                           Holidays
-                          </span>
-                        </div>
-                      </th>                
-                    <td class="h-px w-72 whitespace-nowrap">
-                        <div class="px-6 py-3">
-                          <span class="block text-md text-secondary">{teamMember?.holidays}</span>
-                        </div>
-                      </td>
-                    </tr>
-                    {/* <tr>            
+        <tbody class="divide-y divide-gray-200 ">
+          <tr>
+            <th scope="col" class="px-6 py-3 text-left">
+              <div class="flex items-center gap-x-2">
+                <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
+                  Name
+                </span>
+              </div>
+            </th>
+            <td class="h-px w-72 whitespace-nowrap">
+              <div class="px-6 py-3">
+                <span class="block text-md text-secondary">{teamMember?.name}</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="col" class="px-6 py-3 text-left">
+              <div class="flex items-center gap-x-2">
+                <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
+                  Number
+                </span>
+              </div>
+            </th>
+            <td class="h-px w-72 whitespace-nowrap">
+              <div class="px-6 py-3">
+                <span class="block text-md text-secondary">{teamMember?.phone}</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="col" class="px-6 py-3 text-left">
+              <div class="flex items-center gap-x-2">
+                <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
+                  Holidays
+                </span>
+              </div>
+            </th>
+            <td class="h-px w-72 whitespace-nowrap">
+              <div class="px-6 py-3">
+                <span class="block text-md text-secondary">{teamMember?.holidays}</span>
+              </div>
+            </td>
+          </tr>
+          {/* <tr>            
                     <th scope="col" class="px-6 py-3 text-left">
                         <div class="flex items-center gap-x-2">
                           <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
@@ -87,7 +87,7 @@ const page = ({params: {_id}}) => {
                         </div>
                       </td>
                     </tr> */}
-                    {/* <tr>  
+          {/* <tr>  
                     <th scope="col" class="px-6 py-3 text-left">
                         <div class="flex items-center gap-x-2">
                           <span class="text-sm font-medium uppercase tracking-wide text-gray-800 ">
@@ -102,18 +102,18 @@ const page = ({params: {_id}}) => {
                       </td>                     
 
                     </tr> */}
-                  <tr >
-                      
-                      
-                      
-                      
-                      
+          <tr >
 
-                    </tr>
-                  </tbody>
-                </table>
-        </div >
-    );
+
+
+
+
+
+          </tr>
+        </tbody>
+      </table>
+    </div >
+  );
 };
 
 export default page;

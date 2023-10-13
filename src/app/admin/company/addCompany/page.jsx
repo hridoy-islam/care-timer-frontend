@@ -1,16 +1,16 @@
 "use client"
-import React, { useContext, useState } from 'react';
-import BreadCumb from '../../../../components/breadCumb/BreadCumb'
-import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import React, { useContext, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { BiShow, BiSolidHide } from "react-icons/bi";
 import { toast } from 'react-toastify';
-import { useRouter } from 'next/navigation'
-import { BiSolidHide, BiShow } from "react-icons/bi";
+import BreadCumb from '../../../../components/breadCumb/BreadCumb';
 import { userContext } from '../../../../context/MainContext';
 
 
 const page = () => {
-    const {token} = useContext(userContext)
+    const { token } = useContext(userContext)
     const router = useRouter()
     const [passwordType, setPasswordType] = useState("password");
     const togglePassword = () => {
@@ -27,26 +27,27 @@ const page = () => {
     } = useForm();
 
     const onsubmit = data => {
-       axios.post( `http://localhost:5000/company`, data,  {
-        headers: {
-        'Authorization': `Bearer ${token}`
-        }
-        } ).then(({ data }) => {
-                if (!data.success) {''
-                    toast.success('Create Company', {
-                        position: toast.POSITION.TOP_CENTER
-                      });
-                    return router.push('/admin/company/allCompany')
-                }
-                else {
-                    toast.error("Something Error", {
+        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/company`, data, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(({ data }) => {
+            if (!data.success) {
+                ''
+                toast.success('Create Company', {
                     position: toast.POSITION.TOP_CENTER
-                  });
-                  return router.push('/admin/company/addCompany')
-                }
-                reset()
+                });
+                return router.push('/admin/company/allCompany')
+            }
+            else {
+                toast.error("Something Error", {
+                    position: toast.POSITION.TOP_CENTER
+                });
+                return router.push('/admin/company/addCompany')
+            }
+            reset()
 
-            })
+        })
             .catch(error => {
                 const res = error.response;
                 toast.error(res);
@@ -116,13 +117,13 @@ const page = () => {
                                         />
                                     </div> */}
                                     <div className="input-group mt-4 relative">
-                                <input type={passwordType} {...register('password')}  name="password" class="form-control pl-4 w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6" />
-                                <div className="input-group-btn absolute right-4 top-3">
-                                    <button type='button' className="btn btn-outline-primary text-xl" onClick={togglePassword}>
-                                        {passwordType === "password" ? <BiSolidHide/> : <BiShow/>}
-                                    </button>
-                                </div>
-                            </div>
+                                        <input type={passwordType} {...register('password')} name="password" class="form-control pl-4 w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6" />
+                                        <div className="input-group-btn absolute right-4 top-3">
+                                            <button type='button' className="btn btn-outline-primary text-xl" onClick={togglePassword}>
+                                                {passwordType === "password" ? <BiSolidHide /> : <BiShow />}
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div className="col-span-3">
                                     <label htmlFor="city" className="block text-md font-medium leading-6 text-gray-900">
@@ -189,7 +190,7 @@ const page = () => {
                                     </div>
                                 </div>
 
-                                
+
                             </div>
                         </div>
                     </div>

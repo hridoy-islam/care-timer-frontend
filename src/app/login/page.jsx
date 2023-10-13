@@ -1,32 +1,31 @@
 "use client"
 import axios from 'axios';
-import Link from 'next/link';
-import React, { useContext, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { BiShow, BiSolidHide } from "react-icons/bi";
 import { toast } from 'react-toastify';
-import {  userContext } from '../../context/MainContext';
-import { useRouter } from 'next/navigation'
-import { BiSolidHide, BiShow } from "react-icons/bi";
+import { userContext } from '../../context/MainContext';
 const jwt = require("jsonwebtoken");
 
 const page = () => {
     const router = useRouter()
-    const { tokenDetails, token, setToken,  setTokenDetails } = useContext(userContext);
+    const { tokenDetails, token, setToken, setTokenDetails } = useContext(userContext);
     console.log(tokenDetails, token)
     var tokenDecoded = jwt.decode(token);
     console.log(tokenDecoded?.data?.role)
     const role = tokenDecoded?.data?.role
     if (role == 'admin') {
-        toast.success('Admin LogIn Successfully', {
-        position: toast.POSITION.TOP_CENTER
-      });
+        toast.success('Admin Logged In', {
+            position: toast.POSITION.TOP_CENTER
+        });
         return router.push('/admin')
-        
+
     }
     else if (role == 'company') {
-        toast.success('Company LogIn Successfully', {
+        toast.success('Login Successfully', {
             position: toast.POSITION.TOP_CENTER
-          });
+        });
         return router.push('/company') && setTokenDetails
     }
     // else if (tokenDetails?.role == '') {
@@ -51,7 +50,7 @@ const page = () => {
     }
     const onsubmit = data => {
         console.log(data)
-        axios.post(`http://localhost:5000/auth/login`, data)
+        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, data)
 
             .then(({ data }) => {
                 console.log(data)
@@ -66,12 +65,12 @@ const page = () => {
                     setToken(data?.data?.token);
 
                 }
-                
+
 
 
             })
             .catch(error => {
-                toast.error('Something Wrong');
+                toast.error('Something went Wrong');
             });
     }
     return (
@@ -85,7 +84,7 @@ const page = () => {
                         alt="Your Company"
                     /> */}
                     <h2 className="mt-6 text-center text-3xl font-bold leading-9 tracking-tight text-gray-900">
-                        Care Timer
+                        Care Timer {process.env.NEXT_PUBLIC_DB_NAME}
                     </h2>
                 </div>
 
@@ -129,10 +128,10 @@ const page = () => {
                                 />
                             </div> */}
                             <div className="input-group my-4 relative">
-                                <input type={passwordType} {...register('password')}  name="password" class="form-control block w-full rounded-md border-0 py-1.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6" />
+                                <input type={passwordType} {...register('password')} name="password" class="form-control block w-full rounded-md border-0 py-1.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6" />
                                 <div className="input-group-btn absolute right-4 top-2">
                                     <button type='button' className="btn btn-outline-primary" onClick={togglePassword}>
-                                        {passwordType === "password" ? <BiSolidHide/> : <BiShow/>}
+                                        {passwordType === "password" ? <BiSolidHide /> : <BiShow />}
                                     </button>
                                 </div>
                             </div>
