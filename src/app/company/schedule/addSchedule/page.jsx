@@ -75,6 +75,7 @@ const page = () => {
   const taskListOption = taskList.map((task) => ({
     value: task._id,
     label: task.taskName,
+    status: "pending",
   }));
 
   const teamMembersOption = teamMembers.map((team) => ({
@@ -83,44 +84,54 @@ const page = () => {
   }));
 
   const serviceUserOption = serviceUsers.map((user) => ({
-    value: user._id,
+    value: user.name,
     label: user.name,
   }));
 
   const { register, handleSubmit, reset, control } = useForm();
-  const onsubmit = (data) => {
-    console.log(data);
-    reset;
-  };
-  // const teamMember = [
-  //   { value: "Vin", label: "Vin" },
-  //   { value: "John", label: "John" },
-  //   { value: "Philip", label: "Philip" },
-  // ];
-  // const serviceUser = [
-  //   { value: "Dom", label: "Dom" },
-  //   { value: "Harry", label: "Harry" },
-  //   { value: "Tony", label: "Tony" },
-  // ];
-  // const taskList = [
-  //   { taskName: "Pliers and Drills", id: "Pliers and Drills" },
-  //   { taskName: "Repairing Wiring Systems", id: "Repairing Wiring Systems" },
-  //   {
-  //     taskName: "Installing Electrical Conduits",
-  //     id: "Installing Electrical Conduits",
-  //   },
-  // ];
+
   const {
     field: { value: teamValue, onChange: teamOnChange, ...teamField },
-  } = useController({ name: "teamMemberName", control });
+  } = useController({ name: "worker", control });
 
   const {
     field: { value: serviceValue, onChange: serviceOnChange, ...serviceField },
-  } = useController({ name: "serviceUserName", control });
+  } = useController({ name: "customer", control });
 
   const {
     field: { value: taskValue, onChange: taskOnChange, ...taskField },
   } = useController({ name: "taskName", control });
+
+  const onsubmit = (data) => {
+    const modifyData = { ...data, status: "pending" };
+    console.log(modifyData);
+    // try {
+    //   axios
+    //     .post(`${process.env.NEXT_PUBLIC_API_URL}/service`, modifyData, {
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //     })
+    //     .then(function (response) {
+    //       // handle success
+    //       console.log(response);
+    //     });
+    // } catch (error) {
+    //   console.error(error);
+    // }
+    axios
+      .post(`${process.env.NEXT_PUBLIC_API_URL}/service`, modifyData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(({ data }) => {
+        console.log(data);
+      });
+    reset;
+  };
 
   return (
     <div>
@@ -138,16 +149,36 @@ const page = () => {
                     htmlFor="street-address"
                     className="block text-md font-medium leading-6 text-gray-900"
                   >
+                    Service name
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      type="text"
+                      name="serviceName"
+                      id="serviceName"
+                      placeholder="Service Name"
+                      className="block w-full px-4 rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
+                      {...register("serviceName")}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className=" grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                <div className="col-span-3">
+                  <label
+                    htmlFor="street-address"
+                    className="block text-md font-medium leading-6 text-gray-900"
+                  >
                     Service date
                   </label>
                   <div className="mt-2">
                     <input
                       type="date"
-                      name="service-date"
+                      name="serviceDate"
                       id="date"
                       placeholder="date"
                       className="block w-full px-4 rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
-                      {...register("service-date")}
+                      {...register("serviceDate")}
                     />
                   </div>
                 </div>
@@ -161,11 +192,11 @@ const page = () => {
                   <div className="mt-2">
                     <input
                       type="time"
-                      name="service-time-start"
+                      name="serviceTimeStart"
                       id="serviceTimeStart"
                       placeholder="serviceTimeStart"
                       className="block px-4 w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6 "
-                      {...register("service-time-start")}
+                      {...register("serviceTimeStart")}
                     />
                   </div>
                 </div>
@@ -185,11 +216,11 @@ const page = () => {
                   <div className="mt-2">
                     <input
                       type="time"
-                      name="service-time-end"
-                      id="service-time-end"
+                      name="serviceTimeEnd"
+                      id="serviceTimeEnd"
                       placeholder="serviceTimeEnd"
                       className="block px-4 w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
-                      {...register("service-time-end")}
+                      {...register("serviceTimeEnd")}
                     />
                   </div>
                 </div>
@@ -233,7 +264,7 @@ const page = () => {
                       options={teamMembersOption}
                       value={
                         teamValue
-                          ? teamMember.find((x) => x.value === teamValue)
+                          ? teamMembers.find((x) => x.value === teamValue)
                           : teamValue
                       }
                       onChange={(option) =>
@@ -262,11 +293,26 @@ const page = () => {
                           ? taskList.find((x) => x.value === taskValue)
                           : taskValue
                       }
-                      onChange={(option) =>
-                        taskOnChange(option ? option.value : option)
-                      }
+                      onChange={(option) => {
+                        console.log(option);
+                        taskOnChange(option);
+                      }}
                       {...taskField}
                       isMulti
+                    />
+                  </div>
+                </div>
+                <div className="col-span-3">
+                  <div className="">
+                    <input
+                      type="hidden"
+                      name="company"
+                      id="company"
+                      placeholder="company"
+                      required
+                      defaultValue={tokenDetails?.data?._id}
+                      className="block pl-4 w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
+                      {...register("company")}
                     />
                   </div>
                 </div>
