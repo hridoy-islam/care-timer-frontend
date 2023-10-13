@@ -1,9 +1,31 @@
 'use client';
+import axios from 'axios';
 import BreadCumb from '../../../../components/breadCumb/BreadCumb';
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Select from 'react-select'
+import { userContext } from '../../../../context/MainContext';
 import { Controller, useController, useForm } from 'react-hook-form';
-const page = () => {
+const page = () => { 
+    const { token, tokenDetails } = useContext(userContext)
+    // const [tasklist, setTasklist] = useState();
+    // const [tasklist, setTasklist] = useState();
+    const [tasklist, setTasklist] = useState();
+    const taskFetchData = () => {
+      axios.get(`${process.env.NEXT_PUBLIC_API_URL}/tasklist?softDelete=false&company=${tokenDetails?.data?._id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }).then(function (response) {
+        // handle success
+        setTasklist(response?.data?.data)
+      })
+    }
+    useEffect(() => {
+        taskFetchData()
+    }, [])
+    console.log(tasklist?.data)
+
+
     const {
         register,
         handleSubmit,

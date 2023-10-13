@@ -13,7 +13,6 @@ const page = () => {
     const { tokenDetails, token, setToken, setTokenDetails } = useContext(userContext);
     console.log(tokenDetails, token)
     var tokenDecoded = jwt.decode(token);
-    console.log(tokenDecoded?.data?.role)
     const role = tokenDecoded?.data?.role
     if (role == 'admin') {
         toast.success('Admin Logged In', {
@@ -49,11 +48,9 @@ const page = () => {
         setPasswordType("password")
     }
     const onsubmit = data => {
-        console.log(data)
         axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, data)
 
             .then(({ data }) => {
-                console.log(data)
                 if (!data.success) {
                     // console.log(data?.data?.token)
                     var decoded = jwt.decode(data?.data?.token);
