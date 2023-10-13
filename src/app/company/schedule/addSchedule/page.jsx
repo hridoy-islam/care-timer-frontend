@@ -5,7 +5,10 @@ import React, { useContext, useEffect, useState } from "react";
 import Select from "react-select";
 import { userContext } from "../../../../context/MainContext";
 import { Controller, useController, useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 const page = () => {
+    const router = useRouter()
   const { token, tokenDetails } = useContext(userContext);
   const [taskList, setTaskList] = useState([]);
   const [teamMembers, setTeamMembers] = useState([]);
@@ -73,8 +76,7 @@ const page = () => {
   }, []);
 
   const taskListOption = taskList.map((task) => ({
-    value: task._id,
-    label: task.taskName,
+    taskName : task.taskName,
     status: "pending",
   }));
 
@@ -84,7 +86,7 @@ const page = () => {
   }));
 
   const serviceUserOption = serviceUsers.map((user) => ({
-    value: user.name,
+    value: user._id,
     label: user.name,
   }));
 
@@ -100,10 +102,10 @@ const page = () => {
 
   const {
     field: { value: taskValue, onChange: taskOnChange, ...taskField },
-  } = useController({ name: "taskName", control });
+  } = useController({ name: "taskList", control });
 
-  const onsubmit = (data) => {
-    const modifyData = { ...data, status: "pending" };
+  const onsubmit = data => {
+    const modifyData = { ...data };
     console.log(modifyData);
     // try {
     //   axios
@@ -120,17 +122,29 @@ const page = () => {
     // } catch (error) {
     //   console.error(error);
     // }
-    axios
-      .post(`${process.env.NEXT_PUBLIC_API_URL}/service`, modifyData, {
+    axios.post(`${process.env.NEXT_PUBLIC_API_URL}/service`, data, {
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(({ data }) => {
-        console.log(data);
-      });
-    reset;
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(({ data }) => {
+        if (!data.success) {
+            toast.success('Service Added', {
+                position: toast.POSITION.TOP_CENTER
+            });
+            return router.push('/company/report')
+        }
+        else {
+            toast.error("Something Error", {
+                position: toast.POSITION.TOP_CENTER
+            });
+            return router.push('/company/schedule/addSchedule')
+        };
+        reset()
+    })
+        .catch(error => {
+            const res = error.response;
+            toast.error(res);
+        });
   };
 
   return (
@@ -144,7 +158,7 @@ const page = () => {
           <div className="space-y-12 mt-8">
             <div className=" pb-4">
               <div className=" grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                <div className="col-span-3">
+              <div className="col-span-3">
                   <label
                     htmlFor="street-address"
                     className="block text-md font-medium leading-6 text-gray-900"
@@ -162,8 +176,6 @@ const page = () => {
                     />
                   </div>
                 </div>
-              </div>
-              <div className=" grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div className="col-span-3">
                   <label
                     htmlFor="street-address"
@@ -173,7 +185,7 @@ const page = () => {
                   </label>
                   <div className="mt-2">
                     <input
-                      type="date"
+                      type="text"
                       name="serviceDate"
                       id="date"
                       placeholder="date"
@@ -200,12 +212,6 @@ const page = () => {
                     />
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div className="space-y-8 mt-4">
-            <div className="border-b border-gray-900/10 pb-8">
-              <div className=" grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div className="col-span-3">
                   <label
                     htmlFor="city"
@@ -313,6 +319,20 @@ const page = () => {
                       defaultValue={tokenDetails?.data?._id}
                       className="block pl-4 w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
                       {...register("company")}
+                    />
+                  </div>
+                </div>
+                <div className="col-span-3">
+                  <div className="">
+                    <input
+                      type="hidden"
+                      name="status"
+                      id="status"
+                      placeholder="status"
+                      required
+                      defaultValue='active'
+                      className="block pl-4 w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
+                      {...register("status")}
                     />
                   </div>
                 </div>
