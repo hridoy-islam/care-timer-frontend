@@ -6,7 +6,7 @@ import Select from "react-select";
 import { userContext } from "../../../../context/MainContext";
 import { Controller, useController, useForm } from "react-hook-form";
 
-=======
+
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 const page = () => {
@@ -144,29 +144,29 @@ const page = () => {
     // } catch (error) {
     //   console.error(error);
     // }
-    axios.post(`${process.env.NEXT_PUBLIC_API_URL}/service`, data, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    }).then(({ data }) => {
-        if (!data.success) {
-            toast.success('Service Added', {
-                position: toast.POSITION.TOP_CENTER
-            });
-            return router.push('/company/report')
-        }
-        else {
-            toast.error("Something Error", {
-                position: toast.POSITION.TOP_CENTER
-            });
-            return router.push('/company/schedule/addSchedule')
-        };
-        reset()
-    })
-        .catch(error => {
-            const res = error.response;
-            toast.error(res);
-        });
+    // axios.post(`${process.env.NEXT_PUBLIC_API_URL}/service`, data, {
+    //     headers: {
+    //         'Authorization': `Bearer ${token}`
+    //     }
+    // }).then(({ data }) => {
+    //     if (!data.success) {
+    //         toast.success('Service Added', {
+    //             position: toast.POSITION.TOP_CENTER
+    //         });
+    //         return router.push('/company/report')
+    //     }
+    //     else {
+    //         toast.error("Something Error", {
+    //             position: toast.POSITION.TOP_CENTER
+    //         });
+    //         return router.push('/company/schedule/addSchedule')
+    //     };
+    //     reset()
+    // })
+    //     .catch(error => {
+    //         const res = error.response;
+    //         toast.error(res);
+    //     });
   };
 
   return (

@@ -4,10 +4,10 @@ import Link from "next/link";
 import React, { useContext, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { userContext } from "../../../context/MainContext";
-const actions = [
-   { id: 1, label: "Profile", route: "/user/profile" },
-   { id: 2, label: "Settings", route: "/user/createProfile" }
-];
+// const actions = [
+//    { id: 1, label: "Profile", route: "/user/profile" },
+//    { id: 2, label: "Settings", route: "/user/createProfile" }
+// ];
 
 const UserAreaSelectBox = () => {
    const [open, setOpen] = useState(false);
@@ -27,7 +27,7 @@ const UserAreaSelectBox = () => {
                } transition-all duration-200 overflow-hidden absolute top-12 right-0`}
             ><h3 className="pl-4">Signed in as</h3>
             <h3 className="py-2  pl-4">{tokenDetails?.data?.email}</h3>
-               {actions.map((item) => (
+               {/* {actions.map((item) => (
                   <div
                      key={item.id}
                      onClick={() => {
@@ -37,7 +37,7 @@ const UserAreaSelectBox = () => {
                   >
                      <Link href={item.route}>{item.label}</Link>
                   </div>
-               ))}
+               ))} */}
             </div>
          </div>
          <div

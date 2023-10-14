@@ -7,6 +7,7 @@ import { BiEditAlt, BiSolidDownload } from "react-icons/bi";
 import { BsTrash3 } from "react-icons/bs";
 import Select from 'react-select';
 import { userContext } from '../../../context/MainContext';
+import { toast } from 'react-toastify';
 // import { DateRangePicker } from 'rsuite';
 const Page = () => {
   const [service, setService] = useState();
@@ -38,7 +39,33 @@ const Page = () => {
     { value: 'Missed', label: 'Missed' }
   ]
   const handleDelete = async (_id) => {
-    const proceed = window.confirm("Are you sure to delete this?");
+    const proceed = window.confirm("Are you sure to delete this?"); 
+    try {
+      if (proceed) {
+        axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/service/${_id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }).then(({ data }) => {
+          if (!data.success) {
+            toast.success('Service Archived', {
+              position: toast.POSITION.TOP_CENTER
+            });
+          }
+          else {
+            toast.error("Something Error", {
+              position: toast.POSITION.TOP_CENTER
+            });
+          }
+        }).catch(error => {
+          const res = error.response;
+          toast.error(res);
+        });
+      }
+    } catch (error) {
+      alert(error.response);
+      toast.error("Something Went Worng");
+    }
 
   };
   return (
