@@ -5,6 +5,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Select from "react-select";
 import { userContext } from "../../../../context/MainContext";
 import { Controller, useController, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 const page = () => {
   const { token, tokenDetails } = useContext(userContext);
   const [taskList, setTaskList] = useState([]);
@@ -84,7 +85,7 @@ const page = () => {
   }));
 
   const serviceUserOption = serviceUsers.map((user) => ({
-    value: user.name,
+    value: user._id,
     label: user.name,
   }));
 
@@ -100,36 +101,28 @@ const page = () => {
 
   const {
     field: { value: taskValue, onChange: taskOnChange, ...taskField },
-  } = useController({ name: "taskName", control });
+  } = useController({ name: "taskList", control });
 
   const onsubmit = (data) => {
     const modifyData = { ...data, status: "pending" };
     console.log(modifyData);
-    // try {
-    //   axios
-    //     .post(`${process.env.NEXT_PUBLIC_API_URL}/service`, modifyData, {
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         Authorization: `Bearer ${token}`,
-    //       },
-    //     })
-    //     .then(function (response) {
-    //       // handle success
-    //       console.log(response);
-    //     });
-    // } catch (error) {
-    //   console.error(error);
-    // }
-    // axios
-    //   .post(`${process.env.NEXT_PUBLIC_API_URL}/service`, modifyData, {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   })
-    //   .then(({ data }) => {
-    //     console.log(data);
-    //   });
+    try {
+      axios
+        .post(`${process.env.NEXT_PUBLIC_API_URL}/service`, modifyData, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(function ({ status }) {
+          // handle success
+          if (status === 200) {
+            toast.success("Schedule Created Successfully");
+          }
+        });
+    } catch (error) {
+      console.error(error);
+    }
     reset;
   };
 
@@ -173,10 +166,10 @@ const page = () => {
                   </label>
                   <div className="mt-2">
                     <input
-                      type="date"
+                      type="text"
                       name="serviceDate"
                       id="date"
-                      placeholder="date"
+                      placeholder="mm/dd/yyyy"
                       className="block w-full px-4 rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
                       {...register("serviceDate")}
                     />
@@ -325,7 +318,7 @@ const page = () => {
           <div className="mt-6 flex items-center justify-center lg:justify-end gap-x-12 ">
             <button
               type="submit"
-              class="py-3 px-8 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-[#fff] hover:bg-[#f98808c0] focus:outline-none focus:ring-2 focus:ring-[#F98708] focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+              className="py-3 px-8 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-[#fff] hover:bg-[#f98808c0] focus:outline-none focus:ring-2 focus:ring-[#F98708] focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
             >
               Create Schedule
             </button>
