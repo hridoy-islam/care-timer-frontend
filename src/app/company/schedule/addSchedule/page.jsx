@@ -120,16 +120,16 @@ const page = () => {
     // } catch (error) {
     //   console.error(error);
     // }
-    axios
-      .post(`${process.env.NEXT_PUBLIC_API_URL}/service`, modifyData, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(({ data }) => {
-        console.log(data);
-      });
+    // axios
+    //   .post(`${process.env.NEXT_PUBLIC_API_URL}/service`, modifyData, {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //   })
+    //   .then(({ data }) => {
+    //     console.log(data);
+    //   });
     reset;
   };
 
@@ -294,8 +294,11 @@ const page = () => {
                           : taskValue
                       }
                       onChange={(option) => {
-                        console.log(option);
-                        taskOnChange(option);
+                        const modOpt = option.map((opt) => ({
+                          taskName: opt.label,
+                          status: opt.status,
+                        }));
+                        taskOnChange(modOpt);
                       }}
                       {...taskField}
                       isMulti
