@@ -6,11 +6,10 @@ import Select from "react-select";
 import { userContext } from "../../../../context/MainContext";
 import { Controller, useController, useForm } from "react-hook-form";
 
-
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 const page = () => {
-    const router = useRouter()
+  const router = useRouter();
   const { token, tokenDetails } = useContext(userContext);
   const [taskList, setTaskList] = useState([]);
   const [teamMembers, setTeamMembers] = useState([]);
@@ -78,7 +77,8 @@ const page = () => {
   }, []);
 
   const taskListOption = taskList.map((task) => ({
-    taskName : task.taskName,
+    value: task._id,
+    label: task.taskName,
     status: "pending",
   }));
 
@@ -106,7 +106,7 @@ const page = () => {
     field: { value: taskValue, onChange: taskOnChange, ...taskField },
   } = useController({ name: "taskList", control });
 
-  const onsubmit = data => {
+  const onsubmit = (data) => {
     const modifyData = { ...data };
     console.log(modifyData);
 
@@ -180,7 +180,7 @@ const page = () => {
           <div className="space-y-12 mt-8">
             <div className=" pb-4">
               <div className=" grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div className="col-span-3">
+                <div className="col-span-3">
                   <label
                     htmlFor="street-address"
                     className="block text-md font-medium leading-6 text-gray-900"
@@ -355,7 +355,7 @@ const page = () => {
                       id="status"
                       placeholder="status"
                       required
-                      defaultValue='active'
+                      defaultValue="active"
                       className="block pl-4 w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
                       {...register("status")}
                     />
