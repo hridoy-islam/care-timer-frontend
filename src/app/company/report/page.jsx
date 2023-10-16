@@ -52,7 +52,7 @@ const Page = () => {
         setService(response?.data?.data);
       });
   };
-  console.log(serviceUsers);
+  console.log(service);
 
   const fetchTeamMemberData = () => {
     try {

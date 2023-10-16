@@ -59,20 +59,7 @@ const page = ({ params: { _id } }) => {
               </div>
             </td>
           </tr>
-          <tr>
-            <th scope="col" className="px-6 py-3 text-left">
-              <div className="flex items-center gap-x-2">
-                <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
-                  Task Name
-                </span>
-              </div>
-            </th>
-            <td className="h-px w-72 whitespace-nowrap">
-              <div className="px-6 py-3">
-                <span className="block text-md text-secondary">{service?.taskList[0]?.taskName}</span>
-              </div>
-            </td>
-          </tr>
+          
           <tr>
             <th scope="col" className="px-6 py-3 text-left">
               <div className="flex items-center gap-x-2">
@@ -105,13 +92,83 @@ const page = ({ params: { _id } }) => {
             <th scope="col" className="px-6 py-3 text-left">
               <div className="flex items-center gap-x-2">
                 <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
+                Team Member Name
+                </span>
+              </div>
+            </th>
+            <td className="h-px w-72 whitespace-nowrap">
+              <div className="px-6 py-3">
+                <span className="block text-md text-secondary">{service?.worker?.name}</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="col" className="px-6 py-3 text-left">
+              <div className="flex items-center gap-x-2">
+                <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
+                  Team Member Phone
+                </span>
+              </div>
+            </th>
+            <td className="h-px w-72 whitespace-nowrap">
+              <div className="px-6 py-3">
+                <span className="block text-md text-secondary">{service?.worker?.phone}</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="col" className="px-6 py-3 text-left">
+              <div className="flex items-center gap-x-2">
+                <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
+                Service User Name
+                </span>
+              </div>
+            </th>
+            <td className="h-px w-72 whitespace-nowrap">
+              <div className="px-6 py-3">
+                <span className="block text-md text-secondary">{service?.customer?.name}</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="col" className="px-6 py-3 text-left">
+              <div className="flex items-center gap-x-2">
+                <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
+                Service User Address
+                </span>
+              </div>
+            </th>
+            <td className="h-px w-72 whitespace-nowrap">
+              <div className="px-6 py-3">
+                <span className="block text-md text-secondary">{service?.customer?.location}</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="col" className="px-6 py-3 text-left">
+              <div className="flex items-center gap-x-2">
+                <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
+                  Service User Phone
+                </span>
+              </div>
+            </th>
+            <td className="h-px w-72 whitespace-nowrap">
+              <div className="px-6 py-3">
+                <span className="block text-md text-secondary">{service?.customer?.phone}</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="col" className="px-6 py-3 text-left">
+              <div className="flex items-center gap-x-2">
+                <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
                   Duration
                 </span>
               </div>
             </th>
             <td className="h-px w-72 whitespace-nowrap">
               <div className="px-6 py-3">
-                <span className="block text-md text-secondary">{service?.duration}</span>
+                <span className="block text-md text-secondary">1h 21m</span>
               </div>
             </td>
           </tr>
@@ -125,10 +182,11 @@ const page = ({ params: { _id } }) => {
             </th>
             <td className="h-px w-72 whitespace-nowrap">
               <div className="px-6 py-3">
-                <span className="block text-md text-secondary">{service?.workerLogin}</span>
+                <span className="block text-md text-secondary">10:15</span>
               </div>
             </td>
           </tr>
+          
           <tr>
             <th scope="col" className="px-6 py-3 text-left">
               <div className="flex items-center gap-x-2">
@@ -139,7 +197,7 @@ const page = ({ params: { _id } }) => {
             </th>
             <td className="h-px w-72 whitespace-nowrap">
               <div className="px-6 py-3">
-                <span className="block text-md text-secondary">{service?.workerLogout}</span>
+                <span className="block text-md text-secondary">18:23</span>
               </div>
             </td>
           </tr>
@@ -158,8 +216,27 @@ const page = ({ params: { _id } }) => {
             </td>
           </tr>
 
-          <tr >
-
+          <tr>
+            <th scope="col" className="px-6 py-3 text-left">
+              <div className="flex items-center gap-x-2">
+                <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
+                  Task Name
+                </span>
+              </div>
+            </th>
+            <td className="h-px w-72 whitespace-nowrap">
+              <div className="px-6 py-3">
+                <ul className='list-disc'>
+                  {
+                    service?.taskList?.map((item, index) =>(
+                      <li key={index}>
+                        <span className="block text-md text-secondary">{item.taskName}<span class="inline-flex items-center ml-2 gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-red-100 text-red-800">{item.status}</span></span>
+                      </li>
+                    ))
+                  }
+                </ul>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
