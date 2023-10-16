@@ -17,8 +17,14 @@ const Page = () => {
   const [serviceUser, setServiceUser] = useState("");
   const [status, setStatus] = useState("");
   const { token, tokenDetails } = useContext(userContext);
+  // For Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [totalCount, setTotalCount] = useState(9);
+
+  // console.log(router);
   const fetchData = () => {
-    let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/service?softDelete=false&company=${tokenDetails?.data?._id}&sort_by={"createdAt":-1}`;
+    let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/service?page=${currentPage}&limit=${itemsPerPage}&softDelete=false&company=${tokenDetails?.data?._id}&sort_by={"createdAt":-1}`;
     if (teamMember) {
       apiUrl += `&worker=${teamMember}`;
     }
@@ -40,6 +46,9 @@ const Page = () => {
       .then(function (response) {
         console.log(response);
         // handle success
+        setCurrentPage(response?.data?.data?.metadata?.page);
+        setItemsPerPage(response?.data?.data?.metadata?.limit);
+        setTotalCount(response?.data?.data?.metadata?.total_count);
         setService(response?.data?.data);
       });
   };
@@ -86,7 +95,7 @@ const Page = () => {
 
   useEffect(() => {
     fetchData();
-  }, [teamMember, serviceUser, status]);
+  }, [teamMember, serviceUser, status, currentPage]);
 
   useEffect(() => {
     fetchTeamMemberData();
@@ -380,6 +389,7 @@ const Page = () => {
                       <button
                         type="button"
                         class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm"
+                        onClick={() => setCurrentPage(currentPage - 1)}
                       >
                         <svg
                           class="w-3 h-3"
@@ -400,6 +410,7 @@ const Page = () => {
                       <button
                         type="button"
                         class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm      "
+                        onClick={() => setCurrentPage(currentPage + 1)}
                       >
                         Next
                         <svg
