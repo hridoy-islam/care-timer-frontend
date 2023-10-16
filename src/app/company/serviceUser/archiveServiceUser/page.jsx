@@ -10,7 +10,7 @@ const Page = () => {
   const { token, tokenDetails } = useContext(userContext);
   const [serviceUser, setServiceUser] = useState();
   const fetchData = () => {
-    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/customer?softDelete=true&company=${tokenDetails?.data?._id}`, {
+    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/customer?softDelete=true&company=${tokenDetails?.data?._id}&&sort_by={"updatedAt":-1}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }

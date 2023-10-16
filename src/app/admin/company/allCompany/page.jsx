@@ -17,7 +17,7 @@ const Page = () => {
 
   // All Company View
   const fetchData = () => {
-    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/company?softDelete=false&role=company`, {
+    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/company?softDelete=false&role=company&&sort_by={"createdAt":-1}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }

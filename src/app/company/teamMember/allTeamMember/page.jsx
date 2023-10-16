@@ -15,7 +15,7 @@ const Page = () => {
   const [teamMember, setTeamMember] = useState();
 
   const fetchData = () => {
-    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/worker?softDelete=false`, {
+    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/worker?softDelete=false&&sort_by={"createdAt":-1}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }

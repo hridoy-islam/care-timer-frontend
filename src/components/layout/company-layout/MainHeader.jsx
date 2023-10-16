@@ -29,7 +29,7 @@ export default function MainHeader({ showNav, setShowNav }) {
 }
   return (
     <div
-      className={`fixed w-full h-16 flex bg-gray-50 shadow-lg mb-6 justify-between items-center transition-all duration-[400ms] z-80  ${showNav ? "pl-56" : ""
+      className={`fixed w-full h-16 flex bg-gray-50 shadow-lg mb-6 justify-between items-center transition-all duration-[400ms] z-10  ${showNav ? "pl-56" : ""
         }`}
     >
       <div className="pl-4 md:pl-16 ml-12">

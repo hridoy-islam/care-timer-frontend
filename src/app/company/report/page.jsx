@@ -17,7 +17,7 @@ const Page = () => {
   const { token, tokenDetails } = useContext(userContext);
   const fetchData = () => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/service?softDelete=false`, {
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/service?softDelete=false&&company=${tokenDetails?.data?._id}&&sort_by={"createdAt":-1}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -160,11 +160,11 @@ const Page = () => {
                       </div>
 
                       <div>
-                        <label className="pb-1 pl-1 text-sm font-base font-serif z-10">
+                        <label className="pb-1 pl-1 text-sm font-base font-serif ">
                           Filter By Team Member
                         </label>
                         <Select
-                          className="w-48 py-1 z-10 focus:ring-primary border-gray-300"
+                          className="w-48 py-1 focus:ring-primary border-gray-300"
                           options={teamMembersOption}
                           onChange={(e) => setTeamMember(e.value)}
                         />

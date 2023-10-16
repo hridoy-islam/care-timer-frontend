@@ -78,6 +78,23 @@ const page = ({ params: { _id } }) => {
                                     </div>
                                 </div>
                                 <div className="col-span-3">
+                                    <label htmlFor="street-address" className="block text-md font-medium leading-6 text-gray-900">
+                                        Service User Phone
+                                    </label>
+                                    <div className="mt-2">
+                                        <input
+                                            type="text"
+                                            name="phone"
+                                            id="phone"
+                                            placeholder='phone'
+                                            required
+                                            defaultValue={serviceUser?.phone}
+                                            className="block w-full pl-4 rounded-md border-0 py-2 text-[gray-900 ] shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
+                                            {...register('phone')}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-span-3">
                                     <label htmlFor="city" className="block text-md font-medium leading-6 text-gray-900">
                                         Latitude
                                     </label>
@@ -94,13 +111,6 @@ const page = ({ params: { _id } }) => {
                                         />
                                     </div>
                                 </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div className="space-y-8 mt-4">
-                        <div className="border-b border-gray-900/10 pb-8">
-                            <div className=" grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                 <div className="col-span-3">
                                     <label htmlFor="street-address" className="block text-md font-medium leading-6 text-gray-900">
                                         Longitude
@@ -135,7 +145,6 @@ const page = ({ params: { _id } }) => {
                                         />
                                     </div>
                                 </div>
-
 
                             </div>
                         </div>

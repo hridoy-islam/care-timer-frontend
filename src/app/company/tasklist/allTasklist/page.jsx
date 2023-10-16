@@ -13,7 +13,7 @@ const Page = () => {
   const { token, tokenDetails } = useContext(userContext)
   const [tasklist, setTasklist] = useState();
   const fetchData = () => {
-    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/tasklist?softDelete=false&company=${tokenDetails?.data?._id}`, {
+    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/tasklist?softDelete=false&company=${tokenDetails?.data?._id}&&sort_by={"createdAt":-1}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -35,7 +35,7 @@ const Page = () => {
             'Authorization': `Bearer ${token}`
           }
         }).then(({ data }) => {
-          if (data.success) {
+          if (!data.success) {
             toast.success('Task list Archived', {
               position: toast.POSITION.TOP_CENTER
             });
@@ -97,13 +97,13 @@ const Page = () => {
                           </span>
                         </div>
                       </th>
-                      <th scope="col" class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3 text-left">
+                      {/* <th scope="col" class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3 text-left">
                         <div class="flex items-center gap-x-2 pl-6">
                           <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
                             Status
                           </span>
                         </div>
-                      </th>
+                      </th> */}
 
 
                       <th scope="col" class="px-6 py-3 text-center">
@@ -123,11 +123,11 @@ const Page = () => {
                           <span class="block text-md text-secondary">{item.taskName}</span>
                         </div>
                       </td>
-                      <td class="h-px pl-6 w-px whitespace-nowrap">
+                      {/* <td class="h-px pl-6 w-px whitespace-nowrap">
                         <div class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
                           <span class="block text-md text-secondary capitalize">{item.status}</span>
                         </div>
-                      </td>
+                      </td> */}
 
 
                       <td class="h-px w-12 whitespace-nowrap">
