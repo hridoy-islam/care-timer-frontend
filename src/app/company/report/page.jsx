@@ -253,6 +253,17 @@ const Page = () => {
                       >
                         <div class="flex items-center gap-x-2 pl-6">
                           <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
+                            Service User
+                          </span>
+                        </div>
+                      </th>
+
+                      <th
+                        scope="col"
+                        class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3 text-left"
+                      >
+                        <div class="flex items-center gap-x-2 pl-6">
+                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
                             Service Date
                           </span>
                         </div>
@@ -269,6 +280,16 @@ const Page = () => {
                         <div class="flex items-center gap-x-2">
                           <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
                             Service Time End
+                          </span>
+                        </div>
+                      </th>
+                      <th
+                        scope="col"
+                        class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3 text-left"
+                      >
+                        <div class="flex items-center gap-x-2 pl-6">
+                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
+                            Team Member
                           </span>
                         </div>
                       </th>
@@ -293,6 +314,13 @@ const Page = () => {
                               </span>
                             </div>
                           </td>
+                          <td class="h-px w-72 whitespace-nowrap">
+                            <div class="px-6 py-3">
+                              <span class="block text-md text-secondary">
+                                {item.customer?.name}
+                              </span>
+                            </div>
+                          </td>
                           <td class="h-px pl-6 w-px whitespace-nowrap">
                             <div class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
                               <span class="block text-md text-secondary">
@@ -311,6 +339,14 @@ const Page = () => {
                             <div class="px-6 py-3">
                               <span class="block text-md text-secondary">
                                 {item.serviceTimeEnd}
+                              </span>
+                            </div>
+                          </td>
+
+                          <td class="h-px w-72 whitespace-nowrap">
+                            <div class="px-6 py-3">
+                              <span class="block text-md text-secondary">
+                                {item.worker?.name}
                               </span>
                             </div>
                           </td>
