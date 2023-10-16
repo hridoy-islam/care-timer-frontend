@@ -9,6 +9,8 @@ import React from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 import { userContext } from '../../../context/MainContext';
+import moment from 'moment';
+import { toast } from 'react-toastify';
 
 const Page = () => {    
   const { register, handleSubmit } = useForm();
@@ -22,18 +24,47 @@ const Page = () => {
         },
       })
       .then(function (response) {
-        console.log(response);
         // handle success
         setPayDate(response?.data?.data);
       });
   };
-  console.log(payDate)
    useEffect(() => {
     fetchData();
   }, []);
-  const onsubmit = data => {
-    console.log(data);
-}
+
+
+  const onsubmit = (data) => {
+    const { nextpayday } = data;
+    const formatDate = moment(nextpayday).format("L");
+    const modifyData = { ...data, nextpayday: formatDate };
+    console.log(modifyData);
+
+    try {
+      axios
+        .patch(`${process.env.NEXT_PUBLIC_API_URL}/payday/${payDate?.data[0]?._id}`, modifyData, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(function ({ status }) {
+          // handle success
+          if (status === 200) {
+            toast.success("Pay Date Update Successfully", {
+              position: toast.POSITION.TOP_CENTER,
+            });
+          }
+        });
+    } catch (error) {
+      console.error(error);
+    }
+
+  };
+  const dateShow = payDate?.data[0]?.nextpayday;
+  console.log(dateShow)
+  const formatPayDate = moment(dateShow).format("LL");
+  // const formatPayDate = { nextpayday: formatDate };
+  console.log(formatPayDate)
   return (
     <div>
       <div class="w-full px-4 py-10 sm:px-6 lg:px-8 lg:py-4 content-none  mx-auto">
@@ -46,7 +77,7 @@ const Page = () => {
                     {
                       payDate?.data?.length > 0 ?
                       <h2 class="text-2xl font-semibold text-gray-800 ">
-                    Next Pay Day - {payDate?.data[0]?.nextpayday}
+                    Next Pay Day - {formatPayDate}
                     </h2>
                     :
                     <h2 class="text-2xl font-semibold text-gray-800 ">
@@ -69,7 +100,7 @@ const Page = () => {
                     <form onSubmit={handleSubmit(onsubmit)} className='flex flex-col'>
                     <input
                         className="border rounded-md py-1.5 px-3 w-4/12 mb-8"
-                        type="date"  pattern="\d{4}-\d{2}-\d{2}" {...register('date')} 
+                        type="date"  {...register('nextpayday')} 
                       ></input>
                       <div>
                       <button type="submit" class="py-3 px-8  justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-[#fff] hover:bg-[#f98808c0] focus:outline-none focus:ring-2 focus:ring-[#F98708] focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
@@ -81,7 +112,7 @@ const Page = () => {
                     <form onSubmit={handleSubmit(onsubmit)} className='flex flex-col'>
                       <input
                           className="border rounded-md py-1.5 px-3 w-4/12 mb-8"
-                          type="date"  pattern="\d{4}/\d{2}/\d{2}" {...register('date')} 
+                          type="date" defaultValue={formatPayDate} {...register('nextpayday')} 
                         ></input>
                         <div>
                         <button type="submit" class="py-3 px-8  justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-[#fff] hover:bg-[#f98808c0] focus:outline-none focus:ring-2 focus:ring-[#F98708] focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
