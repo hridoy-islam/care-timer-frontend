@@ -108,8 +108,8 @@ const page = () => {
   } = useController({ name: "taskList", control });
 
   const onsubmit = (data) => {
-    const { serviceData } = data;
-    const formatServiceDate = moment(serviceData).format("L");
+    const { serviceDate } = data;
+    const formatServiceDate = moment(serviceDate).format("L");
     const modifyData = { ...data, serviceDate: formatServiceDate };
     console.log(modifyData);
 
@@ -132,7 +132,7 @@ const page = () => {
     } catch (error) {
       console.error(error);
     }
-    reset();
+    reset;
   };
 
   return (
