@@ -14,10 +14,25 @@ const Page = () => {
   const [teamMembers, setTeamMembers] = useState([]);
   const [serviceUsers, setServiceUsers] = useState([]);
   const [teamMember, setTeamMember] = useState("");
+  const [serviceUser, setServiceUser] = useState("");
+  const [status, setStatus] = useState("");
   const { token, tokenDetails } = useContext(userContext);
   const fetchData = () => {
+    let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/service?softDelete=false&&company=${tokenDetails?.data?._id}&&sort_by={"createdAt":-1}`;
+    if (teamMember) {
+      apiUrl += `&&worker=${teamMember}`;
+    }
+    if (serviceUser) {
+      apiUrl += `&&customer=${serviceUser}`;
+    }
+    if (status) {
+      apiUrl += `&&status=${status}`;
+    }
+    if (status) {
+      apiUrl += `&&status=${status}`;
+    }
     axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/service?softDelete=false&&company=${tokenDetails?.data?._id}&&sort_by={"createdAt":-1}`, {
+      .get(apiUrl, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -28,7 +43,7 @@ const Page = () => {
         setService(response?.data?.data);
       });
   };
-  console.log(service)
+  console.log(status);
 
   const fetchTeamMemberData = () => {
     try {
@@ -51,7 +66,9 @@ const Page = () => {
 
   const fetchServiceUsersData = () => {
     try {
-      axios.get(`${process.env.NEXT_PUBLIC_API_URL}/customer?softDelete=false&company=${tokenDetails?.data?._id}`,
+      axios
+        .get(
+          `${process.env.NEXT_PUBLIC_API_URL}/customer?softDelete=false&company=${tokenDetails?.data?._id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -69,7 +86,7 @@ const Page = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [teamMember, serviceUser, status]);
 
   useEffect(() => {
     fetchTeamMemberData();
@@ -85,10 +102,10 @@ const Page = () => {
     value: user._id,
     label: user.name,
   }));
-  const status = [
-    { value: "Pending", label: "Pending" },
-    { value: "Done", label: "Done" },
-    { value: "Missed", label: "Missed" },
+  const statusOption = [
+    { value: "pending", label: "Pending" },
+    { value: "active", label: "Active" },
+    { value: "missed", label: "Missed" },
   ];
   const handleDelete = async (_id) => {
     const proceed = window.confirm("Are you sure to delete this?");
@@ -136,7 +153,7 @@ const Page = () => {
                   Export PDF <BiSolidDownload className="text-xl" />
                 </Link>
               </div>
-              <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden  ">
+              <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden h-full  ">
                 <div class="px-6 py-4 grid gap-3 border-b border-gray-200 ">
                   <div>
                     <div class="flex justify-between items-center gap-x-2">
@@ -177,6 +194,7 @@ const Page = () => {
                         <Select
                           className="w-48 py-1  focus:ring-primary border-gray-300"
                           options={serviceUsersOption}
+                          onChange={(e) => setServiceUser(e.value)}
                         />
                       </div>
                       <div>
@@ -185,7 +203,8 @@ const Page = () => {
                         </label>
                         <Select
                           className="w-48 py-1  focus:ring-primary border-gray-300"
-                          options={status}
+                          options={statusOption}
+                          onChange={(e) => setStatus(e.value)}
                         />
                       </div>
 
