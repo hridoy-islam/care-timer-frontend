@@ -1,66 +1,70 @@
-'use client';
+"use client";
 
-import axios from 'axios';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import React, { useContext, useEffect, useState } from 'react';
+import axios from "axios";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineEye } from "react-icons/ai";
 import { BiEditAlt } from "react-icons/bi";
 import { BsTrash3 } from "react-icons/bs";
-import { toast } from 'react-toastify';
-import { userContext } from '../../../../context/MainContext';
+import { toast } from "react-toastify";
+import { userContext } from "../../../../context/MainContext";
 
 const Page = () => {
-  const router = useRouter()
-  const { token, tokenDetails } = useContext(userContext)
+  const router = useRouter();
+  const { token, tokenDetails } = useContext(userContext);
   const [serviceUser, setServiceUser] = useState();
   const fetchData = () => {
-    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/customer?softDelete=false&company=${tokenDetails?.data?._id}&&sort_by={"createdAt":-1}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    }).then(function (response) {
-      // handle success
-      setServiceUser(response?.data?.data)
-    })
-  }
+    axios
+      .get(
+        `${process.env.NEXT_PUBLIC_API_URL}/customer?softDelete=false&company=${tokenDetails?.data?._id}&sort_by={"createdAt":-1}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then(function (response) {
+        // handle success
+        setServiceUser(response?.data?.data);
+      });
+  };
   useEffect(() => {
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
   const handleDelete = async (_id) => {
     const proceed = window.confirm("Are you sure to delete this?");
 
     try {
       if (proceed) {
-        axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/customer/${_id}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        }).then(({ data }) => {
-          if (!data.success) {
-            toast.success('Service User Archived', {
-              position: toast.POSITION.TOP_CENTER
-            });
-            return router.push('/company/serviceUser/allServiceUser')
-          }
-          else {
-            toast.error("Something Error", {
-              position: toast.POSITION.TOP_CENTER
-            });
-            return router.push('/company/serviceUser/allServiceUser')
-          }
-        }).catch(error => {
-          const res = error.response;
-          toast.error(res);
-        });
+        axios
+          .delete(`${process.env.NEXT_PUBLIC_API_URL}/customer/${_id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then(({ data }) => {
+            if (!data.success) {
+              toast.success("Service User Archived", {
+                position: toast.POSITION.TOP_CENTER,
+              });
+              return router.push("/company/serviceUser/allServiceUser");
+            } else {
+              toast.error("Something Error", {
+                position: toast.POSITION.TOP_CENTER,
+              });
+              return router.push("/company/serviceUser/allServiceUser");
+            }
+          })
+          .catch((error) => {
+            const res = error.response;
+            toast.error(res);
+          });
       }
     } catch (error) {
       alert(error.response);
       toast.error("Something Went Worng");
     }
-
-
-
   };
   return (
     <div>
@@ -77,11 +81,24 @@ const Page = () => {
                   </div>
                   <div>
                     <div class="inline-flex gap-x-2">
-
-                      <Link class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-white hover:bg-primary focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm "
-                        href="/company/serviceUser/addServiceUser">
-                        <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                          <path d="M2.63452 7.50001L13.6345 7.5M8.13452 13V2" stroke="currentColor" strokeWidth="2" stroke-linecap="round" />
+                      <Link
+                        class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-white hover:bg-primary focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm "
+                        href="/company/serviceUser/addServiceUser"
+                      >
+                        <svg
+                          class="w-3 h-3"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                        >
+                          <path
+                            d="M2.63452 7.50001L13.6345 7.5M8.13452 13V2"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            stroke-linecap="round"
+                          />
                         </svg>
                         Add Service User
                       </Link>
@@ -91,8 +108,10 @@ const Page = () => {
                 <table class="min-w-full divide-y divide-gray-200 ">
                   <thead class="bg-gray-50 ">
                     <tr>
-
-                      <th scope="col" class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3 text-left">
+                      <th
+                        scope="col"
+                        class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3 text-left"
+                      >
                         <div class="flex items-center gap-x-2 pl-6">
                           <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
                             Service User
@@ -108,7 +127,6 @@ const Page = () => {
                         </div>
                       </th>
 
-
                       <th scope="col" class="px-6 py-3 text-left">
                         <div class="flex items-center justify-center gap-x-2">
                           <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
@@ -116,79 +134,136 @@ const Page = () => {
                           </span>
                         </div>
                       </th>
-
                     </tr>
                   </thead>
 
                   <tbody class="divide-y divide-gray-200 ">
-                    {serviceUser?.data?.length > 0 && serviceUser?.data?.map((item, index) => <tr key={index}>
-                      <td class="h-px pl-6 w-px whitespace-nowrap">
-                        <div class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
-                          <span class="block text-md text-secondary">{item.name}</span>
-                        </div>
-                      </td>
-                      <td class="h-px w-72 whitespace-nowrap">
-                        <div class="px-6 py-3">
-                          <span class="block text-md text-secondary">{item.location}</span>
-                        </div>
-                      </td>
-
-
-                      <td class="h-px w-24 whitespace-nowrap">
-                        <div className="flex justify-evenly ">
-                          <div class="hs-tooltip inline-block">
-                            <Link href={`/company/serviceUser/allServiceUser/viewServiceUser/${item._id}`}>
-                              <button type="button" class="hs-tooltip-toggle text-2xl">
-                                <AiOutlineEye fill="#979797" />
-                                <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
-                                  View
-                                </span>
-                              </button>
-                            </Link>
-                          </div>
-                          <div class="hs-tooltip inline-block">
-                            <Link href={`/company/serviceUser/allServiceUser/editServiceUser/${item._id}`}>
-                              <button type="button" class="hs-tooltip-toggle text-2xl">
-                                <BiEditAlt fill="#979797" />
-                                <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
-                                  Edit
-                                </span>
-                              </button>
-                            </Link>
-                          </div>
-                          <div class="hs-tooltip inline-block pr-2">
-                            <button onClick={() => handleDelete(item._id)} type="button" class="hs-tooltip-toggle text-xl">
-                              <BsTrash3 fill="red" />
-                              <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-red-800 text-xs font-medium text-white rounded-md shadow-sm " role="tooltip">
-                                Delete
+                    {serviceUser?.data?.length > 0 &&
+                      serviceUser?.data?.map((item, index) => (
+                        <tr key={index}>
+                          <td class="h-px pl-6 w-px whitespace-nowrap">
+                            <div class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
+                              <span class="block text-md text-secondary">
+                                {item.name}
                               </span>
-                            </button>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>)}
+                            </div>
+                          </td>
+                          <td class="h-px w-72 whitespace-nowrap">
+                            <div class="px-6 py-3">
+                              <span class="block text-md text-secondary">
+                                {item.location}
+                              </span>
+                            </div>
+                          </td>
+
+                          <td class="h-px w-24 whitespace-nowrap">
+                            <div className="flex justify-evenly ">
+                              <div class="hs-tooltip inline-block">
+                                <Link
+                                  href={`/company/serviceUser/allServiceUser/viewServiceUser/${item._id}`}
+                                >
+                                  <button
+                                    type="button"
+                                    class="hs-tooltip-toggle text-2xl"
+                                  >
+                                    <AiOutlineEye fill="#979797" />
+                                    <span
+                                      class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm "
+                                      role="tooltip"
+                                    >
+                                      View
+                                    </span>
+                                  </button>
+                                </Link>
+                              </div>
+                              <div class="hs-tooltip inline-block">
+                                <Link
+                                  href={`/company/serviceUser/allServiceUser/editServiceUser/${item._id}`}
+                                >
+                                  <button
+                                    type="button"
+                                    class="hs-tooltip-toggle text-2xl"
+                                  >
+                                    <BiEditAlt fill="#979797" />
+                                    <span
+                                      class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm "
+                                      role="tooltip"
+                                    >
+                                      Edit
+                                    </span>
+                                  </button>
+                                </Link>
+                              </div>
+                              <div class="hs-tooltip inline-block pr-2">
+                                <button
+                                  onClick={() => handleDelete(item._id)}
+                                  type="button"
+                                  class="hs-tooltip-toggle text-xl"
+                                >
+                                  <BsTrash3 fill="red" />
+                                  <span
+                                    class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-red-800 text-xs font-medium text-white rounded-md shadow-sm "
+                                    role="tooltip"
+                                  >
+                                    Delete
+                                  </span>
+                                </button>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
                   </tbody>
                 </table>
                 <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200 ">
                   <div>
                     <p class="text-sm text-gray-600 ">
-                      <span class="font-semibold text-gray-800 ">{serviceUser?.data?.length}</span> results
+                      <span class="font-semibold text-gray-800 ">
+                        {serviceUser?.data?.length}
+                      </span>{" "}
+                      results
                     </p>
                   </div>
 
                   <div>
                     <div class="inline-flex gap-x-2">
-                      <button type="button" class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm      ">
-                        <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                          <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+                      <button
+                        type="button"
+                        class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm      "
+                      >
+                        <svg
+                          class="w-3 h-3"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          fill="currentColor"
+                          viewBox="0 0 16 16"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
+                          />
                         </svg>
                         Prev
                       </button>
 
-                      <button type="button" class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm">
+                      <button
+                        type="button"
+                        class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm"
+                      >
                         Next
-                        <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                          <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                        <svg
+                          class="w-3 h-3"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          fill="currentColor"
+                          viewBox="0 0 16 16"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
+                          />
                         </svg>
                       </button>
                     </div>

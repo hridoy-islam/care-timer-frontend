@@ -18,18 +18,18 @@ const Page = () => {
   const [status, setStatus] = useState("");
   const { token, tokenDetails } = useContext(userContext);
   const fetchData = () => {
-    let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/service?softDelete=false&&company=${tokenDetails?.data?._id}&&sort_by={"createdAt":-1}`;
+    let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/service?softDelete=false&company=${tokenDetails?.data?._id}&sort_by={"createdAt":-1}`;
     if (teamMember) {
-      apiUrl += `&&worker=${teamMember}`;
+      apiUrl += `&worker=${teamMember}`;
     }
     if (serviceUser) {
-      apiUrl += `&&customer=${serviceUser}`;
+      apiUrl += `&customer=${serviceUser}`;
     }
     if (status) {
-      apiUrl += `&&status=${status}`;
+      apiUrl += `&status=${status}`;
     }
     if (status) {
-      apiUrl += `&&status=${status}`;
+      apiUrl += `&status=${status}`;
     }
     axios
       .get(apiUrl, {
@@ -43,7 +43,7 @@ const Page = () => {
         setService(response?.data?.data);
       });
   };
-  console.log(status);
+  console.log(serviceUsers);
 
   const fetchTeamMemberData = () => {
     try {
@@ -98,13 +98,25 @@ const Page = () => {
     label: team.name,
   }));
 
+  teamMembersOption.unshift({
+    value: "",
+    label: "All Team Members",
+  });
+
   const serviceUsersOption = serviceUsers.map((user) => ({
     value: user._id,
     label: user.name,
   }));
+
+  serviceUsersOption.unshift({
+    value: "",
+    label: "All Service User",
+  });
+
   const statusOption = [
-    { value: "pending", label: "Pending" },
+    { value: "", label: "All" },
     { value: "active", label: "Active" },
+    { value: "complete", label: "Complete" },
     { value: "missed", label: "Missed" },
   ];
   const handleDelete = async (_id) => {
@@ -197,7 +209,7 @@ const Page = () => {
                           onChange={(e) => setServiceUser(e.value)}
                         />
                       </div>
-                      <div>
+                      {/* <div>
                         <label className="pb-1 pl-1 text-sm font-base font-serif">
                           Filter By Status
                         </label>
@@ -206,7 +218,7 @@ const Page = () => {
                           options={statusOption}
                           onChange={(e) => setStatus(e.value)}
                         />
-                      </div>
+                      </div> */}
 
                       {/* <DateRangePicker /> */}
                     </div>
@@ -252,20 +264,6 @@ const Page = () => {
                         </div>
                       </th>
                       <th scope="col" class="px-6 py-3 text-left">
-                        <div class="flex items-center gap-x-2">
-                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
-                            Duration
-                          </span>
-                        </div>
-                      </th>
-                      <th scope="col" class="px-8 py-3 text-left">
-                        <div class="flex items-center gap-x-2">
-                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
-                            Status
-                          </span>
-                        </div>
-                      </th>
-                      <th scope="col" class="px-6 py-3 text-left">
                         <div class="flex items-center gap-x-2 justify-center">
                           <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
                             Action
@@ -304,22 +302,6 @@ const Page = () => {
                             <div class="px-6 py-3">
                               <span class="block text-md text-secondary">
                                 {item.serviceTimeEnd}
-                              </span>
-                            </div>
-                          </td>
-                          <td class="h-px w-72 whitespace-nowrap">
-                            <div class="px-6 py-3">
-                              <span class="block text-md text-secondary">
-                                {item.duration}
-                              </span>
-                            </div>
-                          </td>
-                          <td class="h-px w-72 whitespace-nowrap">
-                            <div class="px-6 py-3">
-                              <span class="block text-md text-secondary">
-                                <span class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                  {item.status}
-                                </span>
                               </span>
                             </div>
                           </td>
@@ -362,7 +344,7 @@ const Page = () => {
                                   </button>
                                 </Link>
                               </div>
-                              <div class="hs-tooltip inline-block pr-2">
+                              {/* <div class="hs-tooltip inline-block pr-2">
                                 <button
                                   onClick={() => handleDelete(item._id)}
                                   type="button"
@@ -376,7 +358,7 @@ const Page = () => {
                                     Delete
                                   </span>
                                 </button>
-                              </div>
+                              </div> */}
                             </div>
                           </td>
                         </tr>
