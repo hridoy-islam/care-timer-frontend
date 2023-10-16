@@ -5,6 +5,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Select from "react-select";
 import { userContext } from "../../../../context/MainContext";
 import { Controller, useController, useForm } from "react-hook-form";
+import moment from "moment";
 
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
@@ -107,7 +108,9 @@ const page = () => {
   } = useController({ name: "taskList", control });
 
   const onsubmit = (data) => {
-    const modifyData = { ...data };
+    const { serviceData } = data;
+    const formatServiceDate = moment(serviceData).format("L");
+    const modifyData = { ...data, serviceDate: formatServiceDate };
     console.log(modifyData);
 
     try {
@@ -122,53 +125,14 @@ const page = () => {
           // handle success
           if (status === 200) {
             toast.success("Schedule Created Successfully", {
-              position: toast.POSITION.TOP_CENTER
-          });
+              position: toast.POSITION.TOP_CENTER,
+            });
           }
         });
     } catch (error) {
       console.error(error);
     }
-    reset;
-
-    // try {
-    //   axios
-    //     .post(`${process.env.NEXT_PUBLIC_API_URL}/service`, modifyData, {
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         Authorization: `Bearer ${token}`,
-    //       },
-    //     })
-    //     .then(function (response) {
-    //       // handle success
-    //       console.log(response);
-    //     });
-    // } catch (error) {
-    //   console.error(error);
-    // }
-    // axios.post(`${process.env.NEXT_PUBLIC_API_URL}/service`, data, {
-    //     headers: {
-    //         'Authorization': `Bearer ${token}`
-    //     }
-    // }).then(({ data }) => {
-    //     if (!data.success) {
-    //         toast.success('Service Added', {
-    //             position: toast.POSITION.TOP_CENTER
-    //         });
-    //         return router.push('/company/report')
-    //     }
-    //     else {
-    //         toast.error("Something Error", {
-    //             position: toast.POSITION.TOP_CENTER
-    //         });
-    //         return router.push('/company/schedule/addSchedule')
-    //     };
-    //     reset()
-    // })
-    //     .catch(error => {
-    //         const res = error.response;
-    //         toast.error(res);
-    //     });
+    reset();
   };
 
   return (
@@ -209,7 +173,7 @@ const page = () => {
                   </label>
                   <div className="mt-2">
                     <input
-                      type="text"
+                      type="date"
                       name="serviceDate"
                       id="date"
                       placeholder="mm/dd/yyyy"
