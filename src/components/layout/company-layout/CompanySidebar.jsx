@@ -6,7 +6,7 @@ import { FaUser, FaUsers } from 'react-icons/fa';
 import { FaBuildingUser } from 'react-icons/fa6';
 import { BiSolidPhoneCall, BiSolidArchiveIn } from "react-icons/bi";
 import { AiOutlinePlus, AiOutlineTable } from "react-icons/ai";
-import { MdHelp, MdReport } from "react-icons/md";
+import { MdPayments, MdReport } from "react-icons/md";
 import { VscTasklist } from "react-icons/vsc";
 import { usePathname } from 'next/navigation'
 
@@ -211,13 +211,13 @@ const AdminSidebar = forwardRef(({ showNav }, ref) => {
         </li>
 
         <li className={`flex justify-start items-center text-lg text-secondary  rounded-lg px-2 py-2 my-2 ${
-              pathname == "/company/callSummery"
+              pathname == "/company/payDay"
                 ? "bg-orange-100 text-orange-500"
                 : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
             }`}>
-          <BiSolidPhoneCall className='mr-2' />
-          <Link href='/company/callSummery' >
-            Call Summery
+          <MdPayments className='mr-2' />
+          <Link href='/company/payDay' >
+            Pay Date
           </Link>
         </li>
       </ul>
