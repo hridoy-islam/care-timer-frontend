@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineEye } from "react-icons/ai";
 import { BiEditAlt, BiSolidDownload } from "react-icons/bi";
-import { BsTrash3 } from "react-icons/bs";
+import { SlCalender } from "react-icons/sl";
 import Select from "react-select";
 import { userContext } from "../../../context/MainContext";
 import { toast } from "react-toastify";
@@ -183,10 +183,30 @@ const Page = () => {
                 <div class="px-6 py-4 grid gap-3 border-b border-gray-200 ">
                   <div>
                     <div class="flex justify-between items-center gap-x-2">
-                      <Calendar
+                      <div class="hs-dropdown relative flex flex-col">
+                      <label className="pb-1 pl-1 text-sm font-base font-serif ">
+                          Filter By Date
+                        </label>
+                        <button id="hs-dropdown-transform-style" type="button" class="hs-dropdown-toggle py-3 px-4 flex justify-between items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800">
+                        mm/dd/yyyy <span className="pl-8"><SlCalender/></span>
+                          {/* <svg class="hs-dropdown-open:rotate-180 w-2.5 h-2.5 text-gray-600" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2 5L8.16086 10.6869C8.35239 10.8637 8.64761 10.8637 8.83914 10.6869L15 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                          </svg> */}
+                        </button>
+
+                        <div class="hs-dropdown-menu w-72 transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden z-10">
+                          <div class="hs-dropdown-open:ease-in hs-dropdown-open:opacity-100 hs-dropdown-open:scale-100 transition ease-out opacity-0 scale-95 duration-200 mt-2 origin-top-left min-w-[15rem] bg-white shadow-md rounded-lg p-2 dark:bg-gray-800 dark:border dark:border-gray-700 dark:divide-gray-700" aria-labelledby="hs-dropdown-transform-style" data-hs-transition>
+                            <Calendar
+                              onChange={(date) => setDate(date)}
+                              date={date}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      {/* <Calendar
                         onChange={(date) => setDate(date)}
                         date={date}
-                      />
+                      /> */}
                       {/* <div className="flex flex-col">
                         <label className="pb-1 pl-1 text-sm font-base font-serif">
                           From :{" "}
@@ -205,7 +225,6 @@ const Page = () => {
                           type="date"
                         ></input>
                       </div> */}
-
                       <div>
                         <label className="pb-1 pl-1 text-sm font-base font-serif ">
                           Filter By Team Member

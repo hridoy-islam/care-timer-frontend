@@ -9,36 +9,43 @@ import BreadCumb from '../../../../../../components/breadCumb/BreadCumb';
 import { userContext } from '../../../../../../context/MainContext';
 const page = ({ params: { _id } }) => {
     const { token } = useContext(userContext);
-    const [serviceUser, setServiceUser] = useState();
+    const [serviceUser, setServiceUser] = useState({
+        name: "",
+        phone: "",
+        latitude: "",
+        longitude: "",
+        location: ""
+    });
     const router = useRouter()
-    const {
-        register,
-        handleSubmit,
-        reset,
-    } = useForm();
-    const onsubmit = data =>
-        axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/customer/${_id}`, data, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        }).then(({ data }) => {
-            if (!data.success) {
-                toast.success('Service User Update Successfully', {
-                    position: toast.POSITION.TOP_CENTER
-                });
-                return router.push('/company/serviceUser/allServiceUser')
-            }
-            else {
-                toast.error("Something Error", {
-                    position: toast.POSITION.TOP_CENTER
-                });
-                return router.push('/company/serviceUser/editServiceUser')
-            }
-        })
-            .catch(error => {
+    const { handleSubmit } = useForm();
+
+    const onsubmit = (data) => {
+        const updatedData = { ...serviceUser, ...data };
+        axios
+            .patch(`${process.env.NEXT_PUBLIC_API_URL}/customer/${_id}`, updatedData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then(({ data }) => {
+                if (!data.success) {
+                    toast.success("Service User Update Successfully", {
+                        position: toast.POSITION.TOP_CENTER,
+                    });
+                    router.push("/company/serviceUser/allServiceUser");
+                } else {
+                    toast.error("Something Error", {
+                        position: toast.POSITION.TOP_CENTER,
+                    });
+                    router.push("/company/serviceUser/editServiceUser");
+                }
+            })
+            .catch((error) => {
                 const res = error.response;
                 toast.error(res);
             });
+    };
+
     const fetchData = () => {
         axios.get(`${process.env.NEXT_PUBLIC_API_URL}/customer/${_id}`, {
             headers: {
@@ -71,9 +78,11 @@ const page = ({ params: { _id } }) => {
                                             id="name"
                                             placeholder='name'
                                             required
-                                            defaultValue={serviceUser?.name}
+                                            value={serviceUser.name}
+                                            onChange={(e) =>
+                                                setServiceUser({ ...serviceUser, name: e.target.value })
+                                            }
                                             className="block w-full pl-4 rounded-md border-0 py-2 text-[gray-900 ] shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
-                                            {...register('name')}
                                         />
                                     </div>
                                 </div>
@@ -88,9 +97,11 @@ const page = ({ params: { _id } }) => {
                                             id="phone"
                                             placeholder='phone'
                                             required
-                                            defaultValue={serviceUser?.phone}
+                                            value={serviceUser.phone}
+                                            onChange={(e) =>
+                                                setServiceUser({ ...serviceUser, phone: e.target.value })
+                                            }
                                             className="block w-full pl-4 rounded-md border-0 py-2 text-[gray-900 ] shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
-                                            {...register('phone')}
                                         />
                                     </div>
                                 </div>
@@ -105,9 +116,11 @@ const page = ({ params: { _id } }) => {
                                             id="latitude"
                                             placeholder='latitude'
                                             required
-                                            defaultValue={serviceUser?.latitude}
+                                            value={serviceUser.latitude}
+                                            onChange={(e) =>
+                                                setServiceUser({ ...serviceUser, latitude: e.target.value })
+                                            }
                                             className="block w-full pl-4 rounded-md border-0 py-2 text-[gray-900 ] shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
-                                            {...register('latitude')}
                                         />
                                     </div>
                                 </div>
@@ -122,9 +135,11 @@ const page = ({ params: { _id } }) => {
                                             id="longitude"
                                             placeholder='longitude'
                                             required
-                                            defaultValue={serviceUser?.longitude}
+                                            value={serviceUser.longitude}
+                                            onChange={(e) =>
+                                                setServiceUser({ ...serviceUser, longitude: e.target.value })
+                                            }
                                             className="block pl-4 w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
-                                            {...register('longitude')}
                                         />
                                     </div>
                                 </div>
@@ -139,9 +154,11 @@ const page = ({ params: { _id } }) => {
                                             id="location"
                                             placeholder='address'
                                             required
-                                            defaultValue={serviceUser?.location}
+                                            value={serviceUser.location}
+                                            onChange={(e) =>
+                                                setServiceUser({ ...serviceUser, location: e.target.value })
+                                            }
                                             className="block pl-4 w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
-                                            {...register('location')}
                                         />
                                     </div>
                                 </div>

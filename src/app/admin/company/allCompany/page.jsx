@@ -14,6 +14,7 @@ const Page = () => {
   const { token } = useContext(userContext)
   const router = useRouter()
   const [company, setCompany] = useState();
+  const [forceRerender, setForceRerender] = useState(false);
 
   // All Company View
   const fetchData = () => {
@@ -26,9 +27,6 @@ const Page = () => {
       setCompany(response?.data?.data)
     })
   }
-  useEffect(() => {
-    fetchData()
-  }, [])
 
   // Single Company Delete
   const handleDelete = async (_id) => {
@@ -45,6 +43,7 @@ const Page = () => {
             toast.success('Company Archived Successfully', {
               position: toast.POSITION.TOP_CENTER
             });
+            setForceRerender(!forceRerender);
             return router.push('/admin/company/allCompany')
           }
           else {
@@ -64,6 +63,9 @@ const Page = () => {
     }
 
   };
+  useEffect(() => {
+    fetchData()
+  }, [forceRerender])
   return (
     <div>
       <div className="w-full px-4 py-10 sm:px-6 lg:px-4 lg:py-4 mx-auto">

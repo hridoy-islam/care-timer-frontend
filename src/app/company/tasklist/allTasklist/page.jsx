@@ -12,6 +12,7 @@ const Page = () => {
   const router = useRouter()
   const { token, tokenDetails } = useContext(userContext)
   const [tasklist, setTasklist] = useState();
+  const [forceRerender, setForceRerender] = useState(false);
   const fetchData = () => {
     axios.get(`${process.env.NEXT_PUBLIC_API_URL}/tasklist?softDelete=false&company=${tokenDetails?.data?._id}&&sort_by={"createdAt":-1}`, {
       headers: {
@@ -22,9 +23,7 @@ const Page = () => {
       setTasklist(response?.data?.data)
     })
   }
-  useEffect(() => {
-    fetchData()
-  }, [])
+
   const handleDelete = async (_id) => {
     const proceed = window.confirm("Are you sure to delete this?");
 
@@ -39,6 +38,7 @@ const Page = () => {
             toast.success('Task list Archived', {
               position: toast.POSITION.TOP_CENTER
             });
+            setForceRerender(!forceRerender);
             return router.push('/company/tasklist/allTasklist')
           }
           else {
@@ -57,9 +57,10 @@ const Page = () => {
       toast.error("Something Went Worng");
     }
 
-
-
   };
+  useEffect(() => {
+    fetchData()
+  }, [forceRerender])
   return (
     <div>
       <div class="max-w-[40rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-4 mx-auto">

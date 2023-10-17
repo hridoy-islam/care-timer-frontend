@@ -14,6 +14,7 @@ const Page = () => {
   const router = useRouter();
   const { token, tokenDetails } = useContext(userContext);
   const [serviceUser, setServiceUser] = useState();
+  const [forceRerender, setForceRerender] = useState(false);
   const fetchData = () => {
     axios
       .get(
@@ -29,9 +30,6 @@ const Page = () => {
         setServiceUser(response?.data?.data);
       });
   };
-  useEffect(() => {
-    fetchData();
-  }, []);
   const handleDelete = async (_id) => {
     const proceed = window.confirm("Are you sure to delete this?");
 
@@ -48,6 +46,7 @@ const Page = () => {
               toast.success("Service User Archived", {
                 position: toast.POSITION.TOP_CENTER,
               });
+              setForceRerender(!forceRerender);
               return router.push("/company/serviceUser/allServiceUser");
             } else {
               toast.error("Something Error", {
@@ -66,6 +65,9 @@ const Page = () => {
       toast.error("Something Went Worng");
     }
   };
+  useEffect(() => {
+    fetchData();
+  }, [forceRerender]);
   return (
     <div>
       <div class="w-full lg:px-4 sm:px-3 py-10 lg:py-4 mx-auto">
