@@ -8,7 +8,7 @@ import { BsTrash3 } from "react-icons/bs";
 import Select from "react-select";
 import { userContext } from "../../../context/MainContext";
 import { toast } from "react-toastify";
-import { DateRange } from "react-date-range";
+import { Calendar } from "react-date-range";
 import moment from "moment/moment";
 const Page = () => {
   const [service, setService] = useState();
@@ -17,29 +17,15 @@ const Page = () => {
   const [teamMember, setTeamMember] = useState("");
   const [serviceUser, setServiceUser] = useState("");
   const [status, setStatus] = useState("");
-  const [state, setState] = useState({
-    selection: {
-      startDate: new Date(),
-      endDate: null,
-      key: "selection",
-    },
-  });
-  const [formatedServiceDate, setFormatedServiceDate] = useState({
-    startDate: "",
-    endDate: "",
-  });
+  const [date, setDate] = useState();
   const { token, tokenDetails } = useContext(userContext);
   // For Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState(9);
+  const formattedServiceDate = moment(date).format("L");
 
-  // Format Date
-  const { startDate, endDate } = state.selection;
-  const formattedStartDate = moment(startDate).format("L");
-  const formattedEndDate = moment(endDate).format("L");
-
-  console.log(formatedServiceDate);
+  console.log(formattedServiceDate);
 
   // console.log(router);
   const fetchData = () => {
@@ -54,15 +40,10 @@ const Page = () => {
       apiUrl += `&status=${status}`;
     }
 
-    // if (formatedServiceDate.startDate !== formatedServiceDate.endDate) {
-    //   // Only add the query parameters if the start and end dates are different.
-    //   apiUrl += `&serviceStart=${formattedStartDate}`;
-    //   apiUrl += `&end_date=${formattedEndDate}`;
-    //   console.log("not same date");
-    // } else {
-    //   apiUrl += `&serviceStart=${formattedStartDate}`;
-    //   console.log("same date");
-    // }
+    if (formattedServiceDate) {
+      apiUrl += `&serviceDate=${formattedServiceDate}`;
+    }
+
     axios
       .get(apiUrl, {
         headers: {
@@ -121,19 +102,12 @@ const Page = () => {
 
   useEffect(() => {
     fetchData();
-  }, [teamMember, serviceUser, status, currentPage, formatedServiceDate]);
+  }, [teamMember, serviceUser, status, currentPage, formattedServiceDate]);
 
   useEffect(() => {
     fetchTeamMemberData();
     fetchServiceUsersData();
   }, []);
-
-  useEffect(() => {
-    setFormatedServiceDate({
-      startDate: formattedStartDate,
-      endDate: formattedEndDate,
-    });
-  }, [formattedStartDate, formattedEndDate]);
 
   const teamMembersOption = teamMembers.map((team) => ({
     value: team._id,
@@ -193,8 +167,6 @@ const Page = () => {
     }
   };
 
-  console.log(state);
-
   return (
     <div>
       <div class="w-full px-4 py-10 sm:px-6 lg:px-4 lg:py-4 mx-auto">
@@ -214,11 +186,9 @@ const Page = () => {
                 <div class="px-6 py-4 grid gap-3 border-b border-gray-200 ">
                   <div>
                     <div class="flex justify-between items-center gap-x-2">
-                      <DateRange
-                        ranges={[state.selection]}
-                        onChange={(item) => setState({ ...state, ...item })}
-                        editableDateInputs={false}
-                        moveRangeOnFirstSelection={false}
+                      <Calendar
+                        onChange={(date) => setDate(date)}
+                        date={date}
                       />
                       {/* <div className="flex flex-col">
                         <label className="pb-1 pl-1 text-sm font-base font-serif">
