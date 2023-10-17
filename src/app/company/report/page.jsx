@@ -23,11 +23,8 @@ const Page = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState(9);
-  const formattedServiceDate = moment(date).format("L");
 
-  console.log(formattedServiceDate);
-
-  // console.log(router);
+  console.log(date);
   const fetchData = () => {
     let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/service?page=${currentPage}&limit=${itemsPerPage}&softDelete=false&company=${tokenDetails?.data?._id}&sort_by={"createdAt":-1}`;
     if (teamMember) {
@@ -40,8 +37,8 @@ const Page = () => {
       apiUrl += `&status=${status}`;
     }
 
-    if (formattedServiceDate) {
-      apiUrl += `&serviceDate=${formattedServiceDate}`;
+    if (date) {
+      apiUrl += `&serviceDate=${moment(date).format("L")}`;
     }
 
     axios
@@ -102,7 +99,7 @@ const Page = () => {
 
   useEffect(() => {
     fetchData();
-  }, [teamMember, serviceUser, status, currentPage, formattedServiceDate]);
+  }, [teamMember, serviceUser, status, currentPage, date]);
 
   useEffect(() => {
     fetchTeamMemberData();
