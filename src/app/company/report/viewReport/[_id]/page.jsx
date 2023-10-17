@@ -205,6 +205,20 @@ const page = ({ params: { _id } }) => {
             <th scope="col" className="px-6 py-3 text-left">
               <div className="flex items-center gap-x-2">
                 <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
+                Comment
+                </span>
+              </div>
+            </th>
+            <td className="h-px w-72 whitespace-nowrap">
+              <div className="px-6 py-3">
+                <span className="block text-md text-secondary">This comments</span>
+              </div>
+            </td>
+          </tr>
+          {/* <tr>
+            <th scope="col" className="px-6 py-3 text-left">
+              <div className="flex items-center gap-x-2">
+                <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
                   Status
                 </span>
               </div>
@@ -214,7 +228,7 @@ const page = ({ params: { _id } }) => {
                 <span className="block text-md text-secondary">{service?.status}</span>
               </div>
             </td>
-          </tr>
+          </tr> */}
 
           <tr>
             <th scope="col" className="px-6 py-3 text-left">

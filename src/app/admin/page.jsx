@@ -1,8 +1,27 @@
 'use client';
-import React from "react";
+import axios from "axios";
+import React, { useContext, useEffect, useState } from 'react';
 import { MdOutlinePending , MdOutlineFileDownloadDone } from "react-icons/md";
+import { userContext } from "../../context/MainContext";
 
 const page = () => {
+   const { token } = useContext(userContext)
+   const [company, setCompany] = useState();
+ 
+   // All Company View
+   const fetchData = () => {
+     axios.get(`${process.env.NEXT_PUBLIC_API_URL}/company?softDelete=false&role=company&sort_by={"createdAt":-1}`, {
+       headers: {
+         'Authorization': `Bearer ${token}`
+       }
+     }).then(function (response) {
+       // handle success
+       setCompany(response?.data?.data)
+     })
+   }
+   useEffect(() => {
+     fetchData()
+   }, [])
    return (
        <div>
          <section className="lg:grid-cols-4 grid gap-6 mx-12 my-12">
@@ -24,7 +43,7 @@ const page = () => {
                   </svg>
                </div>
                <div>
-                  <span className="block text-2xl font-bold">79</span>
+                  <span className="block text-2xl font-bold">{company?.data?.length}</span>
                   <span className="block text-gray-500">Company </span>
                </div>
             </div>

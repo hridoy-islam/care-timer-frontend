@@ -1,10 +1,50 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect  } from "react";
 import { MdOutlinePending, MdOutlineFileDownloadDone } from "react-icons/md";
+import { userContext } from "../../context/MainContext";
+import axios from "axios";
 // import axios from 'axios';
 // const token = useState(localStorage.getItem('timertoken'));
 // axios.defaults.headers.common = {'Authorization': `bearer ${token}`}
 const page = () => {
+  const { token, tokenDetails } = useContext(userContext);
+  const [teamMember, setTeamMember] = useState();
+  const [serviceUser, setServiceUser] = useState();
+  const fetchServiceData = () => {
+    axios
+      .get(
+        `${process.env.NEXT_PUBLIC_API_URL}/customer?softDelete=false&company=${tokenDetails?.data?._id}&sort_by={"createdAt":-1}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then(function (response) {
+        // handle success
+        setServiceUser(response?.data?.data);
+      });
+  };
+  const fetchTeamData = () => {
+    axios
+      .get(
+        `${process.env.NEXT_PUBLIC_API_URL}/worker?softDelete=false&company=${tokenDetails?.data?._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then(function (response) {
+        // handle success
+        setTeamMember(response?.data?.data);
+      });
+  };
+  useEffect(() => {
+    fetchServiceData()
+    fetchTeamData();
+  }, []);
+  console.log(teamMember)
   return (
     <div>
       <section className="lg:grid-cols-4 grid gap-6 mx-12 my-12">
@@ -26,7 +66,7 @@ const page = () => {
             </svg>
           </div>
           <div>
-            <span className="block text-2xl font-bold">81</span>
+            <span className="block text-2xl font-bold">{teamMember?.data?.length}</span>
             <span className="block text-gray-500">Team Member</span>
           </div>
         </div>
@@ -48,7 +88,7 @@ const page = () => {
             </svg>
           </div>
           <div>
-            <span className="block text-2xl font-bold">126</span>
+            <span className="block text-2xl font-bold">{serviceUser?.data?.length}</span>
             <span className="block text-gray-500">Service User </span>
           </div>
         </div>
