@@ -24,6 +24,10 @@ const Page = () => {
       key: "selection",
     },
   });
+  const [formatedServiceDate, setFormatedServiceDate] = useState({
+    startDate: "",
+    endDate: "",
+  });
   const { token, tokenDetails } = useContext(userContext);
   // For Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -35,7 +39,7 @@ const Page = () => {
   const formattedStartDate = moment(startDate).format("L");
   const formattedEndDate = moment(endDate).format("L");
 
-  console.log(formattedStartDate, formattedEndDate);
+  console.log(formatedServiceDate);
 
   // console.log(router);
   const fetchData = () => {
@@ -49,11 +53,15 @@ const Page = () => {
     if (status) {
       apiUrl += `&status=${status}`;
     }
-    // if (formattedStartDate) {
+
+    // if (formatedServiceDate.startDate !== formatedServiceDate.endDate) {
+    //   // Only add the query parameters if the start and end dates are different.
     //   apiUrl += `&serviceStart=${formattedStartDate}`;
-    // }
-    // if (formattedEndDate) {
     //   apiUrl += `&end_date=${formattedEndDate}`;
+    //   console.log("not same date");
+    // } else {
+    //   apiUrl += `&serviceStart=${formattedStartDate}`;
+    //   console.log("same date");
     // }
     axios
       .get(apiUrl, {
@@ -113,12 +121,19 @@ const Page = () => {
 
   useEffect(() => {
     fetchData();
-  }, [teamMember, serviceUser, status, currentPage]);
+  }, [teamMember, serviceUser, status, currentPage, formatedServiceDate]);
 
   useEffect(() => {
     fetchTeamMemberData();
     fetchServiceUsersData();
   }, []);
+
+  useEffect(() => {
+    setFormatedServiceDate({
+      startDate: formattedStartDate,
+      endDate: formattedEndDate,
+    });
+  }, [formattedStartDate, formattedEndDate]);
 
   const teamMembersOption = teamMembers.map((team) => ({
     value: team._id,
