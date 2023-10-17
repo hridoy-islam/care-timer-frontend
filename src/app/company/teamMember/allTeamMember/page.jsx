@@ -13,6 +13,7 @@ const Page = () => {
   const router = useRouter();
   const { token, tokenDetails } = useContext(userContext);
   const [teamMember, setTeamMember] = useState();
+  const [forceRerender, setForceRerender] = useState(false);
 
   const fetchData = () => {
     axios
@@ -29,9 +30,6 @@ const Page = () => {
         setTeamMember(response?.data?.data);
       });
   };
-  useEffect(() => {
-    fetchData();
-  }, []);
   // Single Worker Delete
   const handleDelete = async (_id) => {
     const proceed = window.confirm("Are you sure to delete this?");
@@ -49,6 +47,7 @@ const Page = () => {
               toast.success("Team Member Archived", {
                 position: toast.POSITION.TOP_CENTER,
               });
+              setForceRerender(!forceRerender);
               return router.push("/company/teamMember/allTeamMember");
             } else {
               toast.error("Something Error", {
@@ -67,6 +66,11 @@ const Page = () => {
       toast.error("Something Went Worng");
     }
   };
+
+  useEffect(() => {
+    fetchData();
+  }, [forceRerender]);
+
   return (
     <div>
       <div class="w-full px-4 py-10 sm:px-3 lg:px-4 lg:py-4 mx-auto">
