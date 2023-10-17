@@ -8,7 +8,8 @@ import { BsTrash3 } from "react-icons/bs";
 import Select from "react-select";
 import { userContext } from "../../../context/MainContext";
 import { toast } from "react-toastify";
-// import { DateRangePicker } from 'rsuite';
+import { DateRange } from "react-date-range";
+import moment from "moment/moment";
 const Page = () => {
   const [service, setService] = useState();
   const [teamMembers, setTeamMembers] = useState([]);
@@ -16,11 +17,25 @@ const Page = () => {
   const [teamMember, setTeamMember] = useState("");
   const [serviceUser, setServiceUser] = useState("");
   const [status, setStatus] = useState("");
+  const [state, setState] = useState({
+    selection: {
+      startDate: new Date(),
+      endDate: null,
+      key: "selection",
+    },
+  });
   const { token, tokenDetails } = useContext(userContext);
   // For Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState(9);
+
+  // Format Date
+  const { startDate, endDate } = state.selection;
+  const formattedStartDate = moment(startDate).format("L");
+  const formattedEndDate = moment(endDate).format("L");
+
+  console.log(formattedStartDate, formattedEndDate);
 
   // console.log(router);
   const fetchData = () => {
@@ -34,9 +49,12 @@ const Page = () => {
     if (status) {
       apiUrl += `&status=${status}`;
     }
-    if (status) {
-      apiUrl += `&status=${status}`;
-    }
+    // if (formattedStartDate) {
+    //   apiUrl += `&serviceStart=${formattedStartDate}`;
+    // }
+    // if (formattedEndDate) {
+    //   apiUrl += `&end_date=${formattedEndDate}`;
+    // }
     axios
       .get(apiUrl, {
         headers: {
@@ -159,6 +177,9 @@ const Page = () => {
       toast.error("Something Went Worng");
     }
   };
+
+  console.log(state);
+
   return (
     <div>
       <div class="w-full px-4 py-10 sm:px-6 lg:px-4 lg:py-4 mx-auto">
@@ -178,7 +199,13 @@ const Page = () => {
                 <div class="px-6 py-4 grid gap-3 border-b border-gray-200 ">
                   <div>
                     <div class="flex justify-between items-center gap-x-2">
-                      <div className="flex flex-col">
+                      <DateRange
+                        ranges={[state.selection]}
+                        onChange={(item) => setState({ ...state, ...item })}
+                        editableDateInputs={false}
+                        moveRangeOnFirstSelection={false}
+                      />
+                      {/* <div className="flex flex-col">
                         <label className="pb-1 pl-1 text-sm font-base font-serif">
                           From :{" "}
                         </label>
@@ -195,7 +222,7 @@ const Page = () => {
                           className="border rounded-md py-1.5 px-3"
                           type="date"
                         ></input>
-                      </div>
+                      </div> */}
 
                       <div>
                         <label className="pb-1 pl-1 text-sm font-base font-serif ">
