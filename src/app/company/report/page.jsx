@@ -99,7 +99,7 @@ const Page = () => {
 
   useEffect(() => {
     fetchData();
-  }, [teamMember, serviceUser, status, currentPage, date]);
+  }, [teamMember, serviceUser, status, currentPage, date, itemsPerPage]);
 
   useEffect(() => {
     fetchTeamMemberData();
@@ -131,6 +131,14 @@ const Page = () => {
     { value: "active", label: "Active" },
     { value: "complete", label: "Complete" },
     { value: "missed", label: "Missed" },
+  ];
+
+  const limitsOption = [
+    { value: "10", label: "10" },
+    { value: "20", label: "20" },
+    { value: "30", label: "30" },
+    { value: "40", label: "40" },
+    { value: "50", label: "50" },
   ];
   const handleDelete = async (_id) => {
     const proceed = window.confirm("Are you sure to delete this?");
@@ -184,18 +192,29 @@ const Page = () => {
                   <div>
                     <div class="flex justify-between items-center gap-x-2">
                       <div class="hs-dropdown relative flex flex-col">
-                      <label className="pb-1 pl-1 text-sm font-base font-serif ">
+                        <label className="pb-1 pl-1 text-sm font-base font-serif ">
                           Filter By Date
                         </label>
-                        <button id="hs-dropdown-transform-style" type="button" class="hs-dropdown-toggle py-3 px-4 flex justify-between items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800">
-                        mm/dd/yyyy <span className="pl-8"><SlCalender/></span>
+                        <button
+                          id="hs-dropdown-transform-style"
+                          type="button"
+                          class="hs-dropdown-toggle py-3 px-4 flex justify-between items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                        >
+                          Select Your Date{" "}
+                          <span className="pl-8">
+                            <SlCalender />
+                          </span>
                           {/* <svg class="hs-dropdown-open:rotate-180 w-2.5 h-2.5 text-gray-600" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M2 5L8.16086 10.6869C8.35239 10.8637 8.64761 10.8637 8.83914 10.6869L15 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
                           </svg> */}
                         </button>
 
                         <div class="hs-dropdown-menu w-72 transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden z-10">
-                          <div class="hs-dropdown-open:ease-in hs-dropdown-open:opacity-100 hs-dropdown-open:scale-100 transition ease-out opacity-0 scale-95 duration-200 mt-2 origin-top-left min-w-[15rem] bg-white shadow-md rounded-lg p-2 dark:bg-gray-800 dark:border dark:border-gray-700 dark:divide-gray-700" aria-labelledby="hs-dropdown-transform-style" data-hs-transition>
+                          <div
+                            class="hs-dropdown-open:ease-in hs-dropdown-open:opacity-100 hs-dropdown-open:scale-100 transition ease-out opacity-0 scale-95 duration-200 mt-2 origin-top-left min-w-[15rem] bg-white shadow-md rounded-lg p-2 dark:bg-gray-800 dark:border dark:border-gray-700 dark:divide-gray-700"
+                            aria-labelledby="hs-dropdown-transform-style"
+                            data-hs-transition
+                          >
                             <Calendar
                               onChange={(date) => setDate(date)}
                               date={date}
@@ -244,6 +263,17 @@ const Page = () => {
                           className="w-48 py-1  focus:ring-primary border-gray-300"
                           options={serviceUsersOption}
                           onChange={(e) => setServiceUser(e.value)}
+                        />
+                      </div>
+
+                      <div>
+                        <label className="pb-1 pl-1 text-sm font-base font-serif">
+                          Filter By Data Limit
+                        </label>
+                        <Select
+                          className="w-48 py-1  focus:ring-primary border-gray-300"
+                          options={limitsOption}
+                          onChange={(e) => setItemsPerPage(e.value)}
                         />
                       </div>
                       {/* <div>
