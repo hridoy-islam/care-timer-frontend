@@ -16,6 +16,7 @@ const Page = () => {
   const { register, handleSubmit } = useForm();
   const [payDate, setPayDate] = useState();
   const { token, tokenDetails } = useContext(userContext);
+  const [forceRerender, setForceRerender] = useState(false);
   const fetchData = () => {
     axios
       .get(`${process.env.NEXT_PUBLIC_API_URL}/payday/?company=${tokenDetails?.data?._id}`, {
@@ -28,9 +29,7 @@ const Page = () => {
         setPayDate(response?.data?.data);
       });
   };
-   useEffect(() => {
-    fetchData();
-  }, []);
+
 
 
   const onsubmit = (data) => {
@@ -46,13 +45,14 @@ const Page = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-        })
+        }) 
         .then(function ({ status }) {
           // handle success
           if (status === 200) {
             toast.success("Pay Date Update Successfully", {
               position: toast.POSITION.TOP_CENTER,
             });
+            setForceRerender(!forceRerender);
           }
         });
     } catch (error) {
@@ -60,6 +60,9 @@ const Page = () => {
     }
 
   };
+  useEffect(() => {
+    fetchData();
+  }, [forceRerender]);
   const dateShow = payDate?.data[0]?.nextpayday;
   console.log(dateShow)
   const formatPayDate = moment(dateShow).format("LL");
