@@ -73,26 +73,26 @@ const Page = () => {
 
   return (
     <div>
-      <div class="w-full px-4 py-10 sm:px-3 lg:px-4 lg:py-4 mx-auto">
-        <div class="flex flex-col">
-          <div class="-m-1.5 overflow-x-auto">
-            <div class="p-1.5 min-w-full inline-block align-middle">
-              <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden  ">
-                <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200 ">
+      <div className="w-full px-4 py-10 sm:px-3 lg:px-4 lg:py-4 mx-auto">
+        <div className="flex flex-col">
+          <div className="-m-1.5 overflow-x-auto">
+            <div className="p-1.5 min-w-full inline-block align-middle">
+              <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden  ">
+                <div className="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200 ">
                   <div>
-                    <h2 class="text-2xl font-semibold text-gray-800 ">
+                    <h2 className="text-2xl font-semibold text-gray-800 ">
                       All Team Member
                     </h2>
                   </div>
 
                   <div>
-                    <div class="inline-flex gap-x-2">
+                    <div className="inline-flex gap-x-2">
                       <Link
-                        class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-white hover:bg-primary focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm "
+                        className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-white hover:bg-primary focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm "
                         href="/company/teamMember/addTeamMember"
                       >
                         <svg
-                          class="w-3 h-3"
+                          className="w-3 h-3"
                           xmlns="http://www.w3.org/2000/svg"
                           width="16"
                           height="16"
@@ -111,31 +111,31 @@ const Page = () => {
                     </div>
                   </div>
                 </div>
-                <table class="min-w-full divide-y divide-gray-200 ">
-                  <thead class="bg-gray-50 ">
+                <table className="min-w-full divide-y divide-gray-200 ">
+                  <thead className="bg-gray-50 ">
                     <tr>
                       <th
                         scope="col"
-                        class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3 text-left"
+                        className="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3 text-left"
                       >
-                        <div class="flex items-center gap-x-2 pl-6">
-                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
+                        <div className="flex items-center gap-x-2 pl-6">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
                             Team Member
                           </span>
                         </div>
                       </th>
 
-                      <th scope="col" class="px-6 py-3 text-left">
-                        <div class="flex items-center gap-x-2">
-                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
+                      <th scope="col" className="px-6 py-3 text-left">
+                        <div className="flex items-center gap-x-2">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
                             Phone Number
                           </span>
                         </div>
                       </th>
 
-                      <th scope="col" class="px-6 py-3 text-left">
-                        <div class="flex items-center justify-center gap-x-2">
-                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
+                      <th scope="col" className="px-6 py-3 text-left">
+                        <div className="flex items-center justify-center gap-x-2">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
                             Action
                           </span>
                         </div>
@@ -143,37 +143,37 @@ const Page = () => {
                     </tr>
                   </thead>
 
-                  <tbody class="divide-y divide-gray-200 ">
+                  <tbody className="divide-y divide-gray-200 ">
                     {teamMember?.data?.length > 0 &&
                       teamMember?.data?.map((item, index) => (
                         <tr key={index}>
-                          <td class="h-px pl-6 w-px whitespace-nowrap">
-                            <div class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
-                              <span class="block text-md text-secondary">
+                          <td className="h-px pl-6 w-px whitespace-nowrap">
+                            <div className="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
+                              <span className="block text-md text-secondary">
                                 {item.name}
                               </span>
                             </div>
                           </td>
-                          <td class="h-px w-72 whitespace-nowrap">
-                            <div class="px-6 py-3">
-                              <span class="block text-md text-secondary">
+                          <td className="h-px w-72 whitespace-nowrap">
+                            <div className="px-6 py-3">
+                              <span className="block text-md text-secondary">
                                 {item.phone}
                               </span>
                             </div>
                           </td>
-                          <td class="h-px w-24 whitespace-nowrap">
+                          <td className="h-px w-24 whitespace-nowrap">
                             <div className="flex justify-evenly ">
-                              <div class="hs-tooltip inline-block">
+                              <div className="hs-tooltip inline-block">
                                 <Link
                                   href={`/company/teamMember/allTeamMember/viewTeamMember/${item._id}`}
                                 >
                                   <button
                                     type="button"
-                                    class="hs-tooltip-toggle text-2xl"
+                                    className="hs-tooltip-toggle text-2xl"
                                   >
                                     <AiOutlineEye fill="#979797" />
                                     <span
-                                      class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm "
+                                      className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm "
                                       role="tooltip"
                                     >
                                       View
@@ -181,17 +181,17 @@ const Page = () => {
                                   </button>
                                 </Link>
                               </div>
-                              <div class="hs-tooltip inline-block">
+                              <div className="hs-tooltip inline-block">
                                 <Link
                                   href={`/company/teamMember/allTeamMember/editTeamMember/${item._id}`}
                                 >
                                   <button
                                     type="button"
-                                    class="hs-tooltip-toggle text-2xl"
+                                    className="hs-tooltip-toggle text-2xl"
                                   >
                                     <BiEditAlt fill="#979797" />
                                     <span
-                                      class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm "
+                                      className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm "
                                       role="tooltip"
                                     >
                                       Edit
@@ -199,15 +199,15 @@ const Page = () => {
                                   </button>
                                 </Link>
                               </div>
-                              <div class="hs-tooltip inline-block pr-2">
+                              <div className="hs-tooltip inline-block pr-2">
                                 <button
                                   onClick={() => handleDelete(item._id)}
                                   type="button"
-                                  class="hs-tooltip-toggle text-xl"
+                                  className="hs-tooltip-toggle text-xl"
                                 >
                                   <BsTrash3 fill="red" />
                                   <span
-                                    class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-red-800 text-xs font-medium text-white rounded-md shadow-sm "
+                                    className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-red-800 text-xs font-medium text-white rounded-md shadow-sm "
                                     role="tooltip"
                                   >
                                     Delete
@@ -220,10 +220,10 @@ const Page = () => {
                       ))}
                   </tbody>
                 </table>
-                <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200 ">
+                <div className="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200 ">
                   <div>
-                    <p class="text-sm text-gray-600 ">
-                      <span class="font-semibold text-gray-800 ">
+                    <p className="text-sm text-gray-600 ">
+                      <span className="font-semibold text-gray-800 ">
                         {teamMember?.data?.length}
                       </span>{" "}
                       results
@@ -231,13 +231,13 @@ const Page = () => {
                   </div>
 
                   <div>
-                    <div class="inline-flex gap-x-2">
+                    <div className="inline-flex gap-x-2">
                       <button
                         type="button"
-                        class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm"
+                        className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm"
                       >
                         <svg
-                          class="w-3 h-3"
+                          className="w-3 h-3"
                           xmlns="http://www.w3.org/2000/svg"
                           width="16"
                           height="16"
@@ -254,11 +254,11 @@ const Page = () => {
 
                       <button
                         type="button"
-                        class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm     "
+                        className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm     "
                       >
                         Next
                         <svg
-                          class="w-3 h-3"
+                          className="w-3 h-3"
                           xmlns="http://www.w3.org/2000/svg"
                           width="16"
                           height="16"
