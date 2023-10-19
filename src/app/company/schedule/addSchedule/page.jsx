@@ -130,9 +130,10 @@ const page = () => {
         .then(function ({ status }) {
           // handle success
           if (status === 200) {
-            toast.success("Schedule Created Successfully", {
+            toast.success("Schedule Created", {
               position: toast.POSITION.TOP_CENTER,
             });
+            return router.push("/company/report");
           }
         });
     } catch (error) {

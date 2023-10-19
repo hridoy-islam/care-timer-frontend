@@ -142,7 +142,7 @@ const page = ({ params: { _id } }) => {
         .then(function ({ status }) {
           // handle success
           if (status === 200) {
-            toast.success("Report Update Successfully", {
+            toast.success("Report Updated", {
               position: toast.POSITION.TOP_CENTER,
             });
           }
