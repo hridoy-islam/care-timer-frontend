@@ -209,7 +209,7 @@ const Page = () => {
               <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden h-full  ">
                 <div className="px-6 py-4 grid gap-3 border-b border-gray-200 ">
                   <div>
-                    <div className="flex justify-between items-center gap-x-2">
+                    <div className="flex gap-8">
                       <div className="hs-dropdown relative flex flex-col">
                         <label className="pb-1 pl-1 text-sm font-base font-serif ">
                           Filter By Date
