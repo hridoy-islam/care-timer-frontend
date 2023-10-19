@@ -33,7 +33,7 @@ const page = ({ params: { _id } }) => {
       )
       .then(({ data }) => {
         if (!data.success) {
-          toast.success("Service User Update Successfully", {
+          toast.success("Service User Updated", {
             position: toast.POSITION.TOP_CENTER,
           });
           router.push("/company/serviceUser/allServiceUser");

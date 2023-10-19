@@ -20,7 +20,7 @@ const page = () => {
       })
       .then(({ data }) => {
         if (!data.success) {
-          toast.success("Service User Added", {
+          toast.success("Service User Created", {
             position: toast.POSITION.TOP_CENTER,
           });
           return router.push("/company/serviceUser/allServiceUser");

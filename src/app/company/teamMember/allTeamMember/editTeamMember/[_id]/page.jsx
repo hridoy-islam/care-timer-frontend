@@ -28,7 +28,7 @@ const Page = ({ params: { _id } }) => {
       })
       .then(({ data }) => {
         if (!data.success) {
-          toast.success("Team Member Updated Successfully", {
+          toast.success("Team Member Updated", {
             position: toast.POSITION.TOP_CENTER,
           });
           router.push("/company/teamMember/allTeamMember");
