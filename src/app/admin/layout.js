@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useState, useEffect, Fragment } from "react";
 import SideBar from "../../components/layout/admin-layout/AdminSidebar";
@@ -7,8 +7,8 @@ import { Transition } from "@headlessui/react";
 
 export default function Layout({ children }) {
   useEffect(() => {
-    import('preline')
-  }, [])
+    import("preline");
+  }, []);
   const [showNav, setShowNav] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
 
