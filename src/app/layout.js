@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
       <body suppressHydrationWarning={true}>
         <React.Fragment>
           <MainContext>
-            <body>
+            <body suppressHydrationWarning={true}>
               {children} <ToastContainer autoClose={1000} />
             </body>
           </MainContext>
