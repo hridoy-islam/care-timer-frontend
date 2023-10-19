@@ -21,7 +21,7 @@ const page = ({ params: { _id } }) => {
       })
       .then(({ data }) => {
         if (!data.success) {
-          toast.success("Task List Update Successfully", {
+          toast.success("Task List Updated", {
             position: toast.POSITION.TOP_CENTER,
           });
           return router.push("/company/tasklist/allTasklist");

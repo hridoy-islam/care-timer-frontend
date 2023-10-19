@@ -20,7 +20,7 @@ const page = () => {
       })
       .then(({ data }) => {
         if (!data.success) {
-          toast.success("Task Added", {
+          toast.success("Task Created", {
             position: toast.POSITION.TOP_CENTER,
           });
           return router.push("/company/tasklist/allTasklist");
