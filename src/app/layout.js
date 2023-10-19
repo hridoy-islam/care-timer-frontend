@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
         <React.Fragment>
           <MainContext>
             <body>
-              {children} <ToastContainer />
+              {children} <ToastContainer autoClose={1000} />
             </body>
           </MainContext>
         </React.Fragment>

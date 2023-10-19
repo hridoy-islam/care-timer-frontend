@@ -6,6 +6,7 @@ import Select from "react-select";
 import { userContext } from "../../../../context/MainContext";
 import { Controller, useController, useForm } from "react-hook-form";
 import moment from "moment";
+import formatAmPm from "../../../../utils/formatAmPm";
 
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
@@ -108,11 +109,16 @@ const page = () => {
   } = useController({ name: "taskList", control });
 
   const onsubmit = (data) => {
-
-    const { serviceDate } = data;
+    const { serviceDate, serviceTimeStart, serviceTimeEnd } = data;
+    const formatServiceTimeStart = formatAmPm(serviceTimeStart);
+    const formatServiceTimeEnd = formatAmPm(serviceTimeEnd);
     const formatServiceDate = moment(serviceDate).format();
-    const modifyData = { ...data, serviceDate: formatServiceDate };
-    console.log(modifyData)
+    const modifyData = {
+      ...data,
+      serviceDate: formatServiceDate,
+      serviceTimeStart: formatServiceTimeStart,
+      serviceTimeEnd: formatServiceTimeEnd,
+    };
     try {
       axios
         .post(`${process.env.NEXT_PUBLIC_API_URL}/service`, modifyData, {

@@ -95,7 +95,7 @@ const page = () => {
                   </label>
                   <div className="mt-2">
                     <input
-                      type="number"
+                      type="text"
                       name="latitude"
                       id="latitude"
                       placeholder="latitude"
@@ -114,7 +114,7 @@ const page = () => {
                   </label>
                   <div className="mt-2">
                     <input
-                      type="number"
+                      type="text"
                       name="longitude"
                       id="longitude"
                       placeholder="longitude"

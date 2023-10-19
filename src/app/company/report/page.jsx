@@ -8,7 +8,8 @@ import { SlCalender } from "react-icons/sl";
 import Select from "react-select";
 import { userContext } from "../../../context/MainContext";
 import { toast } from "react-toastify";
-import { Calendar } from "react-date-range";
+import { DateRange } from "react-date-range";
+import { addDays } from "date-fns";
 import moment from "moment/moment";
 import { useRef } from "react";
 import generatePDF from "react-to-pdf";
@@ -21,12 +22,20 @@ const Page = () => {
   const [teamMember, setTeamMember] = useState("");
   const [serviceUser, setServiceUser] = useState("");
   const [status, setStatus] = useState("");
-  const [date, setDate] = useState();
+  const [date, setDate] = useState([
+    {
+      startDate: new Date(),
+      endDate: addDays(new Date(), 7),
+      key: "selection",
+    },
+  ]);
   const { token, tokenDetails } = useContext(userContext);
   // For Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState(9);
+
+  const { startDate, endDate } = date[0];
 
   const fetchData = () => {
     let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/service?page=${currentPage}&limit=${itemsPerPage}&softDelete=false&company=${tokenDetails?.data?._id}&sort_by={"createdAt":-1}`;
@@ -40,8 +49,8 @@ const Page = () => {
       apiUrl += `&status=${status}`;
     }
 
-    if (date) {
-      apiUrl += `&serviceDate=${moment(date).format("L")}`;
+    if (startDate !== endDate) {
+      apiUrl += `&serviceDate=${startDate}&serviceDateEnd=${endDate}`;
     }
 
     axios
@@ -100,7 +109,15 @@ const Page = () => {
 
   useEffect(() => {
     fetchData();
-  }, [teamMember, serviceUser, status, currentPage, date, itemsPerPage]);
+  }, [
+    teamMember,
+    serviceUser,
+    status,
+    currentPage,
+    startDate,
+    endDate,
+    itemsPerPage,
+  ]);
 
   useEffect(() => {
     fetchTeamMemberData();
@@ -217,9 +234,11 @@ const Page = () => {
                             aria-labelledby="hs-dropdown-transform-style"
                             data-hs-transition
                           >
-                            <Calendar
-                              onChange={(date) => setDate(date)}
-                              date={date}
+                            <DateRange
+                              editableDateInputs={true}
+                              onChange={(item) => setDate([item.selection])}
+                              moveRangeOnFirstSelection={false}
+                              ranges={date}
                             />
                           </div>
                         </div>
