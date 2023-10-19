@@ -18,13 +18,13 @@ import { userContext } from '../../../context/MainContext';
 export default function MainHeader({ showNav, setShowNav }) {
   const { tokenDetails, setTokenDetails, setToken} = useContext(userContext);
   const logOut = () => {
-        
+
     localStorage.removeItem('details');
     localStorage.removeItem('timertoken');
     setTokenDetails('')
     setToken('')
-    
-    
+
+
 }
   return (
     <div
@@ -41,7 +41,7 @@ export default function MainHeader({ showNav, setShowNav }) {
         <div className="flex items-center">
           <UserAreaSelectBox />
           <div>
-            <div class="border-l border-secondary pl-3 ml-3 space-x-1 flex justify-between items-center">
+            <div className="border-l border-secondary pl-3 ml-3 space-x-1 flex justify-between items-center">
               {/* {user ? (
                 <>
                   <p className="text-sky-600"> {session.user.email}</p>
@@ -53,7 +53,7 @@ export default function MainHeader({ showNav, setShowNav }) {
               ) : (
                 ""
               )} */}
-              
+
               <Link className="text-xl px-2" href='/'>
               <button className='log-out ' onClick={logOut}><BiLogInCircle /></button>
               </Link>

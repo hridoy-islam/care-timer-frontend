@@ -10,8 +10,8 @@ import { userContext } from "../../../context/MainContext";
 import { toast } from "react-toastify";
 import { Calendar } from "react-date-range";
 import moment from "moment/moment";
-import { useRef } from 'react';
-import generatePDF from 'react-to-pdf';
+import { useRef } from "react";
+import generatePDF from "react-to-pdf";
 
 const Page = () => {
   const targetRef = useRef();
@@ -175,38 +175,45 @@ const Page = () => {
 
   return (
     <div>
-      <div class="w-full px-4 py-10 sm:px-6 lg:px-4 lg:py-4 mx-auto">
-        <div class="flex flex-col">
-          <div class="-m-1.5 overflow-x-auto">
-            <div class="p-1.5 min-w-full inline-block align-middle">
+      <div className="w-full px-4 py-10 sm:px-6 lg:px-4 lg:py-4 mx-auto">
+        <div className="flex flex-col">
+          <div className="-m-1.5 overflow-x-auto">
+            <div className="p-1.5 min-w-full inline-block align-middle">
               <div className="">
-                <button className="py-3 px-6  w-48  mb-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-white hover:bg-secondary transition-all text-sm " onClick={() => generatePDF(targetRef, {filename: 'page.pdf'})}>Export PDF <BiSolidDownload className="text-xl" /></button>
+                <button
+                  className="py-3 px-6  w-48  mb-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-white hover:bg-secondary transition-all text-sm "
+                  onClick={() =>
+                    generatePDF(targetRef, { filename: "page.pdf" })
+                  }
+                >
+                  Export PDF <BiSolidDownload className="text-xl" />
+                </button>
               </div>
-              <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden h-full  ">
-                <div class="px-6 py-4 grid gap-3 border-b border-gray-200 ">
+              <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden h-full  ">
+                <div className="px-6 py-4 grid gap-3 border-b border-gray-200 ">
                   <div>
-                    <div class="flex justify-between items-center gap-x-2">
-                      <div class="hs-dropdown relative flex flex-col">
+                    <div className="flex justify-between items-center gap-x-2">
+                      <div className="hs-dropdown relative flex flex-col">
                         <label className="pb-1 pl-1 text-sm font-base font-serif ">
                           Filter By Date
                         </label>
                         <button
                           id="hs-dropdown-transform-style"
                           type="button"
-                          class="hs-dropdown-toggle py-3 px-4 flex justify-between items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                          className="hs-dropdown-toggle py-3 px-4 flex justify-between items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
                         >
                           Select Your Date{" "}
                           <span className="pl-8">
                             <SlCalender />
                           </span>
-                          {/* <svg class="hs-dropdown-open:rotate-180 w-2.5 h-2.5 text-gray-600" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          {/* <svg className="hs-dropdown-open:rotate-180 w-2.5 h-2.5 text-gray-600" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M2 5L8.16086 10.6869C8.35239 10.8637 8.64761 10.8637 8.83914 10.6869L15 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
                           </svg> */}
                         </button>
 
-                        <div class="hs-dropdown-menu w-72 transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden z-10">
+                        <div className="hs-dropdown-menu w-72 transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden z-10">
                           <div
-                            class="hs-dropdown-open:ease-in hs-dropdown-open:opacity-100 hs-dropdown-open:scale-100 transition ease-out opacity-0 scale-95 duration-200 mt-2 origin-top-left min-w-[15rem] bg-white shadow-md rounded-lg p-2 dark:bg-gray-800 dark:border dark:border-gray-700 dark:divide-gray-700"
+                            className="hs-dropdown-open:ease-in hs-dropdown-open:opacity-100 hs-dropdown-open:scale-100 transition ease-out opacity-0 scale-95 duration-200 mt-2 origin-top-left min-w-[15rem] bg-white shadow-md rounded-lg p-2 dark:bg-gray-800 dark:border dark:border-gray-700 dark:divide-gray-700"
                             aria-labelledby="hs-dropdown-transform-style"
                             data-hs-transition
                           >
@@ -286,15 +293,18 @@ const Page = () => {
                     </div>
                   </div>
                 </div>
-                <table ref={targetRef} class="min-w-full divide-y divide-gray-200 ">
-                  <thead class="bg-gray-50">
+                <table
+                  ref={targetRef}
+                  className="min-w-full divide-y divide-gray-200 "
+                >
+                  <thead className="bg-gray-50">
                     <tr>
                       <th
                         scope="col"
-                        class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3 text-left"
+                        className="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3 text-left"
                       >
-                        <div class="flex items-center gap-x-2 pl-6">
-                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
+                        <div className="flex items-center gap-x-2 pl-6">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
                             Service Name
                           </span>
                         </div>
@@ -302,10 +312,10 @@ const Page = () => {
 
                       <th
                         scope="col"
-                        class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3 text-left"
+                        className="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3 text-left"
                       >
-                        <div class="flex items-center gap-x-2 pl-6">
-                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
+                        <div className="flex items-center gap-x-2 pl-6">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
                             Service User
                           </span>
                         </div>
@@ -313,67 +323,67 @@ const Page = () => {
 
                       <th
                         scope="col"
-                        class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3 text-left"
+                        className="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3 text-left"
                       >
-                        <div class="flex items-center gap-x-2 pl-6">
-                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
+                        <div className="flex items-center gap-x-2 pl-6">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
                             Service Date
                           </span>
                         </div>
                       </th>
 
-                      <th scope="col" class="px-6 py-3 text-left">
-                        <div class="flex items-center gap-x-2">
-                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
+                      <th scope="col" className="px-6 py-3 text-left">
+                        <div className="flex items-center gap-x-2">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
                             Service Time Start
                           </span>
                         </div>
                       </th>
-                      <th scope="col" class="px-6 py-3 text-left">
-                        <div class="flex items-center gap-x-2">
-                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
+                      <th scope="col" className="px-6 py-3 text-left">
+                        <div className="flex items-center gap-x-2">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
                             Service Time End
                           </span>
                         </div>
                       </th>
-                      <th scope="col" class="px-6 py-3 text-left">
-                        <div class="flex items-center gap-x-2">
-                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
-                          Team Member
+                      <th scope="col" className="px-6 py-3 text-left">
+                        <div className="flex items-center gap-x-2">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
+                            Team Member
                           </span>
                         </div>
                       </th>
-                      <th scope="col" class="px-6 py-3 text-left">
-                        <div class="flex items-center gap-x-2">
-                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
+                      <th scope="col" className="px-6 py-3 text-left">
+                        <div className="flex items-center gap-x-2">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
                             Duration
                           </span>
                         </div>
                       </th>
-                      <th scope="col" class="px-6 py-3 text-left">
-                        <div class="flex items-center gap-x-2">
-                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
+                      <th scope="col" className="px-6 py-3 text-left">
+                        <div className="flex items-center gap-x-2">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
                             Worker Login
                           </span>
                         </div>
                       </th>
-                      <th scope="col" class="px-6 py-3 text-left">
-                        <div class="flex items-center gap-x-2">
-                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
+                      <th scope="col" className="px-6 py-3 text-left">
+                        <div className="flex items-center gap-x-2">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
                             Worker Logout
                           </span>
                         </div>
                       </th>
-                      <th scope="col" class="px-6 py-3 text-left">
-                        <div class="flex items-center gap-x-2">
-                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
+                      <th scope="col" className="px-6 py-3 text-left">
+                        <div className="flex items-center gap-x-2">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
                             Comment
                           </span>
                         </div>
                       </th>
-                      <th scope="col" class="px-6 py-3 text-left">
-                        <div class="flex items-center gap-x-2 justify-center">
-                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
+                      <th scope="col" className="px-6 py-3 text-left">
+                        <div className="flex items-center gap-x-2 justify-center">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
                             Action
                           </span>
                         </div>
@@ -381,111 +391,103 @@ const Page = () => {
                     </tr>
                   </thead>
 
-                  <tbody class="divide-y divide-gray-200 ">
+                  <tbody className="divide-y divide-gray-200 ">
                     {service?.data?.length > 0 &&
                       service?.data?.map((item, index) => (
                         <tr key={index}>
-                          <td class="h-px w-72 whitespace-nowrap">
-                            <div class="px-6 py-3">
-                              <span class="block text-md text-secondary">
+                          <td className="h-px w-72 whitespace-nowrap">
+                            <div className="px-6 py-3">
+                              <span className="block text-md text-secondary">
                                 {item.serviceName}
                               </span>
                             </div>
                           </td>
-                          <td class="h-px w-72 whitespace-nowrap">
-                            <div class="px-6 py-3">
-                              <span class="block text-md text-secondary">
+                          <td className="h-px w-72 whitespace-nowrap">
+                            <div className="px-6 py-3">
+                              <span className="block text-md text-secondary">
                                 {item.customer?.name}
                               </span>
                             </div>
                           </td>
-                          <td class="h-px pl-6 w-px whitespace-nowrap">
-                            <div class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
-                              <span class="block text-md text-secondary">
+                          <td className="h-px pl-6 w-px whitespace-nowrap">
+                            <div className="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
+                              <span className="block text-md text-secondary">
                                 {moment(item.serviceDate).format("MMM Do YY")}
                               </span>
                             </div>
                           </td>
-                          <td class="h-px w-72 whitespace-nowrap">
-                            <div class="px-6 py-3">
-                              <span class="block text-md text-secondary">
+                          <td className="h-px w-72 whitespace-nowrap">
+                            <div className="px-6 py-3">
+                              <span className="block text-md text-secondary">
                                 {item.serviceTimeStart}
                               </span>
                             </div>
                           </td>
-                          <td class="h-px w-72 whitespace-nowrap">
-                            <div class="px-6 py-3">
-                              <span class="block text-md text-secondary">
+                          <td className="h-px w-72 whitespace-nowrap">
+                            <div className="px-6 py-3">
+                              <span className="block text-md text-secondary">
                                 {item.serviceTimeEnd}
                               </span>
                             </div>
                           </td>
 
-                          <td class="h-px w-72 whitespace-nowrap">
-                            <div class="px-6 py-3">
-                              <span class="block text-md text-secondary">
+                          <td className="h-px w-72 whitespace-nowrap">
+                            <div className="px-6 py-3">
+                              <span className="block text-md text-secondary">
                                 {item.worker?.name}
                               </span>
                             </div>
                           </td>
-                          <td class="h-px w-72 whitespace-nowrap">
-                            <div class="px-6 py-3">
-                              <span class="block text-md text-secondary">
-                              {
-                    service?.duration ?
-                    service?.duration
-                    : 'Not Found'
-                  }
+                          <td className="h-px w-72 whitespace-nowrap">
+                            <div className="px-6 py-3">
+                              <span className="block text-md text-secondary">
+                                {service?.duration
+                                  ? service?.duration
+                                  : "Not Found"}
                               </span>
                             </div>
                           </td>
-                          <td class="h-px w-72 whitespace-nowrap">
-                            <div class="px-6 py-3">
-                              <span class="block text-md text-secondary">
-                              {
-                    service?.workerLogin ?
-                    service?.workerLogin
-                    : 'Not Found'
-                  }
+                          <td className="h-px w-72 whitespace-nowrap">
+                            <div className="px-6 py-3">
+                              <span className="block text-md text-secondary">
+                                {service?.workerLogin
+                                  ? service?.workerLogin
+                                  : "Not Found"}
                               </span>
                             </div>
                           </td>
-                          <td class="h-px w-72 whitespace-nowrap">
-                            <div class="px-6 py-3">
-                              <span class="block text-md text-secondary">
-                              {
-                    service?.workerLogout ?
-                    service?.workerLogout
-                    : 'Not Found'
-                  }
+                          <td className="h-px w-72 whitespace-nowrap">
+                            <div className="px-6 py-3">
+                              <span className="block text-md text-secondary">
+                                {service?.workerLogout
+                                  ? service?.workerLogout
+                                  : "Not Found"}
                               </span>
                             </div>
                           </td>
-                          <td class="h-px w-72 whitespace-nowrap">
-                            <div class="px-6 py-3">
-                              <span class="block text-md text-secondary">
-                              {
-                    service?.comment ?
-                    service?.comment
-                    : 'Not Comment yet'
-                  }
+                          <td className="h-px w-72 whitespace-nowrap">
+                            <div className="px-6 py-3">
+                              <span className="block text-md text-secondary">
+                                {service?.comment
+                                  ? service?.comment
+                                  : "Not Comment yet"}
                               </span>
                             </div>
                           </td>
 
-                          <td class="h-px w-72 whitespace-nowrap">
+                          <td className="h-px w-72 whitespace-nowrap">
                             <div className="flex justify-evenly ">
-                              <div class="hs-tooltip inline-block">
+                              <div className="hs-tooltip inline-block">
                                 <Link
                                   href={`/company/report/viewReport/${item._id}`}
                                 >
                                   <button
                                     type="button"
-                                    class="hs-tooltip-toggle text-2xl"
+                                    className="hs-tooltip-toggle text-2xl"
                                   >
                                     <AiOutlineEye fill="#979797" />
                                     <span
-                                      class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm "
+                                      className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm "
                                       role="tooltip"
                                     >
                                       View
@@ -493,17 +495,17 @@ const Page = () => {
                                   </button>
                                 </Link>
                               </div>
-                              <div class="hs-tooltip inline-block">
+                              <div className="hs-tooltip inline-block">
                                 <Link
                                   href={`/company/report/editReport/${item._id}`}
                                 >
                                   <button
                                     type="button"
-                                    class="hs-tooltip-toggle text-2xl"
+                                    className="hs-tooltip-toggle text-2xl"
                                   >
                                     <BiEditAlt fill="#979797" />
                                     <span
-                                      class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm "
+                                      className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm "
                                       role="tooltip"
                                     >
                                       Edit
@@ -511,15 +513,15 @@ const Page = () => {
                                   </button>
                                 </Link>
                               </div>
-                              {/* <div class="hs-tooltip inline-block pr-2">
+                              {/* <div className="hs-tooltip inline-block pr-2">
                                 <button
                                   onClick={() => handleDelete(item._id)}
                                   type="button"
-                                  class="hs-tooltip-toggle text-xl"
+                                  className="hs-tooltip-toggle text-xl"
                                 >
                                   <BsTrash3 fill="red" />
                                   <span
-                                    class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-red-800 text-xs font-medium text-white rounded-md shadow-sm "
+                                    className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-red-800 text-xs font-medium text-white rounded-md shadow-sm "
                                     role="tooltip"
                                   >
                                     Delete
@@ -532,10 +534,10 @@ const Page = () => {
                       ))}
                   </tbody>
                 </table>
-                <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200 ">
+                <div className="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200 ">
                   <div>
-                    <p class="text-sm text-gray-600 ">
-                      <span class="font-semibold text-gray-800 ">
+                    <p className="text-sm text-gray-600 ">
+                      <span className="font-semibold text-gray-800 ">
                         {service?.data?.length}
                       </span>{" "}
                       results
@@ -543,14 +545,14 @@ const Page = () => {
                   </div>
 
                   <div>
-                    <div class="inline-flex gap-x-2">
+                    <div className="inline-flex gap-x-2">
                       <button
                         type="button"
-                        class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm"
+                        className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm"
                         onClick={() => setCurrentPage(currentPage - 1)}
                       >
                         <svg
-                          class="w-3 h-3"
+                          className="w-3 h-3"
                           xmlns="http://www.w3.org/2000/svg"
                           width="16"
                           height="16"
@@ -567,12 +569,12 @@ const Page = () => {
 
                       <button
                         type="button"
-                        class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm      "
+                        className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm      "
                         onClick={() => setCurrentPage(currentPage + 1)}
                       >
                         Next
                         <svg
-                          class="w-3 h-3"
+                          className="w-3 h-3"
                           xmlns="http://www.w3.org/2000/svg"
                           width="16"
                           height="16"

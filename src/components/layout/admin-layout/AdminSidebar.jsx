@@ -29,22 +29,22 @@ const AdminSidebar = forwardRef(({ showNav }, ref) => {
         </li>
         <li>
         </li>
-        <li class="hs-accordion " id="account-accordion">
-          <Link class="hs-accordion-toggle flex items-center gap-x-2 pt-4 px-2 hs-accordion-active:text-secondary hs-accordion-active:hover:bg-transparent text-lg text-secondary rounded-md  hover:text-secondary" href="javascript:;">
+        <li className="hs-accordion " id="account-accordion">
+          <Link className="hs-accordion-toggle flex items-center gap-x-2 pt-4 px-2 hs-accordion-active:text-secondary hs-accordion-active:hover:bg-transparent text-lg text-secondary rounded-md  hover:text-secondary" href="javascript:;">
             <FaBuildingUser />
             Company
 
-            <svg class="hs-accordion-active:block ml-4 hidden w-3 h-3 text-secondary " width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg className="hs-accordion-active:block ml-4 hidden w-3 h-3 text-secondary " width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M2 11L8.16086 5.31305C8.35239 5.13625 8.64761 5.13625 8.83914 5.31305L15 11" stroke="currentColor" strokeWidth="2" strokeLinecap="round"></path>
             </svg>
 
-            <svg class="hs-accordion-active:hidden ml-4 block w-3 h-3 text-secondary " width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg className="hs-accordion-active:hidden ml-4 block w-3 h-3 text-secondary " width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M2 5L8.16086 10.6869C8.35239 10.8637 8.64761 10.8637 8.83914 10.6869L15 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"></path>
             </svg>
           </Link>
 
-          <div id="account-accordion-child" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden">
-            <ul class="pt-2 pl-2">
+          <div id="account-accordion-child" className="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden">
+            <ul className="pt-2 pl-2">
               <li>
                 <Link href="/admin/company/addCompany" className={`block text-lg pl-4 font-base py-2 ml-3 rounded-lg my-2 text-secondary ${
               pathname == "/admin/company/addCompany"
@@ -82,22 +82,22 @@ const AdminSidebar = forwardRef(({ showNav }, ref) => {
             </ul>
           </div>
         </li>
-        {/* <li class="hs-accordion" id="account-accordion">
-          <Link class="hs-accordion-toggle flex items-center gap-x-2 pt-6 px-2 hs-accordion-active:text-secondary hs-accordion-active:hover:bg-transparent text-lg text-secondary rounded-md  hover:text-secondary" href="javascript:;">
+        {/* <li className="hs-accordion" id="account-accordion">
+          <Link className="hs-accordion-toggle flex items-center gap-x-2 pt-6 px-2 hs-accordion-active:text-secondary hs-accordion-active:hover:bg-transparent text-lg text-secondary rounded-md  hover:text-secondary" href="javascript:;">
             <FaUsers />
             Team Member
 
-            <svg class="hs-accordion-active:block ml-8 hidden w-3 h-3 text-secondary " width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg className="hs-accordion-active:block ml-8 hidden w-3 h-3 text-secondary " width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M2 11L8.16086 5.31305C8.35239 5.13625 8.64761 5.13625 8.83914 5.31305L15 11" stroke="currentColor" strokeWidth="2" strokeLinecap="round"></path>
             </svg>
 
-            <svg class="hs-accordion-active:hidden ml-8 block w-3 h-3 text-secondary " width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg className="hs-accordion-active:hidden ml-8 block w-3 h-3 text-secondary " width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M2 5L8.16086 10.6869C8.35239 10.8637 8.64761 10.8637 8.83914 10.6869L15 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"></path>
             </svg>
           </Link>
 
-          <div id="account-accordion-child" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden">
-            <ul class="pt-2 pl-2">
+          <div id="account-accordion-child" className="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden">
+            <ul className="pt-2 pl-2">
               <li>
                 <Link href="/teamMember/addTeamMember" className="block text-lg pl-4 font-base pt-4 pb-2 ml-3 text-secondary">
                 <span className='flex items-center '>
@@ -116,22 +116,22 @@ const AdminSidebar = forwardRef(({ showNav }, ref) => {
             </ul>
           </div>
         </li>
-        <li class="hs-accordion " id="account-accordion">
-          <Link class="hs-accordion-toggle flex items-center gap-x-2 pt-6 px-2 hs-accordion-active:text-secondary hs-accordion-active:hover:bg-transparent text-lg text-secondary rounded-md  hover:text-secondary" href="javascript:;">
+        <li className="hs-accordion " id="account-accordion">
+          <Link className="hs-accordion-toggle flex items-center gap-x-2 pt-6 px-2 hs-accordion-active:text-secondary hs-accordion-active:hover:bg-transparent text-lg text-secondary rounded-md  hover:text-secondary" href="javascript:;">
             <FaUser />
-            Service User 
+            Service User
 
-            <svg class="hs-accordion-active:block ml-4 hidden w-3 h-3 text-secondary " width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg className="hs-accordion-active:block ml-4 hidden w-3 h-3 text-secondary " width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M2 11L8.16086 5.31305C8.35239 5.13625 8.64761 5.13625 8.83914 5.31305L15 11" stroke="currentColor" strokeWidth="2" strokeLinecap="round"></path>
             </svg>
 
-            <svg class="hs-accordion-active:hidden ml-4 block w-3 h-3 text-secondary " width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg className="hs-accordion-active:hidden ml-4 block w-3 h-3 text-secondary " width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M2 5L8.16086 10.6869C8.35239 10.8637 8.64761 10.8637 8.83914 10.6869L15 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"></path>
             </svg>
           </Link>
 
-          <div id="account-accordion-child" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden">
-            <ul class="pt-2 pl-2">
+          <div id="account-accordion-child" className="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden">
+            <ul className="pt-2 pl-2">
               <li>
                 <Link href="/serviceUser/addServiceUser" className="block text-lg pl-4 font-base pt-4 pb-2 ml-3 text-secondary">
                 <span className='flex items-center '>
@@ -150,22 +150,22 @@ const AdminSidebar = forwardRef(({ showNav }, ref) => {
             </ul>
           </div>
         </li>
-        <li class="hs-accordion" id="account-accordion">
-          <Link class="hs-accordion-toggle flex items-center gap-x-2 pt-6 px-2 hs-accordion-active:text-secondary hs-accordion-active:hover:bg-transparent text-lg text-secondary rounded-md  hover:text-secondary" href="javascript:;">
+        <li className="hs-accordion" id="account-accordion">
+          <Link className="hs-accordion-toggle flex items-center gap-x-2 pt-6 px-2 hs-accordion-active:text-secondary hs-accordion-active:hover:bg-transparent text-lg text-secondary rounded-md  hover:text-secondary" href="javascript:;">
             <VscTasklist/>
             Tasklist
 
-            <svg class="hs-accordion-active:block ml-8 hidden w-3 h-3 text-secondary " width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg className="hs-accordion-active:block ml-8 hidden w-3 h-3 text-secondary " width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M2 11L8.16086 5.31305C8.35239 5.13625 8.64761 5.13625 8.83914 5.31305L15 11" stroke="currentColor" strokeWidth="2" strokeLinecap="round"></path>
             </svg>
 
-            <svg class="hs-accordion-active:hidden ml-8 block w-3 h-3 text-secondary " width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg className="hs-accordion-active:hidden ml-8 block w-3 h-3 text-secondary " width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M2 5L8.16086 10.6869C8.35239 10.8637 8.64761 10.8637 8.83914 10.6869L15 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"></path>
             </svg>
           </Link>
 
-          <div id="account-accordion-child" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden">
-            <ul class="pt-2 pl-2">
+          <div id="account-accordion-child" className="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden">
+            <ul className="pt-2 pl-2">
               <li>
                 <Link href="/tasklist/addTasklist" className="block text-lg pl-4 font-base pt-4 pb-2 ml-3 text-secondary ">
                   <span className='flex items-center '>
@@ -193,7 +193,7 @@ const AdminSidebar = forwardRef(({ showNav }, ref) => {
         <li className='flex justify-start items-center text-lg mt-6 text-secondary   rounded-xl px-2'>
           <AiFillSchedule className='mr-2  ' />
           <Link href='/schedule/addSchedule' >
-          Schedule 
+          Schedule
           </Link>
         </li>
 
