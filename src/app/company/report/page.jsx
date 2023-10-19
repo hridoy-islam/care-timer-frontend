@@ -10,7 +10,11 @@ import { userContext } from "../../../context/MainContext";
 import { toast } from "react-toastify";
 import { Calendar } from "react-date-range";
 import moment from "moment/moment";
+import { useRef } from 'react';
+import generatePDF from 'react-to-pdf';
+
 const Page = () => {
+  const targetRef = useRef();
   const [service, setService] = useState();
   const [teamMembers, setTeamMembers] = useState([]);
   const [serviceUsers, setServiceUsers] = useState([]);
@@ -180,12 +184,7 @@ const Page = () => {
             <div class="p-1.5 min-w-full inline-block align-middle">
               <div className="flex ">
                 {/* <label className='pb-1 pl-1 text-sm font-base text-end font-serif'>Generate Report</label> */}
-                <Link
-                  class="py-3 px-6  w-48 lg:ml-auto mb-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-white hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm "
-                  href="#"
-                >
-                  Export PDF <BiSolidDownload className="text-xl" />
-                </Link>
+                <button className="py-3 px-6  w-48 lg:ml-auto mb-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-white hover:bg-secondary transition-all text-sm " onClick={() => generatePDF(targetRef, {filename: 'page.pdf'})}>Export PDF <BiSolidDownload className="text-xl" /></button>
               </div>
               <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden h-full  ">
                 <div class="px-6 py-4 grid gap-3 border-b border-gray-200 ">
@@ -291,7 +290,7 @@ const Page = () => {
                     </div>
                   </div>
                 </div>
-                <table class="min-w-full divide-y divide-gray-200 ">
+                <table ref={targetRef} class="min-w-full divide-y divide-gray-200 ">
                   <thead class="bg-gray-50">
                     <tr>
                       <th
