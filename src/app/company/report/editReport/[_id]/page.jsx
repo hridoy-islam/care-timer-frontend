@@ -122,12 +122,10 @@ const page = ({ params: { _id } }) => {
   useEffect(() => {
     fetchData();
   }, []);
-  console.log(service);
   const onsubmit = (data) => {
     const { serviceDate } = data;
     const formatServiceDate = moment(serviceDate).format("L");
     const modifyData = { ...data, serviceDate: formatServiceDate };
-    console.log(modifyData);
 
     try {
       axios

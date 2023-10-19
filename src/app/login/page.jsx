@@ -11,7 +11,6 @@ const jwt = require("jsonwebtoken");
 const page = () => {
     const router = useRouter()
     const { tokenDetails, token, setToken, setTokenDetails } = useContext(userContext);
-    console.log(tokenDetails, token)
     var tokenDecoded = jwt.decode(token);
     const role = tokenDecoded?.data?.role
     if (role == 'admin') {
@@ -52,9 +51,7 @@ const page = () => {
 
             .then(({ data }) => {
                 if (!data.success) {
-                    // console.log(data?.data?.token)
                     var decoded = jwt.decode(data?.data?.token);
-                    // console.log(decoded)
                     // toast.success('LogIn SuccessFully');
                     localStorage.setItem('timertoken', data?.data?.token);
                     localStorage.setItem('details', JSON.stringify(decoded));

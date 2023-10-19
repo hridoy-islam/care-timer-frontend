@@ -15,7 +15,6 @@ const UserAreaSelectBox = () => {
    const [open, setOpen] = useState(false);
    // const tokenDetails = JSON.parse(localStorage?.getItem('details'));
    const { tokenDetails, setTokenDetails} = useContext(userContext);
-   console.log(tokenDetails)
 
    return (
       <>

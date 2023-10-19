@@ -28,7 +28,6 @@ const Page = () => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState(9);
 
-  console.log(date);
   const fetchData = () => {
     let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/service?page=${currentPage}&limit=${itemsPerPage}&softDelete=false&company=${tokenDetails?.data?._id}&sort_by={"createdAt":-1}`;
     if (teamMember) {
@@ -52,7 +51,6 @@ const Page = () => {
         },
       })
       .then(function (response) {
-        console.log(response);
         // handle success
         setCurrentPage(response?.data?.data?.metadata?.page);
         setItemsPerPage(response?.data?.data?.metadata?.limit);
@@ -60,7 +58,6 @@ const Page = () => {
         setService(response?.data?.data);
       });
   };
-  console.log(service);
 
   const fetchTeamMemberData = () => {
     try {
@@ -182,9 +179,8 @@ const Page = () => {
         <div class="flex flex-col">
           <div class="-m-1.5 overflow-x-auto">
             <div class="p-1.5 min-w-full inline-block align-middle">
-              <div className="flex ">
-                {/* <label className='pb-1 pl-1 text-sm font-base text-end font-serif'>Generate Report</label> */}
-                <button className="py-3 px-6  w-48 lg:ml-auto mb-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-white hover:bg-secondary transition-all text-sm " onClick={() => generatePDF(targetRef, {filename: 'page.pdf'})}>Export PDF <BiSolidDownload className="text-xl" /></button>
+              <div className="">
+                <button className="py-3 px-6  w-48  mb-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-white hover:bg-secondary transition-all text-sm " onClick={() => generatePDF(targetRef, {filename: 'page.pdf'})}>Export PDF <BiSolidDownload className="text-xl" /></button>
               </div>
               <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden h-full  ">
                 <div class="px-6 py-4 grid gap-3 border-b border-gray-200 ">
@@ -340,13 +336,38 @@ const Page = () => {
                           </span>
                         </div>
                       </th>
-                      <th
-                        scope="col"
-                        class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3 text-left"
-                      >
-                        <div class="flex items-center gap-x-2 pl-6">
+                      <th scope="col" class="px-6 py-3 text-left">
+                        <div class="flex items-center gap-x-2">
                           <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
-                            Team Member
+                          Team Member
+                          </span>
+                        </div>
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-left">
+                        <div class="flex items-center gap-x-2">
+                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
+                            Duration
+                          </span>
+                        </div>
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-left">
+                        <div class="flex items-center gap-x-2">
+                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
+                            Worker Login
+                          </span>
+                        </div>
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-left">
+                        <div class="flex items-center gap-x-2">
+                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
+                            Worker Logout
+                          </span>
+                        </div>
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-left">
+                        <div class="flex items-center gap-x-2">
+                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
+                            Comment
                           </span>
                         </div>
                       </th>
@@ -381,7 +402,7 @@ const Page = () => {
                           <td class="h-px pl-6 w-px whitespace-nowrap">
                             <div class="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
                               <span class="block text-md text-secondary">
-                                {item.serviceDate.slice(0, 10)}
+                                {moment(item.serviceDate).format("MMM Do YY")}
                               </span>
                             </div>
                           </td>
@@ -404,6 +425,50 @@ const Page = () => {
                             <div class="px-6 py-3">
                               <span class="block text-md text-secondary">
                                 {item.worker?.name}
+                              </span>
+                            </div>
+                          </td>
+                          <td class="h-px w-72 whitespace-nowrap">
+                            <div class="px-6 py-3">
+                              <span class="block text-md text-secondary">
+                              {
+                    service?.duration ?
+                    service?.duration
+                    : 'Not Found'
+                  }
+                              </span>
+                            </div>
+                          </td>
+                          <td class="h-px w-72 whitespace-nowrap">
+                            <div class="px-6 py-3">
+                              <span class="block text-md text-secondary">
+                              {
+                    service?.workerLogin ?
+                    service?.workerLogin
+                    : 'Not Found'
+                  }
+                              </span>
+                            </div>
+                          </td>
+                          <td class="h-px w-72 whitespace-nowrap">
+                            <div class="px-6 py-3">
+                              <span class="block text-md text-secondary">
+                              {
+                    service?.workerLogout ?
+                    service?.workerLogout
+                    : 'Not Found'
+                  }
+                              </span>
+                            </div>
+                          </td>
+                          <td class="h-px w-72 whitespace-nowrap">
+                            <div class="px-6 py-3">
+                              <span class="block text-md text-secondary">
+                              {
+                    service?.comment ?
+                    service?.comment
+                    : 'Not Comment yet'
+                  }
                               </span>
                             </div>
                           </td>

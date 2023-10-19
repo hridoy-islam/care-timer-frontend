@@ -20,7 +20,6 @@ const page = ({ params: { _id } }) => {
   useEffect(() => {
     fetchData()
   }, [])
-  console.log(serviceUser)
   return (
     <div className='bg-white border border-gray-200 rounded-xl shadow-sm p-6  w-3/4 mx-auto'>
       <BreadCumb title="Team Member Details" />

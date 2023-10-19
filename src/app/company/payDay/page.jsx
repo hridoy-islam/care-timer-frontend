@@ -36,7 +36,6 @@ const Page = () => {
     const { nextpayday } = data;
     const formatDate = moment(nextpayday).format("L");
     const modifyData = { ...data, nextpayday: formatDate };
-    console.log(modifyData);
 
     try {
       axios
@@ -64,10 +63,8 @@ const Page = () => {
     fetchData();
   }, [forceRerender]);
   const dateShow = payDate?.data[0]?.nextpayday;
-  console.log(dateShow)
   const formatPayDate = moment(dateShow).format("LL");
   // const formatPayDate = { nextpayday: formatDate };
-  console.log(formatPayDate)
   return (
     <div>
       <div class="w-full px-4 py-10 sm:px-6 lg:px-8 lg:py-4 content-none  mx-auto">

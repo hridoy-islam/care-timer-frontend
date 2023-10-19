@@ -16,7 +16,6 @@ const page = () => {
         reset
     } = useForm();
     const onsubmit = data => {
-        console.log(data)
         axios.post(`${process.env.NEXT_PUBLIC_API_URL}/worker`, data, {
             headers: {
                 'Authorization': `Bearer ${token}`

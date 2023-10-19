@@ -20,7 +20,6 @@ const page = ({ params: { _id } }) => {
   useEffect(() => {
     fetchData()
   }, [])
-  console.log(service)
   return (
     <div className='bg-white border lg:w-3/4 mx-auto border-gray-200 rounded-xl shadow-sm p-6 '>
       <BreadCumb title="Report Details" />
@@ -168,7 +167,13 @@ const page = ({ params: { _id } }) => {
             </th>
             <td className="h-px w-72 whitespace-nowrap">
               <div className="px-6 py-3">
-                <span className="block text-md text-secondary">1h 21m</span>
+                <span className="block text-md text-secondary">
+                {
+                    service?.duration ?
+                    service?.duration
+                    : 'Not Found'
+                  }
+                  </span>
               </div>
             </td>
           </tr>
@@ -182,7 +187,12 @@ const page = ({ params: { _id } }) => {
             </th>
             <td className="h-px w-72 whitespace-nowrap">
               <div className="px-6 py-3">
-                <span className="block text-md text-secondary">10:15</span>
+                <span className="block text-md text-secondary">
+                {
+                    service?.workerLogin ?
+                    service?.workerLogin
+                    : 'Not Found'
+                  }</span>
               </div>
             </td>
           </tr>
@@ -197,7 +207,13 @@ const page = ({ params: { _id } }) => {
             </th>
             <td className="h-px w-72 whitespace-nowrap">
               <div className="px-6 py-3">
-                <span className="block text-md text-secondary">18:23</span>
+                <span className="block text-md text-secondary">
+                  {
+                    service?.workerLogout ?
+                    service?.workerLogout
+                    : 'Not Found'
+                  }
+                  </span>
               </div>
             </td>
           </tr>
@@ -211,7 +227,12 @@ const page = ({ params: { _id } }) => {
             </th>
             <td className="h-px w-72 whitespace-nowrap">
               <div className="px-6 py-3">
-                <span className="block text-md text-secondary">This comments</span>
+                <span className="block text-md text-secondary">
+                {
+                    service?.comment ?
+                    service?.comment
+                    : 'Not Comment yet'
+                  }</span>
               </div>
             </td>
           </tr>

@@ -18,7 +18,6 @@ const navButtonsList = [
 const MobileButtonNavigation = () => {
   const path = usePathname();
 
-  console.log({ path });
 
   return (
     <div className='fixed bottom-0 left-0 right-0 w-full h-12 bg-white sm:hidden'>

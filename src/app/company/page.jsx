@@ -44,7 +44,6 @@ const page = () => {
     fetchServiceData()
     fetchTeamData();
   }, []);
-  console.log(teamMember)
   return (
     <div>
       <section className="lg:grid-cols-4 grid gap-6 mx-12 my-12">

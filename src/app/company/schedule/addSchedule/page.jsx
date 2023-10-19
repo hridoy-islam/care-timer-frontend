@@ -108,11 +108,11 @@ const page = () => {
   } = useController({ name: "taskList", control });
 
   const onsubmit = (data) => {
-    const { serviceDate } = data;
-    const formatServiceDate = moment(serviceDate).format("L");
-    const modifyData = { ...data, serviceDate: formatServiceDate };
-    console.log(modifyData);
 
+    const { serviceDate } = data;
+    const formatServiceDate = moment(serviceDate).format();
+    const modifyData = { ...data, serviceDate: formatServiceDate };
+    console.log(modifyData)
     try {
       axios
         .post(`${process.env.NEXT_PUBLIC_API_URL}/service`, modifyData, {

@@ -7,7 +7,6 @@ import { userContext } from '../../../../../../context/MainContext';
 const page = ({ params: { _id } }) => {
   const { token } = useContext(userContext)
   const [company, setCompany] = useState();
-  console.log(process.env.DB_HOST)
   const fetchData = () => {
     axios.get(`${process.env.NEXT_PUBLIC_API_URL}/worker/${_id}`, {
       headers: {

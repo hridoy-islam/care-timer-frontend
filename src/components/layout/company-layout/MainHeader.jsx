@@ -17,7 +17,6 @@ import { userContext } from '../../../context/MainContext';
 
 export default function MainHeader({ showNav, setShowNav }) {
   const { tokenDetails, setTokenDetails, setToken} = useContext(userContext);
-  console.log(tokenDetails)
   const logOut = () => {
         
     localStorage.removeItem('details');
