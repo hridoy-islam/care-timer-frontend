@@ -38,7 +38,7 @@ const Page = () => {
   const { startDate, endDate } = date[0];
 
   const fetchData = () => {
-    let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/service?page=${currentPage}&limit=${itemsPerPage}&softDelete=false&company=${tokenDetails?.data?._id}&sort_by={"createdAt":-1}`;
+    let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/service?page=${currentPage}&limit=${itemsPerPage}&softDelete=false&company=${tokenDetails?.data?._id}&sort_by={"serviceDate":-1}`;
     if (teamMember) {
       apiUrl += `&worker=${teamMember}`;
     }
@@ -51,6 +51,8 @@ const Page = () => {
 
     if (startDate !== endDate) {
       apiUrl += `&serviceDate=${startDate}&serviceDateEnd=${endDate}`;
+    } else {
+      apiUrl += `&serviceDate=${startDate}`;
     }
 
     axios
@@ -60,6 +62,7 @@ const Page = () => {
         },
       })
       .then(function (response) {
+        console.log(response);
         // handle success
         setCurrentPage(response?.data?.data?.metadata?.page);
         setItemsPerPage(response?.data?.data?.metadata?.limit);
@@ -219,7 +222,16 @@ const Page = () => {
                           type="button"
                           className="hs-dropdown-toggle py-3 px-4 flex justify-between items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
                         >
-                          Select Your Date{" "}
+                          {moment(startDate).format("L") ===
+                          moment(endDate).format("L") ? (
+                            <span>{moment(startDate).format("L")}</span>
+                          ) : (
+                            <>
+                              <span>{moment(startDate).format("L")}</span>
+                              <span> - </span>
+                              <span>{moment(endDate).format("L")}</span>
+                            </>
+                          )}
                           <span className="pl-8">
                             <SlCalender />
                           </span>
