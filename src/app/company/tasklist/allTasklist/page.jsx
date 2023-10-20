@@ -16,7 +16,7 @@ const Page = () => {
   const fetchData = () => {
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_API_URL}/tasklist?softDelete=false&company=${tokenDetails?.data?._id}&&sort_by={"createdAt":-1}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/tasklist?softDelete=false&company=${tokenDetails?.data?._id}&sort_by={"createdAt":-1}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -61,7 +61,7 @@ const Page = () => {
       }
     } catch (error) {
       alert(error.response);
-      toast.error("Something Went Worng");
+      toast.error("Something Went Wrong");
     }
   };
   useEffect(() => {
