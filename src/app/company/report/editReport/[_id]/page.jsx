@@ -127,30 +127,32 @@ const page = ({ params: { _id } }) => {
     const formatServiceDate = moment(serviceDate).format("L");
     const modifyData = { ...data, serviceDate: formatServiceDate };
 
-    try {
-      axios
-        .patch(
-          `${process.env.NEXT_PUBLIC_API_URL}/service/${_id}`,
-          modifyData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-        .then(function ({ status }) {
-          // handle success
-          if (status === 200) {
-            toast.success("Report Updated", {
-              position: toast.POSITION.TOP_CENTER,
-            });
-          }
-        });
-    } catch (error) {
-      console.error(error);
-    }
-    reset;
+    console.log(modifyData);
+
+    // try {
+    //   axios
+    //     .patch(
+    //       `${process.env.NEXT_PUBLIC_API_URL}/service/${_id}`,
+    //       modifyData,
+    //       {
+    //         headers: {
+    //           "Content-Type": "application/json",
+    //           Authorization: `Bearer ${token}`,
+    //         },
+    //       }
+    //     )
+    //     .then(function ({ status }) {
+    //       // handle success
+    //       if (status === 200) {
+    //         toast.success("Report Updated", {
+    //           position: toast.POSITION.TOP_CENTER,
+    //         });
+    //       }
+    //     });
+    // } catch (error) {
+    //   console.error(error);
+    // }
+    // reset;
   };
 
   return (

@@ -38,7 +38,7 @@ const Page = () => {
   const { startDate, endDate } = date[0];
 
   const fetchData = () => {
-    let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/service?page=${currentPage}&limit=${itemsPerPage}&softDelete=false&company=${tokenDetails?.data?._id}&sort_by={"createdAt":-1}`;
+    let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/service/?page=${currentPage}&limit=${itemsPerPage}&softDelete=false&company=${tokenDetails?.data?._id}&sort_by={"serviceDate":-1}`;
     if (teamMember) {
       apiUrl += `&worker=${teamMember}`;
     }
@@ -50,7 +50,11 @@ const Page = () => {
     }
 
     if (startDate !== endDate) {
-      apiUrl += `&serviceDate=${startDate}&serviceDateEnd=${endDate}`;
+      apiUrl += `&serviceDate=${moment(startDate).format(
+        "YYYY-MM-DD"
+      )}&serviceDateEnd=${moment(endDate).format("YYYY-MM-DD")}`;
+    } else {
+      apiUrl += `&serviceDate=${moment(startDate).format("YYYY-MM-DD")}`;
     }
 
     axios
@@ -60,6 +64,7 @@ const Page = () => {
         },
       })
       .then(function (response) {
+        console.log(response);
         // handle success
         setCurrentPage(response?.data?.data?.metadata?.page);
         setItemsPerPage(response?.data?.data?.metadata?.limit);
@@ -200,7 +205,7 @@ const Page = () => {
                 <button
                   className="py-3 px-6  w-48  mb-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-white hover:bg-secondary transition-all text-sm "
                   onClick={() =>
-                    generatePDF(targetRef, { filename: "page.pdf" })
+                    generatePDF(targetRef, { filename: "report.pdf" })
                   }
                 >
                   Export PDF <BiSolidDownload className="text-xl" />
@@ -219,7 +224,16 @@ const Page = () => {
                           type="button"
                           className="hs-dropdown-toggle py-3 px-4 flex justify-between items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
                         >
-                          Select Your Date{" "}
+                          {moment(startDate).format("L") ===
+                          moment(endDate).format("L") ? (
+                            <span>{moment(startDate).format("L")}</span>
+                          ) : (
+                            <>
+                              <span>{moment(startDate).format("L")}</span>
+                              <span> - </span>
+                              <span>{moment(endDate).format("L")}</span>
+                            </>
+                          )}
                           <span className="pl-8">
                             <SlCalender />
                           </span>
@@ -312,9 +326,10 @@ const Page = () => {
                     </div>
                   </div>
                 </div>
+                {/* View Data */}
                 <table
-                  ref={targetRef}
                   className="min-w-full divide-y divide-gray-200 "
+                  ref={targetRef}
                 >
                   <thead className="bg-gray-50">
                     <tr>
@@ -400,7 +415,7 @@ const Page = () => {
                           </span>
                         </div>
                       </th>
-                      <th scope="col" className="px-6 py-3 text-left">
+                      <th scope="col" className={"px-6 py-3 text-left"}>
                         <div className="flex items-center gap-x-2 justify-center">
                           <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
                             Action
@@ -494,7 +509,7 @@ const Page = () => {
                             </div>
                           </td>
 
-                          <td className="h-px w-72 whitespace-nowrap">
+                          <td className={"h-px w-72 whitespace-nowrap"}>
                             <div className="flex justify-evenly ">
                               <div className="hs-tooltip inline-block">
                                 <Link
