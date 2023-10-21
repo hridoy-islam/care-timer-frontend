@@ -115,10 +115,11 @@ const page = () => {
     const formatServiceDate = moment(serviceDate).format();
     const modifyData = {
       ...data,
-      serviceDate: formatServiceDate,
+      serviceDate: moment(formatServiceDate).format("YYYY-MM-DD"),
       serviceTimeStart: formatServiceTimeStart,
       serviceTimeEnd: formatServiceTimeEnd,
     };
+    console.log(modifyData);
     try {
       axios
         .post(`${process.env.NEXT_PUBLIC_API_URL}/service`, modifyData, {

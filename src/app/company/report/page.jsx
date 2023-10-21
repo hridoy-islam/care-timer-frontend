@@ -38,7 +38,7 @@ const Page = () => {
   const { startDate, endDate } = date[0];
 
   const fetchData = () => {
-    let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/service?page=${currentPage}&limit=${itemsPerPage}&softDelete=false&company=${tokenDetails?.data?._id}&sort_by={"serviceDate":-1}`;
+    let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/service/?page=${currentPage}&limit=${itemsPerPage}&softDelete=false&company=${tokenDetails?.data?._id}&sort_by={"serviceDate":-1}`;
     if (teamMember) {
       apiUrl += `&worker=${teamMember}`;
     }
@@ -50,9 +50,11 @@ const Page = () => {
     }
 
     if (startDate !== endDate) {
-      apiUrl += `&serviceDate=${startDate}&serviceDateEnd=${endDate}`;
+      apiUrl += `&serviceDate=${moment(startDate).format(
+        "YYYY-MM-DD"
+      )}&serviceDateEnd=${moment(endDate).format("YYYY-MM-DD")}`;
     } else {
-      apiUrl += `&serviceDate=${startDate}`;
+      apiUrl += `&serviceDate=${moment(startDate).format("YYYY-MM-DD")}`;
     }
 
     axios
@@ -203,7 +205,7 @@ const Page = () => {
                 <button
                   className="py-3 px-6  w-48  mb-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-white hover:bg-secondary transition-all text-sm "
                   onClick={() =>
-                    generatePDF(targetRef, { filename: "page.pdf" })
+                    generatePDF(targetRef, { filename: "report.pdf" })
                   }
                 >
                   Export PDF <BiSolidDownload className="text-xl" />
@@ -324,9 +326,10 @@ const Page = () => {
                     </div>
                   </div>
                 </div>
+                {/* View Data */}
                 <table
-                  ref={targetRef}
                   className="min-w-full divide-y divide-gray-200 "
+                  ref={targetRef}
                 >
                   <thead className="bg-gray-50">
                     <tr>
@@ -412,7 +415,7 @@ const Page = () => {
                           </span>
                         </div>
                       </th>
-                      <th scope="col" className="px-6 py-3 text-left">
+                      <th scope="col" className={"px-6 py-3 text-left"}>
                         <div className="flex items-center gap-x-2 justify-center">
                           <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
                             Action
@@ -506,7 +509,7 @@ const Page = () => {
                             </div>
                           </td>
 
-                          <td className="h-px w-72 whitespace-nowrap">
+                          <td className={"h-px w-72 whitespace-nowrap"}>
                             <div className="flex justify-evenly ">
                               <div className="hs-tooltip inline-block">
                                 <Link
