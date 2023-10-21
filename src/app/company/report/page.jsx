@@ -12,7 +12,7 @@ import { DateRange } from "react-date-range";
 import { addDays } from "date-fns";
 import moment from "moment/moment";
 import { useRef } from "react";
-import {  PDFDownloadLink } from "@react-pdf/renderer";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import PDFTable from "../../../components/PDFTable/PDFTable";
 
 const Page = () => {
@@ -23,6 +23,7 @@ const Page = () => {
   const [teamMember, setTeamMember] = useState("");
   const [serviceUser, setServiceUser] = useState("");
   const [status, setStatus] = useState("");
+  const [isClient, setIsClient] = useState(false);
   const [date, setDate] = useState([
     {
       startDate: new Date(),
@@ -130,6 +131,10 @@ const Page = () => {
     fetchServiceUsersData();
   }, []);
 
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const teamMembersOption = teamMembers.map((team) => ({
     value: team._id,
     label: team.name,
@@ -202,15 +207,17 @@ const Page = () => {
         <div className="flex flex-col">
           <div className="-m-1.5 overflow-x-auto">
             <div className="p-1.5 min-w-full inline-block align-middle">
-              <div className="">
-                <PDFDownloadLink
-                  document={<PDFTable service={service?.data} />}
-                  fileName="report.pdf"
-                  className="py-3 px-6  w-48  mb-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-white hover:bg-secondary transition-all text-sm"
-                >
-                  Export PDF <BiSolidDownload className="text-xl" />
-                </PDFDownloadLink>
-              </div>
+              {isClient && (
+                <div className="">
+                  <PDFDownloadLink
+                    document={<PDFTable service={service?.data} />}
+                    fileName="report.pdf"
+                    className="py-3 px-6  w-48  mb-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-white hover:bg-secondary transition-all text-sm"
+                  >
+                    Export PDF <BiSolidDownload className="text-xl" />
+                  </PDFDownloadLink>
+                </div>
+              )}
               <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden h-full  ">
                 <div className="px-6 py-4 grid gap-3 border-b border-gray-200 ">
                   <div>
