@@ -66,7 +66,6 @@ const Page = () => {
         },
       })
       .then(function (response) {
-        console.log(response);
         // handle success
         setCurrentPage(response?.data?.data?.metadata?.page);
         setItemsPerPage(response?.data?.data?.metadata?.limit);

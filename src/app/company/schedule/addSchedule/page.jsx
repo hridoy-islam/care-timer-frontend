@@ -119,7 +119,6 @@ const page = () => {
       serviceTimeStart: formatServiceTimeStart,
       serviceTimeEnd: formatServiceTimeEnd,
     };
-    console.log(modifyData);
     try {
       axios
         .post(`${process.env.NEXT_PUBLIC_API_URL}/service`, modifyData, {

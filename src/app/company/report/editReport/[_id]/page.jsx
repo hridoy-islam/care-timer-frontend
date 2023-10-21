@@ -127,7 +127,6 @@ const page = ({ params: { _id } }) => {
     const formatServiceDate = moment(serviceDate).format("L");
     const modifyData = { ...data, serviceDate: formatServiceDate };
 
-    console.log(modifyData);
 
     // try {
     //   axios
