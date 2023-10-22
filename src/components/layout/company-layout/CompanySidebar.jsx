@@ -34,7 +34,7 @@ const AdminSidebar = forwardRef(({ showNav }, ref) => {
         <li className="hs-accordion" id="account-accordion">
           <Link
             className="hs-accordion-toggle flex items-center gap-x-2 px-2 py-2 my-2 hs-accordion-active:text-secondary hs-accordion-active:hover:bg-transparent text-lg text-secondary rounded-md  hover:text-secondary"
-            href="javascript:;"
+            href="#"
           >
             <FaUsers />
             Team Member
@@ -126,7 +126,7 @@ const AdminSidebar = forwardRef(({ showNav }, ref) => {
         <li className="hs-accordion " id="account-accordion">
           <Link
             className="hs-accordion-toggle flex items-center gap-x-2 px-2 py-2 my-2  hs-accordion-active:text-secondary hs-accordion-active:hover:bg-transparent text-lg text-secondary rounded-md  hover:text-secondary"
-            href="javascript:void(0);"
+            href="#"
           >
             <FaUser />
             Service User
@@ -218,7 +218,7 @@ const AdminSidebar = forwardRef(({ showNav }, ref) => {
         <li className="hs-accordion" id="account-accordion">
           <Link
             className="hs-accordion-toggle flex items-center gap-x-2 px-2 py-2 my-2  hs-accordion-active:text-secondary hs-accordion-active:hover:bg-transparent text-lg text-secondary rounded-md  hover:text-secondary"
-            href="javascript:;"
+            href="#"
           >
             <VscTasklist />
             Tasklist

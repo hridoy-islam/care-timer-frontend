@@ -20,7 +20,7 @@ const page = () => {
   const taskFetchData = () => {
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_API_URL}/tasklist?softDelete=false&company=${tokenDetails?.data?._id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/tasklist?softDelete=false&company=${tokenDetails?.data?._id}&limit=100`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -36,11 +36,14 @@ const page = () => {
   const fetchTeamMemberData = () => {
     try {
       axios
-        .get(`${process.env.NEXT_PUBLIC_API_URL}/worker?softDelete=false`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
+        .get(
+          `${process.env.NEXT_PUBLIC_API_URL}/worker?softDelete=false&limit=100`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
         .then((res) => {
           if (!res.status) {
             throw new Error("Failed to fetch team member data");
@@ -56,7 +59,7 @@ const page = () => {
     try {
       axios
         .get(
-          `${process.env.NEXT_PUBLIC_API_URL}/customer?softDelete=false&company=${tokenDetails?.data?._id}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/customer?softDelete=false&company=${tokenDetails?.data?._id}&limit=100`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -93,6 +96,8 @@ const page = () => {
     value: user._id,
     label: user.name,
   }));
+
+  console.log(serviceUsers);
 
   const { register, handleSubmit, reset, control } = useForm();
 
