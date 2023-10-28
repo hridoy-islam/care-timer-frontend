@@ -547,7 +547,11 @@ const Page = () => {
                               </div>
                               <div className="hs-tooltip inline-block">
                                 <Link
-                                  href={`/company/report/editReport/${item._id}`}
+                                  href={`${
+                                    item?.workerLogin
+                                      ? ""
+                                      : `/company/report/editReport/${item._id}`
+                                  }`}
                                 >
                                   <button
                                     type="button"
