@@ -97,8 +97,6 @@ const page = () => {
     label: user.name,
   }));
 
-  console.log(serviceUsers);
-
   const { register, handleSubmit, reset, control } = useForm();
 
   const {

@@ -3,10 +3,15 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import BreadCumb from "../../../../../components/breadCumb/BreadCumb";
 import { userContext } from "../../../../../context/MainContext";
+import moment from "moment-timezone";
 
 const page = ({ params: { _id } }) => {
   const { token } = useContext(userContext);
   const [service, setService] = useState();
+  // Time Convert
+  const seconds = Math.floor((service?.duration / 1000) % 60);
+  const minutes = Math.floor((service?.duration / (1000 * 60)) % 60);
+  const hours = Math.floor((service?.duration / (1000 * 60 * 60)) % 24);
   const fetchData = () => {
     axios
       .get(`${process.env.NEXT_PUBLIC_API_URL}/service/${_id}`, {
@@ -59,7 +64,7 @@ const page = ({ params: { _id } }) => {
             <td className="h-px w-72 whitespace-nowrap">
               <div className="px-6 py-3">
                 <span className="block text-md text-secondary">
-                  {service?.serviceDate}
+                  {moment(service?.serviceDate).format("L")}
                 </span>
               </div>
             </td>
@@ -181,14 +186,16 @@ const page = ({ params: { _id } }) => {
             <th scope="col" className="px-6 py-3 text-left">
               <div className="flex items-center gap-x-2">
                 <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
-                  Duration
+                  Duration (H:M:S)
                 </span>
               </div>
             </th>
             <td className="h-px w-72 whitespace-nowrap">
               <div className="px-6 py-3">
                 <span className="block text-md text-secondary">
-                  {service?.duration ? service?.duration : "Not Found"}
+                  {service?.duration
+                    ? `${hours} : ${minutes} : ${seconds}`
+                    : "Not Found"}
                 </span>
               </div>
             </td>
@@ -204,7 +211,11 @@ const page = ({ params: { _id } }) => {
             <td className="h-px w-72 whitespace-nowrap">
               <div className="px-6 py-3">
                 <span className="block text-md text-secondary">
-                  {service?.workerLogin ? service?.workerLogin : "Not Found"}
+                  {service?.workerLogin
+                    ? moment
+                        .tz(service?.workerLogin, "Europe/London")
+                        .format("LT")
+                    : "Not Found"}
                 </span>
               </div>
             </td>
@@ -221,7 +232,11 @@ const page = ({ params: { _id } }) => {
             <td className="h-px w-72 whitespace-nowrap">
               <div className="px-6 py-3">
                 <span className="block text-md text-secondary">
-                  {service?.workerLogout ? service?.workerLogout : "Not Found"}
+                  {service?.workerLogout
+                    ? moment
+                        .tz(service?.workerLogout, "Europe/London")
+                        .format("LT")
+                    : "Not Found"}
                 </span>
               </div>
             </td>
@@ -267,17 +282,27 @@ const page = ({ params: { _id } }) => {
             </th>
             <td className="h-px w-72 whitespace-nowrap">
               <div className="px-6 py-3">
-                <ul className="list-disc">
-                  {service?.taskList?.map((item, index) => (
-                    <li key={index}>
-                      <span className="block text-md text-secondary">
-                        {item.taskName}
-                        <span className="inline-flex items-center ml-2 gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                          {item.status}
+                <ul className="list-disc space-y-2">
+                  {service?.taskList?.map((item, index) => {
+                    return (
+                      <li key={index}>
+                        <span className="block text-md text-secondary">
+                          {item.taskName}
+                          <span
+                            className={`inline-flex items-center ml-2 gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium ${
+                              item.status === "completed" &&
+                              "bg-green-100 text-green-800"
+                            } ${
+                              item.status === "pending" &&
+                              "bg-red-100 text-red-800"
+                            }`}
+                          >
+                            {item.status}
+                          </span>
                         </span>
-                      </span>
-                    </li>
-                  ))}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             </td>

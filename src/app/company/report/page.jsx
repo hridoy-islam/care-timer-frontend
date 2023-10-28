@@ -10,7 +10,7 @@ import { userContext } from "../../../context/MainContext";
 import { toast } from "react-toastify";
 import { DateRange } from "react-date-range";
 import { addDays } from "date-fns";
-import moment from "moment/moment";
+import moment from "moment-timezone";
 import { useRef } from "react";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import PDFTable from "../../../components/PDFTable/PDFTable";
@@ -396,7 +396,7 @@ const Page = () => {
                       <th scope="col" className="px-6 py-3 text-left">
                         <div className="flex items-center gap-x-2">
                           <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 ">
-                            Duration
+                            Duration (H:M:S)
                           </span>
                         </div>
                       </th>
@@ -452,7 +452,7 @@ const Page = () => {
                           <td className="h-px pl-6 w-px whitespace-nowrap">
                             <div className="pl-6 lg:pl-3 xl:pl-0 pr-6 py-3">
                               <span className="block text-md text-secondary">
-                                {moment(item.serviceDate).format("MMM Do YY")}
+                                {moment(item.serviceDate).format("L")}
                               </span>
                             </div>
                           </td>
@@ -481,8 +481,14 @@ const Page = () => {
                           <td className="h-px w-72 whitespace-nowrap">
                             <div className="px-6 py-3">
                               <span className="block text-md text-secondary">
-                                {service?.duration
-                                  ? service?.duration
+                                {item?.duration
+                                  ? `${Math.floor(
+                                      (item?.duration / (1000 * 60 * 60)) % 24
+                                    )} : ${Math.floor(
+                                      (item?.duration / (1000 * 60)) % 60
+                                    )} : ${Math.floor(
+                                      (item?.duration / 1000) % 60
+                                    )} `
                                   : "Not Found"}
                               </span>
                             </div>
@@ -490,8 +496,10 @@ const Page = () => {
                           <td className="h-px w-72 whitespace-nowrap">
                             <div className="px-6 py-3">
                               <span className="block text-md text-secondary">
-                                {service?.workerLogin
-                                  ? service?.workerLogin
+                                {item?.workerLogin
+                                  ? moment
+                                      .tz(item?.workerLogin, "Europe/London")
+                                      .format("LT")
                                   : "Not Found"}
                               </span>
                             </div>
@@ -499,8 +507,10 @@ const Page = () => {
                           <td className="h-px w-72 whitespace-nowrap">
                             <div className="px-6 py-3">
                               <span className="block text-md text-secondary">
-                                {service?.workerLogout
-                                  ? service?.workerLogout
+                                {item?.workerLogout
+                                  ? moment
+                                      .tz(item?.workerLogout, "Europe/London")
+                                      .format("LT")
                                   : "Not Found"}
                               </span>
                             </div>
@@ -508,8 +518,8 @@ const Page = () => {
                           <td className="h-px w-72 whitespace-nowrap">
                             <div className="px-6 py-3">
                               <span className="block text-md text-secondary">
-                                {service?.comment
-                                  ? service?.comment
+                                {item?.comment
+                                  ? item?.comment
                                   : "Not Comment yet"}
                               </span>
                             </div>
