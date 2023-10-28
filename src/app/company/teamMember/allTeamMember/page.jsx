@@ -86,6 +86,7 @@ const Page = () => {
             toast.success("Verified Successfully", {
               position: toast.POSITION.TOP_CENTER,
             });
+            setForceRerender(!forceRerender);
             return router.push("/company/teamMember/allTeamMember");
           } else {
             toast.error("Something Error", {
