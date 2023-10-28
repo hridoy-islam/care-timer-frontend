@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import { AiOutlineEye } from "react-icons/ai";
 import { BiEditAlt } from "react-icons/bi";
 import { BsTrash3 } from "react-icons/bs";
+import { MdVerifiedUser } from "react-icons/md";
 import { toast } from "react-toastify";
 import { userContext } from "../../../../context/MainContext";
 
@@ -64,6 +65,39 @@ const Page = () => {
     } catch (error) {
       alert(error.response);
       toast.error("Something Went Worng");
+    }
+  };
+
+  const handleVerifed = (id, status) => {
+    const data = {
+      verified: true,
+    };
+    if (status) {
+      return;
+    } else {
+      axios
+        .patch(`${process.env.NEXT_PUBLIC_API_URL}/worker/${id}`, data, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(({ data }) => {
+          if (!data.success) {
+            toast.success("Verified Successfully", {
+              position: toast.POSITION.TOP_CENTER,
+            });
+            return router.push("/company/teamMember/allTeamMember");
+          } else {
+            toast.error("Something Error", {
+              position: toast.POSITION.TOP_CENTER,
+            });
+            return router.push("/company/teamMember/allTeamMember");
+          }
+        })
+        .catch((error) => {
+          const res = error.response;
+          toast.error(res);
+        });
     }
   };
 
@@ -163,6 +197,25 @@ const Page = () => {
                           </td>
                           <td className="h-px w-24 whitespace-nowrap">
                             <div className="flex justify-evenly ">
+                              <div className="hs-tooltip inline-block">
+                                <button
+                                  type="button"
+                                  className="hs-tooltip-toggle text-2xl"
+                                  onClick={() =>
+                                    handleVerifed(item._id, item.verified)
+                                  }
+                                >
+                                  <MdVerifiedUser
+                                    fill={item.verified ? "#61affe" : "#49cc90"}
+                                  />
+                                  <span
+                                    className="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block fixed invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-md shadow-sm "
+                                    role="tooltip"
+                                  >
+                                    {item.verified ? "verified" : "unverified"}
+                                  </span>
+                                </button>
+                              </div>
                               <div className="hs-tooltip inline-block">
                                 <Link
                                   href={`/company/teamMember/allTeamMember/viewTeamMember/${item._id}`}
