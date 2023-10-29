@@ -7,6 +7,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { userContext } from "../../../../../context/MainContext";
 import moment from "moment";
 import { toast } from "react-toastify";
+import { convertTo24 } from "../../../../../utils/converTo24HourFormat";
+import formatAmPm from "../../../../../utils/formatAmPm";
 
 const page = ({ params: { _id } }) => {
   const { token, tokenDetails } = useContext(userContext);
@@ -16,6 +18,11 @@ const page = ({ params: { _id } }) => {
   const [teamMembers, setTeamMembers] = useState([]);
   const [serviceUsers, setServiceUsers] = useState([]);
   // const [tasklist, setTasklist] = useState();
+  const { register, handleSubmit, reset, control, setValue } = useForm({
+    // defaultValues: {
+    //   serviceName: service?.serviceName,
+    // },
+  });
   const taskFetchData = () => {
     axios
       .get(
@@ -55,7 +62,7 @@ const page = ({ params: { _id } }) => {
     try {
       axios
         .get(
-          `${process.env.NEXT_PUBLIC_API_URL}/customer?softDelete=false&company=${tokenDetails?.data?._id}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/customer?softDelete=false&company=${tokenDetails?.data?._id}&limit=100`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -93,8 +100,6 @@ const page = ({ params: { _id } }) => {
     label: user.name,
   }));
 
-  const { register, handleSubmit, reset, control } = useForm();
-
   const {
     field: { value: teamValue, onChange: teamOnChange, ...teamField },
   } = useController({ name: "worker", control });
@@ -117,42 +122,82 @@ const page = ({ params: { _id } }) => {
       .then(function (response) {
         // handle success
         setService(response?.data?.data);
+        const data = response?.data?.data;
+        console.log(data);
+        setValue("serviceName", data?.serviceName);
+        setValue("serviceDate", data?.serviceDate.split("T")[0]);
+        setValue("serviceTimeStart", convertTo24(data?.serviceTimeStart));
+        setValue("serviceTimeEnd", convertTo24(data?.serviceTimeEnd));
+        serviceOnChange(data?.customer?._id);
+        teamOnChange(data?.worker?._id);
+        taskOnChange(
+          [...data?.taskList]?.map((task) => {
+            return {
+              taskName: task?.taskName,
+              status: task?.status,
+            };
+          })
+        );
       });
   };
   useEffect(() => {
     fetchData();
   }, []);
+
+  const defaultServiceUser = serviceUserOption.find(
+    (user) => user.label === service?.customer?.name
+  );
+
+  const defaultTeamMember = teamMembersOption.find(
+    (teamMember) => teamMember.label === service?.worker?.name
+  );
+
+  const defaultTaskList = service?.taskList?.map((task) => {
+    return {
+      value: task._id,
+      label: task.taskName,
+    };
+  });
+
   const onsubmit = (data) => {
-    const { serviceDate } = data;
+    const { serviceDate, serviceTimeStart, serviceTimeEnd } = data;
+    const formatServiceTimeStart = formatAmPm(serviceTimeStart);
+    const formatServiceTimeEnd = formatAmPm(serviceTimeEnd);
     const formatServiceDate = moment(serviceDate).format("L");
-    const modifyData = { ...data, serviceDate: formatServiceDate };
+    const modifyData = {
+      ...data,
+      serviceDate: formatServiceDate,
+      serviceTimeStart: formatServiceTimeStart,
+      serviceTimeEnd: formatServiceTimeEnd,
+    };
 
-
-    // try {
-    //   axios
-    //     .patch(
-    //       `${process.env.NEXT_PUBLIC_API_URL}/service/${_id}`,
-    //       modifyData,
-    //       {
-    //         headers: {
-    //           "Content-Type": "application/json",
-    //           Authorization: `Bearer ${token}`,
-    //         },
-    //       }
-    //     )
-    //     .then(function ({ status }) {
-    //       // handle success
-    //       if (status === 200) {
-    //         toast.success("Report Updated", {
-    //           position: toast.POSITION.TOP_CENTER,
-    //         });
-    //       }
-    //     });
-    // } catch (error) {
-    //   console.error(error);
-    // }
-    // reset;
+    try {
+      axios
+        .patch(
+          `${process.env.NEXT_PUBLIC_API_URL}/service/${_id}`,
+          modifyData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then(function ({ status }) {
+          // handle success
+          if (status === 200) {
+            toast.success("Report Updated", {
+              position: toast.POSITION.TOP_CENTER,
+            });
+          }
+        });
+    } catch (error) {
+      console.error(error);
+    }
+    reset;
   };
+
+  console.log(service);
 
   return (
     <div>
@@ -178,7 +223,7 @@ const page = ({ params: { _id } }) => {
                       name="serviceName"
                       id="serviceName"
                       placeholder="Service Name"
-                      defaultValue={service?.serviceName}
+                      // defaultValue={service?.serviceName}
                       className="block w-full px-4 rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
                       {...register("serviceName")}
                     />
@@ -192,15 +237,17 @@ const page = ({ params: { _id } }) => {
                     Service date
                   </label>
                   <div className="mt-2">
-                    <input
-                      type="date"
-                      name="serviceDate"
-                      id="date"
-                      placeholder="mm/dd/yyyy"
-                      defaultValue={service?.serviceDate}
-                      className="block w-full px-4 rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
-                      {...register("serviceDate")}
-                    />
+                    {service?.serviceDate && (
+                      <input
+                        type="date"
+                        name="serviceDate"
+                        id="date"
+                        placeholder="mm/dd/yyyy"
+                        // defaultValue={service?.serviceDate.split("T")[0]}
+                        className="block w-full px-4 rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
+                        {...register("serviceDate")}
+                      />
+                    )}
                   </div>
                 </div>
                 <div className="col-span-3">
@@ -211,15 +258,17 @@ const page = ({ params: { _id } }) => {
                     Service Time Start
                   </label>
                   <div className="mt-2">
-                    <input
-                      type="time"
-                      name="serviceTimeStart"
-                      id="serviceTimeStart"
-                      placeholder="serviceTimeStart"
-                      defaultValue={service?.serviceTimeStart}
-                      className="block px-4 w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6 "
-                      {...register("serviceTimeStart")}
-                    />
+                    {service?.serviceTimeStart && (
+                      <input
+                        type="time"
+                        name="serviceTimeStart"
+                        id="serviceTimeStart"
+                        placeholder="serviceTimeStart"
+                        // defaultValue={convertTo24(service?.serviceTimeStart)}
+                        className="block px-4 w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6 "
+                        {...register("serviceTimeStart")}
+                      />
+                    )}
                   </div>
                 </div>
                 <div className="col-span-3">
@@ -230,15 +279,17 @@ const page = ({ params: { _id } }) => {
                     Service Time End
                   </label>
                   <div className="mt-2">
-                    <input
-                      type="time"
-                      name="serviceTimeEnd"
-                      id="serviceTimeEnd"
-                      placeholder="serviceTimeEnd"
-                      defaultValue={service?.serviceTimeEnd}
-                      className="block px-4 w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
-                      {...register("serviceTimeEnd")}
-                    />
+                    {service?.serviceTimeEnd && (
+                      <input
+                        type="time"
+                        name="serviceTimeEnd"
+                        id="serviceTimeEnd"
+                        placeholder="serviceTimeEnd"
+                        defaultValue={convertTo24(service?.serviceTimeEnd)}
+                        className="block px-4 w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
+                        {...register("serviceTimeEnd")}
+                      />
+                    )}
                   </div>
                 </div>
 
@@ -250,22 +301,24 @@ const page = ({ params: { _id } }) => {
                     Service User
                   </label>
                   <div className="mt-2">
-                    <Select
-                      className="select-input"
-                      placeholder="Select Service User"
-                      defaultValue={service?.customer?.name}
-                      isClearable
-                      options={serviceUserOption}
-                      value={
-                        serviceValue
-                          ? serviceUsers.find((x) => x.value === serviceValue)
-                          : serviceValue
-                      }
-                      onChange={(option) =>
-                        serviceOnChange(option ? option.value : option)
-                      }
-                      {...serviceField}
-                    />
+                    {defaultServiceUser && (
+                      <Select
+                        className="select-input"
+                        placeholder="Select Service User"
+                        defaultValue={defaultServiceUser}
+                        isClearable
+                        options={serviceUserOption}
+                        value={
+                          serviceValue
+                            ? serviceUsers.find((x) => x.value === serviceValue)
+                            : serviceValue
+                        }
+                        onChange={(option) =>
+                          serviceOnChange(option ? option.value : option)
+                        }
+                        {...serviceField}
+                      />
+                    )}
                   </div>
                 </div>
                 <div className="col-span-3">
@@ -276,22 +329,24 @@ const page = ({ params: { _id } }) => {
                     Team Member
                   </label>
                   <div className="mt-2">
-                    <Select
-                      className="select-input"
-                      placeholder="Select Team Member"
-                      isClearable
-                      defaultValue={service?.worker?.name}
-                      options={teamMembersOption}
-                      value={
-                        teamValue
-                          ? teamMembers.find((x) => x.value === teamValue)
-                          : teamValue
-                      }
-                      onChange={(option) =>
-                        teamOnChange(option ? option.value : option)
-                      }
-                      {...teamField}
-                    />
+                    {defaultTeamMember && (
+                      <Select
+                        className="select-input"
+                        placeholder="Select Team Member"
+                        isClearable
+                        defaultValue={defaultTeamMember}
+                        options={teamMembersOption}
+                        value={
+                          teamValue
+                            ? teamMembers.find((x) => x.value === teamValue)
+                            : teamValue
+                        }
+                        onChange={(option) =>
+                          teamOnChange(option ? option.value : option)
+                        }
+                        {...teamField}
+                      />
+                    )}
                   </div>
                 </div>
                 <div className="col-span-3">
@@ -302,26 +357,29 @@ const page = ({ params: { _id } }) => {
                     Task List
                   </label>
                   <div className="mt-2">
-                    <Select
-                      className="select-input"
-                      placeholder="Select Team Member"
-                      isClearable
-                      options={taskListOption}
-                      value={
-                        taskValue
-                          ? taskList.find((x) => x.value === taskValue)
-                          : taskValue
-                      }
-                      onChange={(option) => {
-                        const modOpt = option.map((opt) => ({
-                          taskName: opt.label,
-                          status: opt.status,
-                        }));
-                        taskOnChange(modOpt);
-                      }}
-                      {...taskField}
-                      isMulti
-                    />
+                    {defaultTaskList && (
+                      <Select
+                        className="select-input"
+                        placeholder="Select Team Member"
+                        isClearable
+                        defaultValue={defaultTaskList}
+                        options={taskListOption}
+                        value={
+                          taskValue
+                            ? taskList.find((x) => x.value === taskValue)
+                            : taskValue
+                        }
+                        onChange={(option) => {
+                          const modOpt = option.map((opt) => ({
+                            taskName: opt.label,
+                            status: opt.status || "pending",
+                          }));
+                          taskOnChange(modOpt);
+                        }}
+                        {...taskField}
+                        isMulti
+                      />
+                    )}
                   </div>
                 </div>
                 <div className="col-span-3">
