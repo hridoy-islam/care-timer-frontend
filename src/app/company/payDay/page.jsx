@@ -100,7 +100,7 @@ const Page = () => {
                       className="flex flex-col"
                     >
                       <input
-                        className="border rounded-md py-1.5 px-3 w-4/12 mb-8"
+                        className="border rounded-md py-1.5 px-3 lg:w-4/12 mb-8"
                         type="date"
                         {...register("nextpayday")}
                       ></input>
@@ -119,7 +119,7 @@ const Page = () => {
                       className="flex flex-col"
                     >
                       <input
-                        className="border rounded-md py-1.5 px-3 w-4/12 mb-8"
+                        className="border rounded-md py-1.5 px-3 lg:w-4/12 mb-8"
                         type="date"
                         defaultValue={formatPayDate}
                         {...register("nextpayday")}

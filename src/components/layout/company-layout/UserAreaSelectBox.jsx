@@ -22,7 +22,7 @@ const UserAreaSelectBox = () => {
             <div onClick={() => setOpen((prev) => !prev)} className="p-4 cursor-pointer">
                {/* <FaUserCircle className="h-8 w-8 text-[#11212E]"/> */}
                {/* <img className="inline-block h-[2.375rem] w-[2.375rem] rounded-full ring-2 ring-white dark:ring-gray-800" src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80" alt="Image Description"/> */}
-               <span className="border-2 border-primary p-2 rounded-lg">{tokenDetails?.data?.name}</span>
+               <span className="border-2 border-primary p-2 rounded-lg lg:text-lg text-sm">{tokenDetails?.data?.name}</span>
             </div>
             <div
                className={`flex flex-col bg-secondary text-white  w-[240px] my-2 rounded-lg ${

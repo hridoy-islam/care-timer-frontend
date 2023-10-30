@@ -28,7 +28,7 @@ const page = ({ params: { _id } }) => {
     fetchData();
   }, []);
   return (
-    <div className="bg-white border lg:w-3/4 mx-auto border-gray-200 rounded-xl shadow-sm p-6 ">
+    <div className="bg-white border lg:w-3/4 mx-auto border-gray-200 rounded-xl shadow-sm lg:p-6 p-3">
       <BreadCumb title="Report Details" />
       <table className="min-w-full mt-6 divide-y divide-gray-200 ">
         {/* <thead className="bg-gray-50 ">
@@ -38,7 +38,7 @@ const page = ({ params: { _id } }) => {
 
         <tbody className="divide-y divide-gray-200 ">
           <tr>
-            <th scope="col" className="px-6 py-3 text-left">
+            <th scope="col" className="px-4 py-3 text-left">
               <div className="flex items-center gap-x-2">
                 <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
                   Service Name
@@ -46,7 +46,7 @@ const page = ({ params: { _id } }) => {
               </div>
             </th>
             <td className="h-px w-72 whitespace-nowrap">
-              <div className="px-6 py-3">
+              <div className="px-4 py-3">
                 <span className="block text-md text-secondary">
                   {service?.serviceName}
                 </span>
@@ -54,7 +54,7 @@ const page = ({ params: { _id } }) => {
             </td>
           </tr>
           <tr>
-            <th scope="col" className="px-6 py-3 text-left">
+            <th scope="col" className="px-4 py-3 text-left">
               <div className="flex items-center gap-x-2">
                 <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
                   Service Date
@@ -62,7 +62,7 @@ const page = ({ params: { _id } }) => {
               </div>
             </th>
             <td className="h-px w-72 whitespace-nowrap">
-              <div className="px-6 py-3">
+              <div className="px-4 py-3">
                 <span className="block text-md text-secondary">
                   {moment(service?.serviceDate).format("L")}
                 </span>
@@ -71,7 +71,7 @@ const page = ({ params: { _id } }) => {
           </tr>
 
           <tr>
-            <th scope="col" className="px-6 py-3 text-left">
+            <th scope="col" className="px-4 py-3 text-left">
               <div className="flex items-center gap-x-2">
                 <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
                   Service Time Start
@@ -79,7 +79,7 @@ const page = ({ params: { _id } }) => {
               </div>
             </th>
             <td className="h-px w-72 whitespace-nowrap">
-              <div className="px-6 py-3">
+              <div className="px-4 py-3">
                 <span className="block text-md text-secondary">
                   {service?.serviceTimeStart}
                 </span>
@@ -87,7 +87,7 @@ const page = ({ params: { _id } }) => {
             </td>
           </tr>
           <tr>
-            <th scope="col" className="px-6 py-3 text-left">
+            <th scope="col" className="px-4 py-3 text-left">
               <div className="flex items-center gap-x-2">
                 <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
                   Service Time End
@@ -95,7 +95,7 @@ const page = ({ params: { _id } }) => {
               </div>
             </th>
             <td className="h-px w-72 whitespace-nowrap">
-              <div className="px-6 py-3">
+              <div className="px-4 py-3">
                 <span className="block text-md text-secondary">
                   {service?.serviceTimeEnd}
                 </span>
@@ -103,7 +103,7 @@ const page = ({ params: { _id } }) => {
             </td>
           </tr>
           <tr>
-            <th scope="col" className="px-6 py-3 text-left">
+            <th scope="col" className="px-4 py-3 text-left">
               <div className="flex items-center gap-x-2">
                 <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
                   Team Member Name
@@ -111,7 +111,7 @@ const page = ({ params: { _id } }) => {
               </div>
             </th>
             <td className="h-px w-72 whitespace-nowrap">
-              <div className="px-6 py-3">
+              <div className="px-4 py-3">
                 <span className="block text-md text-secondary">
                   {service?.worker?.name}
                 </span>
@@ -119,7 +119,7 @@ const page = ({ params: { _id } }) => {
             </td>
           </tr>
           <tr>
-            <th scope="col" className="px-6 py-3 text-left">
+            <th scope="col" className="px-4 py-3 text-left">
               <div className="flex items-center gap-x-2">
                 <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
                   Team Member Phone
@@ -127,7 +127,7 @@ const page = ({ params: { _id } }) => {
               </div>
             </th>
             <td className="h-px w-72 whitespace-nowrap">
-              <div className="px-6 py-3">
+              <div className="px-4 py-3">
                 <span className="block text-md text-secondary">
                   {service?.worker?.phone}
                 </span>
@@ -135,7 +135,7 @@ const page = ({ params: { _id } }) => {
             </td>
           </tr>
           <tr>
-            <th scope="col" className="px-6 py-3 text-left">
+            <th scope="col" className="px-4 py-3 text-left">
               <div className="flex items-center gap-x-2">
                 <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
                   Service User Name
@@ -143,7 +143,7 @@ const page = ({ params: { _id } }) => {
               </div>
             </th>
             <td className="h-px w-72 whitespace-nowrap">
-              <div className="px-6 py-3">
+              <div className="px-4 py-3">
                 <span className="block text-md text-secondary">
                   {service?.customer?.name}
                 </span>
@@ -151,7 +151,7 @@ const page = ({ params: { _id } }) => {
             </td>
           </tr>
           <tr>
-            <th scope="col" className="px-6 py-3 text-left">
+            <th scope="col" className="px-4 py-3 text-left">
               <div className="flex items-center gap-x-2">
                 <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
                   Service User Address
@@ -159,7 +159,7 @@ const page = ({ params: { _id } }) => {
               </div>
             </th>
             <td className="h-px w-72 whitespace-nowrap">
-              <div className="px-6 py-3">
+              <div className="px-4 py-3">
                 <span className="block text-md text-secondary">
                   {service?.customer?.location}
                 </span>
@@ -167,7 +167,7 @@ const page = ({ params: { _id } }) => {
             </td>
           </tr>
           <tr>
-            <th scope="col" className="px-6 py-3 text-left">
+            <th scope="col" className="px-4 py-3 text-left">
               <div className="flex items-center gap-x-2">
                 <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
                   Service User Phone
@@ -175,7 +175,7 @@ const page = ({ params: { _id } }) => {
               </div>
             </th>
             <td className="h-px w-72 whitespace-nowrap">
-              <div className="px-6 py-3">
+              <div className="px-4 py-3">
                 <span className="block text-md text-secondary">
                   {service?.customer?.phone}
                 </span>
@@ -183,7 +183,7 @@ const page = ({ params: { _id } }) => {
             </td>
           </tr>
           <tr>
-            <th scope="col" className="px-6 py-3 text-left">
+            <th scope="col" className="px-4 py-3 text-left">
               <div className="flex items-center gap-x-2">
                 <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
                   Duration (H:M:S)
@@ -191,7 +191,7 @@ const page = ({ params: { _id } }) => {
               </div>
             </th>
             <td className="h-px w-72 whitespace-nowrap">
-              <div className="px-6 py-3">
+              <div className="px-4 py-3">
                 <span className="block text-md text-secondary">
                   {service?.duration
                     ? `${hours} : ${minutes} : ${seconds}`
@@ -201,7 +201,7 @@ const page = ({ params: { _id } }) => {
             </td>
           </tr>
           <tr>
-            <th scope="col" className="px-6 py-3 text-left">
+            <th scope="col" className="px-4 py-3 text-left">
               <div className="flex items-center gap-x-2">
                 <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
                   Worker Login
@@ -209,7 +209,7 @@ const page = ({ params: { _id } }) => {
               </div>
             </th>
             <td className="h-px w-72 whitespace-nowrap">
-              <div className="px-6 py-3">
+              <div className="px-4 py-3">
                 <span className="block text-md text-secondary">
                   {service?.workerLogin
                     ? moment
@@ -222,7 +222,7 @@ const page = ({ params: { _id } }) => {
           </tr>
 
           <tr>
-            <th scope="col" className="px-6 py-3 text-left">
+            <th scope="col" className="px-4 py-3 text-left">
               <div className="flex items-center gap-x-2">
                 <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
                   Worker Logout
@@ -230,7 +230,7 @@ const page = ({ params: { _id } }) => {
               </div>
             </th>
             <td className="h-px w-72 whitespace-nowrap">
-              <div className="px-6 py-3">
+              <div className="px-4 py-3">
                 <span className="block text-md text-secondary">
                   {service?.workerLogout
                     ? moment
@@ -242,7 +242,7 @@ const page = ({ params: { _id } }) => {
             </td>
           </tr>
           <tr>
-            <th scope="col" className="px-6 py-3 text-left">
+            <th scope="col" className="px-4 py-3 text-left">
               <div className="flex items-center gap-x-2">
                 <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
                   Comment
@@ -250,7 +250,7 @@ const page = ({ params: { _id } }) => {
               </div>
             </th>
             <td className="h-px w-72 whitespace-nowrap">
-              <div className="px-6 py-3">
+              <div className="px-4 py-3">
                 <span className="block text-md text-secondary">
                   {service?.comment ? service?.comment : "Not Comment yet"}
                 </span>
@@ -258,7 +258,7 @@ const page = ({ params: { _id } }) => {
             </td>
           </tr>
           {/* <tr>
-            <th scope="col" className="px-6 py-3 text-left">
+            <th scope="col" className="px-4 py-3 text-left">
               <div className="flex items-center gap-x-2">
                 <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
                   Status
@@ -266,14 +266,14 @@ const page = ({ params: { _id } }) => {
               </div>
             </th>
             <td className="h-px w-72 whitespace-nowrap">
-              <div className="px-6 py-3">
+              <div className="px-4 py-3">
                 <span className="block text-md text-secondary">{service?.status}</span>
               </div>
             </td>
           </tr> */}
 
           <tr>
-            <th scope="col" className="px-6 py-3 text-left">
+            <th scope="col" className="px-4 py-3 text-left">
               <div className="flex items-center gap-x-2">
                 <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
                   Task Name
@@ -281,7 +281,7 @@ const page = ({ params: { _id } }) => {
               </div>
             </th>
             <td className="h-px w-72 whitespace-nowrap">
-              <div className="px-6 py-3">
+              <div className="px-4 py-3">
                 <ul className="list-disc space-y-2">
                   {service?.taskList?.map((item, index) => {
                     return (

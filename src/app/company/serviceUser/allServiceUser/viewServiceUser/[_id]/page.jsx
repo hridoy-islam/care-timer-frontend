@@ -23,7 +23,7 @@ const page = ({ params: { _id } }) => {
     fetchData();
   }, []);
   return (
-    <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6  w-3/4 mx-auto">
+    <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6  lg:w-3/4 mx-auto">
       <BreadCumb title="Service User Details" />
       <table className="min-w-full mt-6 divide-y divide-gray-200 ">
         {/* <thead className="bg-gray-50 ">
@@ -34,7 +34,7 @@ const page = ({ params: { _id } }) => {
 
         <tbody className="divide-y divide-gray-200 ">
           <tr>
-            <th scope="col" className="px-6 py-3 text-left">
+            <th scope="col" className="px-4 py-3 text-left">
               <div className="flex items-center gap-x-2">
                 <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
                   Name
@@ -42,7 +42,7 @@ const page = ({ params: { _id } }) => {
               </div>
             </th>
             <td className="h-px w-72 whitespace-nowrap">
-              <div className="px-6 py-3">
+              <div className="px-4 py-3">
                 <span className="block text-md text-secondary">
                   {serviceUser?.name}
                 </span>
@@ -50,7 +50,7 @@ const page = ({ params: { _id } }) => {
             </td>
           </tr>
           <tr>
-            <th scope="col" className="px-6 py-3 text-left">
+            <th scope="col" className="px-4 py-3 text-left">
               <div className="flex items-center gap-x-2">
                 <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
                   Phone
@@ -58,7 +58,7 @@ const page = ({ params: { _id } }) => {
               </div>
             </th>
             <td className="h-px w-72 whitespace-nowrap">
-              <div className="px-6 py-3">
+              <div className="px-4 py-3">
                 <span className="block text-md text-secondary">
                   {serviceUser?.phone}
                 </span>
@@ -66,7 +66,7 @@ const page = ({ params: { _id } }) => {
             </td>
           </tr>
           <tr>
-            <th scope="col" className="px-6 py-3 text-left">
+            <th scope="col" className="px-4 py-3 text-left">
               <div className="flex items-center gap-x-2">
                 <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
                   Address
@@ -74,7 +74,7 @@ const page = ({ params: { _id } }) => {
               </div>
             </th>
             <td className="h-px w-72 whitespace-nowrap">
-              <div className="px-6 py-3">
+              <div className="px-4 py-3">
                 <span className="block text-md text-secondary">
                   {serviceUser?.location}
                 </span>
@@ -82,7 +82,7 @@ const page = ({ params: { _id } }) => {
             </td>
           </tr>
           <tr>
-            <th scope="col" className="px-6 py-3 text-left">
+            <th scope="col" className="px-4 py-3 text-left">
               <div className="flex items-center gap-x-2">
                 <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
                   Longitude
@@ -90,7 +90,7 @@ const page = ({ params: { _id } }) => {
               </div>
             </th>
             <td className="h-px w-72 whitespace-nowrap">
-              <div className="px-6 py-3">
+              <div className="px-4 py-3">
                 <span className="block text-md text-secondary">
                   {serviceUser?.longitude}
                 </span>
@@ -98,7 +98,7 @@ const page = ({ params: { _id } }) => {
             </td>
           </tr>
           <tr>
-            <th scope="col" className="px-6 py-3 text-left">
+            <th scope="col" className="px-4 py-3 text-left">
               <div className="flex items-center gap-x-2">
                 <span className="text-sm font-medium uppercase tracking-wide text-gray-800 ">
                   Latitude
@@ -106,7 +106,7 @@ const page = ({ params: { _id } }) => {
               </div>
             </th>
             <td className="h-px w-72 whitespace-nowrap">
-              <div className="px-6 py-3">
+              <div className="px-4 py-3">
                 <span className="block text-md text-secondary">
                   {serviceUser?.latitude}
                 </span>

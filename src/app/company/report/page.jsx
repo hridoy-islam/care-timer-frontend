@@ -243,9 +243,6 @@ const Page = () => {
                           <span className="pl-8">
                             <SlCalender />
                           </span>
-                          {/* <svg className="hs-dropdown-open:rotate-180 w-2.5 h-2.5 text-gray-600" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M2 5L8.16086 10.6869C8.35239 10.8637 8.64761 10.8637 8.83914 10.6869L15 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                          </svg> */}
                         </button>
 
                         <div className="hs-dropdown-menu w-72 transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden z-10">
@@ -263,28 +260,6 @@ const Page = () => {
                           </div>
                         </div>
                       </div>
-                      {/* <Calendar
-                        onChange={(date) => setDate(date)}
-                        date={date}
-                      /> */}
-                      {/* <div className="flex flex-col">
-                        <label className="pb-1 pl-1 text-sm font-base font-serif">
-                          From :{" "}
-                        </label>
-                        <input
-                          className="border rounded-md py-1.5 px-3"
-                          type="date"
-                        ></input>
-                      </div>
-                      <div className="flex flex-col">
-                        <label className="pb-1 pl-1 text-sm font-base font-serif">
-                          To :{" "}
-                        </label>
-                        <input
-                          className="border rounded-md py-1.5 px-3"
-                          type="date"
-                        ></input>
-                      </div> */}
                       <div>
                         <label className="pb-1 pl-1 text-sm font-base font-serif ">
                           Filter By Team Member
@@ -317,18 +292,6 @@ const Page = () => {
                           onChange={(e) => setItemsPerPage(e.value)}
                         />
                       </div>
-                      {/* <div>
-                        <label className="pb-1 pl-1 text-sm font-base font-serif">
-                          Filter By Status
-                        </label>
-                        <Select
-                          className="w-48 py-1  focus:ring-primary border-gray-300"
-                          options={statusOption}
-                          onChange={(e) => setStatus(e.value)}
-                        />
-                      </div> */}
-
-                      {/* <DateRangePicker /> */}
                     </div>
                   </div>
                 </div>
