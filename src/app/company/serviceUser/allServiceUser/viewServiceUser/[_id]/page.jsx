@@ -24,7 +24,7 @@ const page = ({ params: { _id } }) => {
   }, []);
   return (
     <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6  w-3/4 mx-auto">
-      <BreadCumb title="Team Member Details" />
+      <BreadCumb title="Service User Details" />
       <table className="min-w-full mt-6 divide-y divide-gray-200 ">
         {/* <thead className="bg-gray-50 ">
 

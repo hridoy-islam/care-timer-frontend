@@ -123,7 +123,6 @@ const page = ({ params: { _id } }) => {
         // handle success
         setService(response?.data?.data);
         const data = response?.data?.data;
-        console.log(data);
         setValue("serviceName", data?.serviceName);
         setValue("serviceDate", data?.serviceDate.split("T")[0]);
         setValue("serviceTimeStart", convertTo24(data?.serviceTimeStart));
@@ -197,12 +196,11 @@ const page = ({ params: { _id } }) => {
     reset;
   };
 
-  console.log(service);
 
   return (
     <div>
       <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 mx-4 ">
-        <BreadCumb title="Update Report" />
+        <BreadCumb title="Update Service Schedule" />
         <form
           onSubmit={handleSubmit(onsubmit)}
           className="container mx-auto py-4"
@@ -418,7 +416,7 @@ const page = ({ params: { _id } }) => {
               type="submit"
               className="py-3 px-8 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-[#fff] hover:bg-[#f98808c0] focus:outline-none focus:ring-2 focus:ring-[#F98708] focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
             >
-              Update Report
+              Update Service Schedule
             </button>
           </div>
         </form>
