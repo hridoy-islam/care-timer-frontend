@@ -138,7 +138,7 @@ const PDFTable = ({ service }) => {
                 fontSize: 20,
               }}
             >
-              Duration
+              Duration (H:M:S)
             </Text>
             <Text
               style={{
@@ -191,13 +191,29 @@ const PDFTable = ({ service }) => {
               <Text style={styles.tableCell}>{item?.serviceTimeEnd}</Text>
               <Text style={styles.tableCell}>{item?.worker?.name}</Text>
               <Text style={styles.tableCell}>
-                {item?.duration ? item?.duration : "Not Found"}
+                {item?.duration
+                  ? `${Math.floor(
+                    (item?.duration / (1000 * 60 * 60)) % 24
+                  )} : ${Math.floor(
+                    (item?.duration / (1000 * 60)) % 60
+                  )} : ${Math.floor(
+                    (item?.duration / 1000) % 60
+                  )} `
+                  : "Not Found"}
               </Text>
               <Text style={styles.tableCell}>
-                {item?.workerLogin ? item?.workerLogin : "Not Found"}
+                {item?.workerLogin
+                  ? moment
+                    .tz(item?.workerLogin, "Europe/London")
+                    .format("LT")
+                  : "Not Found"}
               </Text>
               <Text style={styles.tableCell}>
-                {item?.workerLogout ? item?.workerLogout : "Not Found"}
+                {item?.workerLogout
+                  ? moment
+                    .tz(item?.workerLogout, "Europe/London")
+                    .format("LT")
+                  : "Not Found"}
               </Text>
               <Text style={styles.tableCell}>
                 {item?.comment ? item?.comment : "Not Comment Yet"}
