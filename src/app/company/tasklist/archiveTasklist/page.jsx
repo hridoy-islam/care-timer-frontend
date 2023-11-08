@@ -8,10 +8,15 @@ const Page = () => {
   const router = useRouter();
   const { token, tokenDetails } = useContext(userContext);
   const [tasklist, setTasklist] = useState();
+  // For Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [totalCount, setTotalCount] = useState(9);
+  
   const fetchData = () => {
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_API_URL}/tasklist?softDelete=true&company=${tokenDetails?.data?._id}&&sort_by={"updatedAt":-1}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/tasklist/?page=${currentPage}&limit=${itemsPerPage}&softDelete=true&company=${tokenDetails?.data?._id}&&sort_by={"updatedAt":-1}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -20,12 +25,16 @@ const Page = () => {
       )
       .then(function (response) {
         // handle success
+        setCurrentPage(response?.data?.data?.metadata?.page);
+        setItemsPerPage(response?.data?.data?.metadata?.limit);
+        setTotalCount(response?.data?.data?.metadata?.total_count);
         setTasklist(response?.data?.data);
       });
   };
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [currentPage,
+    itemsPerPage]);
   return (
     <div>
       <div className="max-w-[40rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-4 mx-auto">
@@ -129,6 +138,7 @@ const Page = () => {
                       <button
                         type="button"
                         className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm"
+                        onClick={() => setCurrentPage(currentPage - 1)}
                       >
                         <svg
                           className="w-3 h-3"
@@ -145,10 +155,12 @@ const Page = () => {
                         </svg>
                         Prev
                       </button>
-
-                      <button
+                      {
+                        tasklist?.data?.length < 10 ?
+                        <button
                         type="button"
-                        className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm      "
+                        disabled
+                        className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-gray-300 text-gray-700 shadow-sm align-middle  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm"
                       >
                         Next
                         <svg
@@ -165,6 +177,29 @@ const Page = () => {
                           />
                         </svg>
                       </button>
+                        :
+                        <button
+                        type="button"
+                        className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm"
+                        
+                        onClick={() => setCurrentPage(currentPage + 1)}
+                      >
+                        Next
+                        <svg
+                          className="w-3 h-3"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          fill="currentColor"
+                          viewBox="0 0 16 16"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
+                          />
+                        </svg>
+                      </button>
+                      }
                     </div>
                   </div>
                 </div>
