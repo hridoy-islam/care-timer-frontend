@@ -1,11 +1,17 @@
 'use client';
 
-import { useState, useEffect, Fragment } from "react";
+import { useState, useEffect, Fragment, useContext } from "react";
 import SideBar from "../../components/layout/company-layout/CompanySidebar";
 import TopBar from "../../components/layout/company-layout/MainHeader";
 import { Transition } from "@headlessui/react";
+import { userContext } from "../../context/MainContext";
+import Login from "../login/page";
+import { useRouter } from "next/navigation";
 
 export default function Layout({ children }) {
+  const router = useRouter();
+  const { setTokenDetails, tokenDetails } = useContext(userContext);
+  const role = tokenDetails?.data?.role;
   useEffect(() => {
     import('preline')
   }, [])
@@ -34,7 +40,10 @@ export default function Layout({ children }) {
 
   return (
     <>
-      <TopBar showNav={showNav} setShowNav={setShowNav} />
+      {
+        role == 'company' ?
+        <>
+        <TopBar showNav={showNav} setShowNav={setShowNav} />
       <Transition
         as={Fragment}
         show={showNav}
@@ -54,6 +63,13 @@ export default function Layout({ children }) {
       >
         <div className="px-4 md:px-16  ">{children}</div>
       </main>
+        </>
+        :
+        <>
+        { router.push("/login") && setTokenDetails }
+        </>
+        
+      }
     </>
   );
 }

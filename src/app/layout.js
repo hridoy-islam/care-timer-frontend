@@ -1,6 +1,6 @@
 import "./globals.css";
 
-import React, { lazy } from "react";
+import React from "react";
 // import Loading from '../components/loading/Loading';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

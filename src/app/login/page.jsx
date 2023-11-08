@@ -18,7 +18,7 @@ const page = () => {
     toast.success("Admin Logged In", {
       position: toast.POSITION.TOP_CENTER,
     });
-    return router.push("/admin");
+    return router.push("/admin") && setTokenDetails;;
   } else if (role == "company") {
     toast.success("Login Successfully", {
       position: toast.POSITION.TOP_CENTER,
