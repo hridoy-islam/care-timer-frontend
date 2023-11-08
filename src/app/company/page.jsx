@@ -65,7 +65,7 @@ const page = () => {
             </svg>
           </div>
           <div>
-            <span className="block text-2xl font-bold">{teamMember?.data?.length}</span>
+            <span className="block text-2xl font-bold">{teamMember?.metadata?.total_count}</span>
             <span className="block text-gray-500">Team Member</span>
           </div>
         </div>
@@ -87,7 +87,7 @@ const page = () => {
             </svg>
           </div>
           <div>
-            <span className="block text-2xl font-bold">{serviceUser?.data?.length}</span>
+            <span className="block text-2xl font-bold">{serviceUser?.metadata?.total_count}</span>
             <span className="block text-gray-500">Service User </span>
           </div>
         </div>

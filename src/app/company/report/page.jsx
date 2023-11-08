@@ -77,7 +77,7 @@ const Page = () => {
   const fetchTeamMemberData = () => {
     try {
       axios
-        .get(`${process.env.NEXT_PUBLIC_API_URL}/worker?softDelete=false`, {
+        .get(`${process.env.NEXT_PUBLIC_API_URL}/worker?softDelete=false&company=${tokenDetails?.data?._id}&sort_by={"createdAt":-1}&limit=100`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -97,7 +97,7 @@ const Page = () => {
     try {
       axios
         .get(
-          `${process.env.NEXT_PUBLIC_API_URL}/customer?softDelete=false&company=${tokenDetails?.data?._id}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/customer?softDelete=false&company=${tokenDetails?.data?._id}&sort_by={"createdAt":-1}&limit=100`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

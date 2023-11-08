@@ -15,19 +15,25 @@ const Page = () => {
   const { token, tokenDetails } = useContext(userContext);
   const [teamMember, setTeamMember] = useState();
   const [forceRerender, setForceRerender] = useState(false);
-
+  // For Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [totalCount, setTotalCount] = useState(9);
   const fetchData = () => {
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_API_URL}/worker?softDelete=false&company=${tokenDetails?.data?._id}&sort_by={"createdAt":-1}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/worker/?page=${currentPage}&limit=${itemsPerPage}&softDelete=false&company=${tokenDetails?.data?._id}&sort_by={"createdAt":-1}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
-      )
+      ) 
       .then(function (response) {
         // handle success
+        setCurrentPage(response?.data?.data?.metadata?.page);
+        setItemsPerPage(response?.data?.data?.metadata?.limit);
+        setTotalCount(response?.data?.data?.metadata?.total_count);
         setTeamMember(response?.data?.data);
       });
   };
@@ -104,7 +110,9 @@ const Page = () => {
 
   useEffect(() => {
     fetchData();
-  }, [forceRerender]);
+  }, [forceRerender,
+    currentPage,
+    itemsPerPage]);
 
   return (
     <div>
@@ -138,7 +146,7 @@ const Page = () => {
                             d="M2.63452 7.50001L13.6345 7.5M8.13452 13V2"
                             stroke="currentColor"
                             strokeWidth="2"
-                            stroke-linecap="round"
+                            strokeLinecap="round"
                           />
                         </svg>
                         Add Team Member
@@ -289,6 +297,7 @@ const Page = () => {
                       <button
                         type="button"
                         className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm"
+                        onClick={() => setCurrentPage(currentPage - 1)}
                       >
                         <svg
                           className="w-3 h-3"
@@ -299,7 +308,7 @@ const Page = () => {
                           viewBox="0 0 16 16"
                         >
                           <path
-                            fill-rule="evenodd"
+                            fillRule="evenodd"
                             d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
                           />
                         </svg>
@@ -308,7 +317,8 @@ const Page = () => {
 
                       <button
                         type="button"
-                        className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm     "
+                        className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm"
+                        onClick={() => setCurrentPage(currentPage + 1)}
                       >
                         Next
                         <svg
@@ -320,7 +330,7 @@ const Page = () => {
                           viewBox="0 0 16 16"
                         >
                           <path
-                            fill-rule="evenodd"
+                            fillRule="evenodd"
                             d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
                           />
                         </svg>

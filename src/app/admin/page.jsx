@@ -43,7 +43,7 @@ const page = () => {
                   </svg>
                </div>
                <div>
-                  <span className="block text-2xl font-bold">{company?.data?.length}</span>
+                  <span className="block text-2xl font-bold">{company?.metadata?.total_count}</span>
                   <span className="block text-gray-500">Company </span>
                </div>
             </div>

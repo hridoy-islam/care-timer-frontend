@@ -30,7 +30,7 @@ const AdminSidebar = forwardRef(({ showNav }, ref) => {
         <li>
         </li>
         <li className="hs-accordion " id="account-accordion">
-          <Link className="hs-accordion-toggle flex items-center gap-x-2 pt-4 px-2 hs-accordion-active:text-secondary hs-accordion-active:hover:bg-transparent text-lg text-secondary rounded-md  hover:text-secondary" href="javascript:;">
+          <Link className="hs-accordion-toggle flex items-center gap-x-2 pt-4 px-2 hs-accordion-active:text-secondary hs-accordion-active:hover:bg-transparent text-lg text-secondary rounded-md  hover:text-secondary" href="#">
             <FaBuildingUser />
             Company
 
@@ -83,7 +83,7 @@ const AdminSidebar = forwardRef(({ showNav }, ref) => {
           </div>
         </li>
         {/* <li className="hs-accordion" id="account-accordion">
-          <Link className="hs-accordion-toggle flex items-center gap-x-2 pt-6 px-2 hs-accordion-active:text-secondary hs-accordion-active:hover:bg-transparent text-lg text-secondary rounded-md  hover:text-secondary" href="javascript:;">
+          <Link className="hs-accordion-toggle flex items-center gap-x-2 pt-6 px-2 hs-accordion-active:text-secondary hs-accordion-active:hover:bg-transparent text-lg text-secondary rounded-md  hover:text-secondary" href="#">
             <FaUsers />
             Team Member
 
@@ -117,7 +117,7 @@ const AdminSidebar = forwardRef(({ showNav }, ref) => {
           </div>
         </li>
         <li className="hs-accordion " id="account-accordion">
-          <Link className="hs-accordion-toggle flex items-center gap-x-2 pt-6 px-2 hs-accordion-active:text-secondary hs-accordion-active:hover:bg-transparent text-lg text-secondary rounded-md  hover:text-secondary" href="javascript:;">
+          <Link className="hs-accordion-toggle flex items-center gap-x-2 pt-6 px-2 hs-accordion-active:text-secondary hs-accordion-active:hover:bg-transparent text-lg text-secondary rounded-md  hover:text-secondary" href="#">
             <FaUser />
             Service User
 
@@ -151,7 +151,7 @@ const AdminSidebar = forwardRef(({ showNav }, ref) => {
           </div>
         </li>
         <li className="hs-accordion" id="account-accordion">
-          <Link className="hs-accordion-toggle flex items-center gap-x-2 pt-6 px-2 hs-accordion-active:text-secondary hs-accordion-active:hover:bg-transparent text-lg text-secondary rounded-md  hover:text-secondary" href="javascript:;">
+          <Link className="hs-accordion-toggle flex items-center gap-x-2 pt-6 px-2 hs-accordion-active:text-secondary hs-accordion-active:hover:bg-transparent text-lg text-secondary rounded-md  hover:text-secondary" href="#">
             <VscTasklist/>
             Tasklist
 
