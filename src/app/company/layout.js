@@ -40,36 +40,28 @@ export default function Layout({ children }) {
 
   return (
     <>
-      {
-        role == 'company' ?
-        <>
-        <TopBar showNav={showNav} setShowNav={setShowNav} />
-      <Transition
-        as={Fragment}
-        show={showNav}
-        enter="transform transition duration-[400ms]"
-        enterFrom="-translate-x-full"
-        enterTo="translate-x-0"
-        leave="transform duration-[400ms] transition ease-in-out"
-        leaveFrom="translate-x-0"
-        leaveTo="-translate-x-full"
-      >
-        <SideBar showNav={showNav} />
-      </Transition>
-      <main
-        className={`py-24 transition-all duration-[400ms] w-full ${
-          showNav && !isMobile ? "pl-60 w-full" : ""
-        }`}
-      >
-        <div className="px-4 md:px-16  ">{children}</div>
-      </main>
-        </>
-        :
-        <>
-        { router.push("/login") && setTokenDetails }
-        </>
-        
-      }
+    <TopBar showNav={showNav} setShowNav={setShowNav} />
+  <Transition
+    as={Fragment}
+    show={showNav}
+    enter="transform transition duration-[400ms]"
+    enterFrom="-translate-x-full"
+    enterTo="translate-x-0"
+    leave="transform duration-[400ms] transition ease-in-out"
+    leaveFrom="translate-x-0"
+    leaveTo="-translate-x-full"
+  >
+    <SideBar showNav={showNav} />
+  </Transition>
+  <main
+    className={`py-24 transition-all duration-[400ms] w-full ${
+      showNav && !isMobile ? "pl-60 w-full" : ""
+    }`}
+  >
+    <div className="px-4 md:px-16  ">{children}</div>
+  </main>
     </>
+      
+    
   );
 }

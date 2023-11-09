@@ -39,9 +39,6 @@ export default function Layout({ children }) {
 
   return (
     <>
-      {
-        role == 'admin' ?
-        <>
           <TopBar showNav={showNav} setShowNav={setShowNav} />
       <Transition
         as={Fragment}
@@ -68,11 +65,5 @@ export default function Layout({ children }) {
         <div className="px-4 md:px-16">{children}</div>
       </main>
         </>
-        :
-        <>
-        { router.push("/login") && setTokenDetails }
-        </>
-      }
-    </>
   );
 }
